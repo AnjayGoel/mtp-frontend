@@ -2,40 +2,47 @@ import React, {useEffect} from 'react';
 import jwt_decode from "jwt-decode";
 import {CredentialResponse, GoogleLogin} from '@react-oauth/google';
 import {gapi} from "gapi-script";
+import {Form, Select} from "antd";
+const { Option } = Select
 
+const Signup = () => {
 
-const Login = () => {
+  const [form] = Form.useForm()
 
-  const clientID = '843781250860-4akb52ku37826s34q8npd03p712s3663.apps.googleusercontent.com'
-  useEffect(() => {
-    const initClient = () => {
-      gapi.client.init({
-        clientId: clientID,
-        scope: ''
-      });
-    };
-    gapi.load('client:auth2', initClient);
-  });
-
-
-  const onSuccess = (response: CredentialResponse) => {
-    console.log('success:', response);
-    let obj = jwt_decode(response.credential!!)
-    localStorage.setItem('user', JSON.stringify(obj));
-    console.log(obj)
-    console.log(jwt_decode("12"))
-  };
-  const onFailure = () => {
-    console.log('failed:');
-  };
   return (
-    <div style={{width:'fit-content'}}>
-    <GoogleLogin
-      onSuccess={onSuccess}
-      onError={onFailure}
-    />
+    <div style={{justifyContent:'center',alignContent:'center',display:'flex'}}>
+    <Form
+    form={form}
+    layout='vertical'
+    style={{width:'fit-content'}}
+    >
+      <Form.Item
+      name = "hall"
+      label="Hall Of Residence"
+      rules={[{ required: true }]}
+      >
+        <Select >
+            <Option value="nehru" key={0}>Nehru</Option>
+            <Option value="patel" key={1}>Patel</Option>
+        </Select>
+      </Form.Item>
+
+      <Form.Item
+      name = "year"
+      label = "Year of study"
+      rules={[{ required: true, message: '' }]}
+      >
+        <Select >
+            <Option value="1" key={0}>1</Option>
+            <Option value="2" key={1}>2</Option>
+            <Option value="3" key={2}>3</Option>
+            <Option value="4" key={3}>4</Option>
+            <Option value="5" key={4}>5</Option>
+        </Select>
+      </Form.Item>
+    </Form>
     </div>
   )
 };
 
-export default Login;
+export default Signup;

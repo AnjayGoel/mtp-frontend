@@ -1,26 +1,55 @@
 import React from 'react';
-import logo from './logo.svg';
+import 'antd/dist/reset.css';
 import './App.css';
+import {BrowserRouter, Navigate, Outlet, Route, Routes} from "react-router-dom";
+import Home from "./pages/home";
+import Login from "./pages/login";
+import Signup from "./pages/signup";
+import {Avatar, Button, Col, Popover, Row} from "antd";
+import {getUserInfo} from "./utils";
+import {googleLogout} from "@react-oauth/google";
+import {UserOutlined} from "@ant-design/icons";
 
-function App() {
+const App = () => {
+  let userInfo = getUserInfo()
+
+  const AuthWrapper = () => {
+    return getUserInfo() == null
+      ? <Navigate to="/login" replace/>
+      : <Outlet/>;
+  };
+
+  const logout = () => {
+    googleLogout()
+    localStorage.removeItem("token")
+    window.location.reload()
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{height: '100vh', width: '100vw'}}>
+      <div style={{maxHeight: '5vh', height: 'fit-content', width: '100vw', justifyContent: 'right', display: 'flex'}}>
+        {userInfo === null && <Avatar style={{margin: '5px 5px 0 0'}}><UserOutlined /></Avatar>}
+        {userInfo !== null && (
+          <Popover content={<Button onClick={() => {
+            logout()
+          }}>Logout</Button>} title={userInfo.name}>
+            <Avatar style={{margin: '5px 5px 0 0'}} src={userInfo.picture}/>
+          </Popover>
+        )}
+      </div>
+      <div style={{height: '95vh', width: '100vw'}}>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<AuthWrapper/>}>
+              <Route path="/" element={<Home/>}/>
+              <Route path="/signup" element={<Signup/>}/>
+            </Route>
+            <Route path="/login" element={<Login/>}/>
+          </Routes>
+        </BrowserRouter>
+      </div>
     </div>
-  );
+  )
 }
 
 export default App;
