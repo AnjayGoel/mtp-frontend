@@ -4,16 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {GoogleOAuthProvider} from "@react-oauth/google";
+import {QueryClient, QueryClientProvider} from 'react-query'
 
+const queryClient = new QueryClient()
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <GoogleOAuthProvider clientId="843781250860-4akb52ku37826s34q8npd03p712s3663.apps.googleusercontent.com">
+  <QueryClientProvider client={queryClient}>
+  <GoogleOAuthProvider clientId={process.env["REACT_APP_GOOGLE_CLIENT_ID"]!!}>
   <React.StrictMode>
     <App/>
   </React.StrictMode>
   </GoogleOAuthProvider>
+  </QueryClientProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

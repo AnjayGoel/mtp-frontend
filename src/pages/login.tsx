@@ -1,44 +1,49 @@
-import React, {useEffect} from 'react';
-import jwt_decode from "jwt-decode";
+import React, {useEffect, useState} from 'react';
 import {CredentialResponse, GoogleLogin} from '@react-oauth/google';
-import {gapi} from "gapi-script";
-import {getUserInfo} from "../utils";
 import {useNavigate} from "react-router-dom";
 import {notification} from "antd";
-
+import {checkSignedUp} from "../api";
+import {useQuery} from "react-query";
+import {getUseQueryOptions} from "../utils";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [googleSuccess, setGoogleSuccess] = useState(false)
 
+  const checkExists = useQuery(
+    [{"key": "checkExists"}],
+    checkSignedUp,
+    getUseQueryOptions(1, 60 * 1000, googleSuccess)
+  )
 
-  const clientID = '843781250860-4akb52ku37826s34q8npd03p712s3663.apps.googleusercontent.com'
   useEffect(() => {
-    const initClient = () => {
-      gapi.client.init({
-        clientId: clientID,
-        scope: ''
-      });
-    };
-    gapi.load('client:auth2', initClient);
-  });
-
+      if (checkExists.isSuccess) {
+        if (checkExists.data.exists) {
+          navigate("/")
+        } else {
+          navigate("/signup")
+        }
+      }
+    },
+    [checkExists]
+  )
 
   const onSuccess = (response: CredentialResponse) => {
     console.log('success:', response);
-    localStorage.setItem('token',response.credential!!)
-    notification.success({message:'Logged In Successfully'})
-    navigate("/")
+    localStorage.setItem('token', response.credential!!)
+    notification.success({message: 'Logged In Successfully'})
+    setGoogleSuccess(true)
   };
   const onFailure = () => {
-    notification.error({message:'Failed to login'})
+    notification.error({message: 'Failed to login. Please Try Again'})
     console.log('failed');
   };
   return (
-    <div style={{ display:'flex',justifyContent:"center",alignItems:'center'}}>
-    <GoogleLogin
-      onSuccess={onSuccess}
-      onError={onFailure}
-    />
+    <div style={{display: 'flex', justifyContent: "center", alignItems: 'center'}}>
+      <GoogleLogin
+        onSuccess={onSuccess}
+        onError={onFailure}
+      />
     </div>
   )
 };

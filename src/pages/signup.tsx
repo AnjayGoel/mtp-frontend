@@ -1,7 +1,4 @@
 import React, {useEffect} from 'react';
-import jwt_decode from "jwt-decode";
-import {CredentialResponse, GoogleLogin} from '@react-oauth/google';
-import {gapi} from "gapi-script";
 import {Form, Select} from "antd";
 const { Option } = Select
 
