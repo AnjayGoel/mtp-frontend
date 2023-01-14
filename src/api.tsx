@@ -7,10 +7,10 @@ export interface SignupParams {
   department: string
 }
 
-export const signupRequest = async (signupParams: SignupParams) => {
+export const signUp = async (signupParams: SignupParams) => {
   return await APIClient.request(
     {
-      url: '/player/signup',
+      url: '/player/',
       method: 'POST',
       data: signupParams
     }
