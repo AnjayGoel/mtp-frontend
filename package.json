@@ -1,6 +1,7 @@
 {
   "name": "mtp_frontend",
   "version": "0.1.0",
+  "homepage": "https://anjaygoel.github.io/mtp_frontend/",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.0.0",
@@ -29,6 +30,8 @@
     "websocket": "^1.0.34"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -53,6 +56,7 @@
     ]
   },
   "devDependencies": {
-    "@types/websocket": "^1.0.5"
+    "@types/websocket": "^1.0.5",
+    "gh-pages": "^4.0.0"
   }
 }
