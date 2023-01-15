@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {w3cwebsocket as W3CWebSocket} from "websocket";
-import {Simulate} from "react-dom/test-utils";
-import {Button, Col, Input, List, Row} from "antd";
+import {Button, Input, List} from "antd";
 import useWebSocket from "react-use-websocket";
 
 export const Chat = () => {

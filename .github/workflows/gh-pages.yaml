@@ -16,14 +16,15 @@ jobs:
       - name: Build
         run: |
           npm install
-          npm run-script build
+          npm run build
         env:
+          CI: false
           REACT_APP_GOOGLE_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}
           REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          #GITHUB_TOKEN: ${{ secrets.DEPLOY_GITHUB_TOKEN }}
           BRANCH: gh-pages
           FOLDER: build
