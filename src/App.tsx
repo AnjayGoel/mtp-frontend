@@ -9,6 +9,8 @@ import {Avatar, Button, Col, Popover, Row} from "antd";
 import {getUserInfo} from "./utils";
 import {googleLogout} from "@react-oauth/google";
 import {UserOutlined} from "@ant-design/icons";
+import Video from "./pages/video";
+import {Chat} from "./pages/chat";
 
 const App = () => {
   let userInfo = getUserInfo()
@@ -45,6 +47,8 @@ const App = () => {
               <Route path="/signup" element={<Signup/>}/>
             </Route>
             <Route path="/login" element={<Login/>}/>
+            <Route path="/video" element={<Video/>}/>
+            <Route path="/chat" element={<Chat/>}/>
           </Routes>
         </BrowserRouter>
       </div>

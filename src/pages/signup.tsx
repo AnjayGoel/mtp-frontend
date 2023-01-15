@@ -43,6 +43,16 @@ const Signup = () => {
             <Option value="patel" key={1}>Patel</Option>
           </Select>
         </Form.Item>
+        <Form.Item
+          name="Department"
+          label="Department"
+          rules={[{required: true}]}
+        >
+          <Select>
+            <Option value="A" key={0}>Nehru</Option>
+            <Option value="B" key={1}>Patel</Option>
+          </Select>
+        </Form.Item>
 
         <Form.Item
           name="year"
