@@ -1,9 +1,7 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Button, Form, Select} from "antd";
-import {useMutation, useQuery} from "react-query";
+import {useMutation} from "react-query";
 import {signUp} from "../api";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
 
 const {Option} = Select
 

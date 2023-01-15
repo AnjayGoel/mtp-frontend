@@ -1,17 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate} from "react-router-dom";
-import AgoraRTC from "agora-rtc-sdk-ng";
-import {
-  ClientConfig,
-  IAgoraRTCRemoteUser,
-  ICameraVideoTrack,
-  IMicrophoneAudioTrack,
-} from "agora-rtc-sdk-ng";
-import {
-  AgoraVideoPlayer,
-  createClient,
-  createMicrophoneAndCameraTracks,
-} from "agora-rtc-react";
+import {ClientConfig, IAgoraRTCRemoteUser, ICameraVideoTrack, IMicrophoneAudioTrack} from "agora-rtc-sdk-ng";
+import {AgoraVideoPlayer, createClient, createMicrophoneAndCameraTracks,} from "agora-rtc-react";
 
 const config: ClientConfig = {
   mode: "rtc", codec: "vp8",

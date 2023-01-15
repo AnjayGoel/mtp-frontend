@@ -5,7 +5,7 @@ import {BrowserRouter, Navigate, Outlet, Route, Routes} from "react-router-dom";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
-import {Avatar, Button, Col, Popover, Row} from "antd";
+import {Avatar, Button, Popover} from "antd";
 import {getUserInfo} from "./utils";
 import {googleLogout} from "@react-oauth/google";
 import {UserOutlined} from "@ant-design/icons";

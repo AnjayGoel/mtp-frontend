@@ -1,5 +1,6 @@
 name: CI
-
+permissions:
+  contents: write
 on:
   push:
     branches:
@@ -7,7 +8,7 @@ on:
 
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,14 +17,14 @@ jobs:
       - name: Build
         run: |
           npm install
-          npm run-script build
+          npm run build
         env:
+          CI: false
           REACT_APP_GOOGLE_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}
           REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v4
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
           FOLDER: build
