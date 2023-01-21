@@ -2,15 +2,14 @@ import React from 'react';
 import 'antd/dist/reset.css';
 import './App.css';
 import {BrowserRouter, Navigate, Outlet, Route, Routes} from "react-router-dom";
-import Home from "./pages/home";
-import Login from "./pages/login";
-import Signup from "./pages/signup";
 import {Avatar, Button, Popover} from "antd";
 import {getUserInfo} from "./utils";
 import {googleLogout} from "@react-oauth/google";
 import {UserOutlined} from "@ant-design/icons";
-import Video from "./pages/video";
-import {Chat} from "./pages/chat";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import Video from "./pages/Video";
+import {Game} from "./pages/Game";
 
 const App = () => {
   let userInfo = getUserInfo()
@@ -29,7 +28,14 @@ const App = () => {
 
   return (
     <div style={{height: '100vh', width: '100vw'}}>
-      <div style={{maxHeight: '5vh', height: 'fit-content', width: '100vw', justifyContent: 'right', display: 'flex'}}>
+      <div style={{
+        maxHeight: '5vh',
+        height: 'fit-content',
+        width: '100vw',
+        justifyContent: 'right',
+        display: 'flex',
+        padding:'5px'
+      }}>
         {userInfo === null && <Avatar style={{margin: '5px 5px 0 0'}}><UserOutlined /></Avatar>}
         {userInfo !== null && (
           <Popover content={<Button onClick={() => {
@@ -43,12 +49,11 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route element={<AuthWrapper/>}>
-              <Route path="/" element={<Home/>}/>
+              <Route path="/" element={<Game/>}/>
               <Route path="/signup" element={<Signup/>}/>
             </Route>
             <Route path="/login" element={<Login/>}/>
             <Route path="/video" element={<Video/>}/>
-            <Route path="/chat" element={<Chat/>}/>
           </Routes>
         </BrowserRouter>
       </div>

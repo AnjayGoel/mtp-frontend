@@ -1,21 +1,25 @@
 import React from 'react';
-import {Button, Form, Select} from "antd";
+import {Button, Form, notification, Select} from "antd";
 import {useMutation} from "react-query";
 import {signUp} from "../api";
+import {useNavigate} from "react-router-dom";
 
 const {Option} = Select
 
 const Signup = () => {
 
   const [form] = Form.useForm()
-
+  const navigate = useNavigate();
 
   const signUpQuery = useMutation(signUp, {
     onSuccess: (data) => {
       console.log(data)
+      notification.success({message: 'Signup Up Successfully'})
+      navigate("/")
     },
     onError: (e) => {
       console.log(e)
+      notification.success({message: 'An error occurred'})
     }
   })
 
@@ -42,7 +46,7 @@ const Signup = () => {
           </Select>
         </Form.Item>
         <Form.Item
-          name="Department"
+          name="department"
           label="Department"
           rules={[{required: true}]}
         >
