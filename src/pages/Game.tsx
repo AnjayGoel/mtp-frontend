@@ -34,14 +34,14 @@ export const Game = () => {
   //const localVideo = useRef<HTMLMediaElement>();
   //const remoteVideo = useRef<HTMLMediaElement>();
 
-  const webRTCPeer = new RTCPeerConnection({
-    iceServers: [
-      {
-        urls: "stun:stun.stunprotocol.org"
-      }
-    ]
-  });
-
+  const [webRTCPeer, setWebRTCPeer] = useState(new RTCPeerConnection({
+      iceServers: [
+        {
+          urls: "stun:stun.stunprotocol.org"
+        }
+      ]
+    }
+  ))
 
   useEffect(() => {
     (
@@ -49,7 +49,7 @@ export const Game = () => {
         if (!gameStarted || !gameType.includes("VIDEO")) return;
         console.log("INIT")
         const constraints = {
-          audio: true,
+          audio: false,
           video: true
         };
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
