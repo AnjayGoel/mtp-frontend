@@ -78,6 +78,10 @@ export const Game = () => {
 
   }, [gameStarted])
 
+  console.log(process.env["REACT_APP_WS_URL"] as string)
+  console.log(process.env)
+  console.log("HERE")
+
   const {sendMessage, lastMessage} = useWebSocket(socketUrl, {
     share: true,
     queryParams: {'token': localStorage.getItem('token')!!}
