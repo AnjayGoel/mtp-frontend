@@ -1,7 +1,7 @@
 import React from 'react';
 import 'antd/dist/reset.css';
 import './App.css';
-import {BrowserRouter, Navigate, Outlet, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Outlet, Route, Routes, HashRouter} from "react-router-dom";
 import {Avatar, Button, Popover} from "antd";
 import {getUserInfo} from "./utils";
 import {googleLogout} from "@react-oauth/google";
@@ -46,7 +46,7 @@ const App = () => {
         )}
       </div>
       <div style={{height: '95vh', width: '100vw'}}>
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route element={<AuthWrapper/>}>
               <Route path="/" element={<Game/>}/>
@@ -55,7 +55,7 @@ const App = () => {
             <Route path="/login" element={<Login/>}/>
             <Route path="/video" element={<Video/>}/>
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </div>
     </div>
   )
