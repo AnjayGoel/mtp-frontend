@@ -23,7 +23,7 @@ enum Commands {
 
 export const Game = () => {
   const navigate = useNavigate();
-  const [socketUrl, setSocketUrl] = useState(process.env["REACT_APP_WS_URL"] as string);
+  const [socketUrl, setSocketUrl] = useState("wss://gametheorymtp.azurewebsites.net");
   const [chats, setChats] = useState<ChatMessageProps[]>([]);
   const [opponentInfo, setOpponentInfo] = useState(null)
   const [gameType, setGameType] = useState<string[]>([])
