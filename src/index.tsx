@@ -12,11 +12,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <QueryClientProvider client={queryClient}>
-  <GoogleOAuthProvider clientId={process.env["REACT_APP_GOOGLE_CLIENT_ID"]!!}>
-  <React.StrictMode>
-    <App/>
-  </React.StrictMode>
-  </GoogleOAuthProvider>
+    <GoogleOAuthProvider clientId={process.env["REACT_APP_GOOGLE_CLIENT_ID"]!!}>
+      <React.StrictMode>
+        <App/>
+      </React.StrictMode>
+    </GoogleOAuthProvider>
   </QueryClientProvider>
 );
 

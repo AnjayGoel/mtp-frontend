@@ -34,9 +34,9 @@ const App = () => {
         width: '100vw',
         justifyContent: 'right',
         display: 'flex',
-        padding:'5px'
+        padding: '5px'
       }}>
-        {userInfo === null && <Avatar style={{margin: '5px 5px 0 0'}}><UserOutlined /></Avatar>}
+        {userInfo === null && <Avatar style={{margin: '5px 5px 0 0'}}><UserOutlined/></Avatar>}
         {userInfo !== null && (
           <Popover content={<Button onClick={() => {
             logout()
