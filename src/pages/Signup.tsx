@@ -14,7 +14,7 @@ const Signup = () => {
   const signUpQuery = useMutation(signUp, {
     onSuccess: (data) => {
       console.log(data)
-      notification.success({message: 'Signup Up Successfully'})
+      notification.success({message: 'Signup up successfully'})
       navigate("/")
     },
     onError: (e) => {

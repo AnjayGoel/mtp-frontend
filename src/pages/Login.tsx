@@ -31,11 +31,11 @@ const Login = () => {
   const onSuccess = (response: CredentialResponse) => {
     console.log('success:', response);
     localStorage.setItem('token', response.credential!!)
-    notification.success({message: 'Logged In Successfully'})
+    notification.success({message: 'Logged in successfully'})
     setGoogleSuccess(true)
   };
   const onFailure = () => {
-    notification.error({message: 'Failed to login. Please Try Again'})
+    notification.error({message: 'Failed to login. Please try again'})
     console.log('failed');
   };
   return (
