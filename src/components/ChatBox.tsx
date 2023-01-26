@@ -22,6 +22,7 @@ const ChatBox = ({chats, sendMessage}: ChatBoxProps) => {
 
   const onChatInput = () => {
     let userInfo = getUserInfo()
+    if (input==="")return;
     sendMessage(
       JSON.stringify({
         type: Commands.CHAT,
@@ -40,7 +41,6 @@ const ChatBox = ({chats, sendMessage}: ChatBoxProps) => {
       style={{
         width: '100%',
         height: '100%',
-        backgroundColor: '#f1f1f1',
         boxSizing: 'border-box',
       }}
     >

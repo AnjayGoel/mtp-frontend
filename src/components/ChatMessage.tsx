@@ -14,22 +14,28 @@ export interface ChatMessageProps {
 
 const ChatMessage = ({name, email, avatar, message}: ChatMessageProps) => {
 
-  let isUser = email === getUserInfo()["email"]
+  let isSelf = email === getUserInfo()["email"]
 
   return (
     <div style={{
       margin: '5px',
-      boxSizing:'border-box',
+      boxSizing: 'border-box',
       borderRadius: '5px',
-      backgroundColor: 'white'}}>
+      backgroundColor: isSelf ? '#1677ff' : '#f1f1f1',
+      color: isSelf ? 'white' : 'black'
+    }}>
       <Row style={{height: 'fit-content'}} gutter={12}>
         <Col span={2}>
           <Avatar style={{marginTop: '5px', marginLeft: '5px'}} src={avatar}/>
         </Col>
-        <Col style={{height: 'fit-content', marginLeft: '5px', paddingBottom:'5px'}} span={21}>
-          <Text strong>{isUser ? "You" : name}</Text>
+        <Col style={{
+          height: 'fit-content',
+          marginLeft: '5px',
+          paddingBottom: '5px'
+        }} span={21}>
+          <Text style={{color: isSelf ? 'white' : 'black'}} strong>{isSelf ? "You" : name}</Text>
           <br/>
-          <div style={{wordWrap:'break-word'}}>{message}</div>
+          <div style={{wordWrap: 'break-word'}}>{message}</div>
         </Col>
       </Row>
     </div>

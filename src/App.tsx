@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import 'antd/dist/reset.css';
 import './App.css';
 import {BrowserRouter, Navigate, Outlet, Route, Routes, HashRouter} from "react-router-dom";
@@ -11,7 +11,16 @@ import Login from "./pages/Login";
 import {Game} from "./pages/Game";
 
 const App = () => {
-  let userInfo = getUserInfo()
+
+  const [userInfo, setUserInfo] = useState(getUserInfo())
+
+  useEffect(() => {
+    window.addEventListener('storage', () => {
+      setUserInfo(getUserInfo())
+    })
+  }, [])
+
+
   const [showPlayerProfile, setShowPlayerProfile] = useState(false);
 
   const AuthWrapper = () => {

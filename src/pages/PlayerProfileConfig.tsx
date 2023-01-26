@@ -4,6 +4,7 @@ import {useMutation, useQuery} from "react-query";
 import {getPlayer, PlayerProfile, signUp} from "../api";
 import {useNavigate} from "react-router-dom";
 import {getUseQueryOptions} from "../utils";
+import {DEPARTMENTS, HALLS} from "../constants";
 
 const {Option} = Select
 
@@ -64,20 +65,18 @@ const PlayerProfileConfig = ({isUpdate, closeCallback}: PlayerProfileConfigProps
           label="Hall Of Residence"
           rules={[{required: true}]}
         >
-          <Select>
-            <Option value="nehru" key={0}>Nehru</Option>
-            <Option value="patel" key={1}>Patel</Option>
-          </Select>
+          <Select showSearch options={HALLS.map(it => {
+            return {value: it, label: it}
+          })}/>
         </Form.Item>
         <Form.Item
           name="department"
           label="Department"
           rules={[{required: true}]}
         >
-          <Select>
-            <Option value="A" key={0}>Nehru</Option>
-            <Option value="B" key={1}>Patel</Option>
-          </Select>
+          <Select showSearch options={DEPARTMENTS.map(it => {
+            return {value: it, label: it}
+          })}/>
         </Form.Item>
 
         <Form.Item

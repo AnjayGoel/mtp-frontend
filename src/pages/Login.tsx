@@ -35,13 +35,12 @@ const Login = () => {
   )
 
   const onSuccess = (response: CredentialResponse) => {
-    console.log('success:', response);
     localStorage.setItem('token', response.credential!!)
+    window.dispatchEvent(new Event('storage'))
     setIsGoogleSuccess(true)
   };
   const onFailure = () => {
     notification.error({message: 'Failed to login. Please try again'})
-    console.log('failed');
   };
   return (
     <div style={{display: 'flex', justifyContent: "center", alignItems: 'center'}}>
