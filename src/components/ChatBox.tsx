@@ -36,22 +36,31 @@ const ChatBox = ({chats, sendMessage}: ChatBoxProps) => {
   }
 
   return (
-    <Card
+    <div
       style={{
         width: '100%',
         height: '100%',
         backgroundColor: '#f1f1f1',
         boxSizing: 'border-box',
       }}
-      headStyle={{backgroundColor: '#1677ff', color: 'white'}}
-      title="Chat" size={"small"} bordered={false}
     >
+      <div
+        style={{
+          width: '100%',
+          height: '10%',
+          padding: '10px',
+          borderRadius:'10px 10px 0 0',
+          backgroundColor:'#1677ff',
+          color:'white',
+          fontWeight:'bold'
+      }}>Chat</div>
       <div
         ref={chatBoxRef}
         style={{
           paddingBottom: '5px',
           overflowY: 'scroll',
-          height: '90%'
+          height: '80%',
+          overflowX:'clip'
         }}>{
         chats.map(it => {
           return (
@@ -77,7 +86,7 @@ const ChatBox = ({chats, sendMessage}: ChatBoxProps) => {
           <SendOutlined/>
         </Button>
       </Input.Group>
-    </Card>
+    </div>
   )
 }
 

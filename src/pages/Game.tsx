@@ -39,7 +39,6 @@ export const Game = () => {
         (document.querySelector('#localVideo') as HTMLMediaElement).srcObject = stream;
 
         if (isPlayerOne) {
-          console.log("PLAYER ONE")
           const localPeerOffer = await webRTCPeer.createOffer();
           await webRTCPeer.setLocalDescription(new RTCSessionDescription(localPeerOffer));
           sendMediaOffer(localPeerOffer);
@@ -143,37 +142,24 @@ export const Game = () => {
     } else if (type === Commands.PLAYER_DISCONNECT) {
       handleGameDisconnect(data)
     } else if (type === Commands.WEB_RTC_MEDIA_ANSWER) {
-      handleMediaAnswer(data)
+      handleMediaAnswer(data).then(r => {
+      })
     } else if (type === Commands.WEB_RTC_MEDIA_OFFER) {
-      handleMediaOffer(data)
+      handleMediaOffer(data).then(r => {
+      })
     } else if (type === Commands.WEB_RTC_REMOTE_PEER_ICE_CANDIDATE) {
-      handleRemotePeerIceCandidate(data)
+      handleRemotePeerIceCandidate(data).then(r => {
+      })
     }
   }
 
 
-  const [input, setInput] = useState('')
   useEffect(() => {
     if (lastMessage !== null) {
       handleWebsocketMessage(lastMessage)
     }
-  }, [lastMessage, setChats]);
+  }, [lastMessage]);
 
-
-  const onChatInput = () => {
-    let userInfo = getUserInfo()
-    sendMessage(
-      JSON.stringify({
-        type: Commands.CHAT,
-        data: {
-          message: input,
-          name: userInfo['name'],
-          email: userInfo['email'],
-          avatar: userInfo['picture']
-        }
-      }))
-    setInput("")
-  }
 
   if (!gameStarted) {
     return <div
@@ -213,14 +199,16 @@ export const Game = () => {
             flexDirection: 'row',
             alignItems: 'end'
           }}>
-            <div style={{width: '60%', height: 'fit-content'}}>
+            <div style={{width: '60%', height: 'fit-content', padding:'2px'}}>
               <video height="auto" width="100%" id="remoteVideo" playsInline autoPlay></video>
             </div>
-            <div style={{width: '40%', height: 'fit-content'}}>
+            <div style={{width: '40%', height: 'fit-content', padding:'2px'}}>
               <video height="auto" width="100%" id="localVideo" playsInline autoPlay></video>
             </div>
           </div>
+          <div style={{height:'45%',width:'100%'}}>
           <ChatBox chats={chats} sendMessage={sendMessage}/>
+          </div>
         </div>
       </Col>
     </Row>)
