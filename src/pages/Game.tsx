@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {Col, notification, Row, Spin} from "antd";
 import useWebSocket from "react-use-websocket";
 import {ChatMessageProps} from "../components/ChatMessage";
-import {getUserInfo} from "../utils";
 import {useNavigate} from "react-router-dom";
 import {Commands} from "../constants";
 import ChatBox from "../components/ChatBox";

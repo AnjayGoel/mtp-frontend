@@ -1,12 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {CredentialResponse, GoogleLogin} from '@react-oauth/google';
-import {useNavigate} from "react-router-dom";
-import {Avatar, Card, Col, notification, Row, Typography} from "antd";
-import {checkSignedUp} from "../api";
-import {useQuery} from "react-query";
-import {getUseQueryOptions, getUserInfo} from "../utils";
-import exp from "constants";
-import {DeleteRowOutlined} from "@ant-design/icons";
+import React from 'react';
+import {Avatar, Col, Row, Typography} from "antd";
+import {getUserInfo} from "../utils";
 
 const {Title, Paragraph, Text, Link} = Typography;
 
