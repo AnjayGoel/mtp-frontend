@@ -23,15 +23,15 @@ const ChatMessage = ({name, email, avatar, message}: ChatMessageProps) => {
   let isUser = email === getUserInfo()["email"]
 
   return (
-    <div style={{margin: '5px', borderRadius: '5px', backgroundColor:'white'}}>
+    <div style={{margin: '5px', borderRadius: '5px', backgroundColor: 'white'}}>
       <Row style={{height: 'fit-content'}} gutter={12}>
         <Col span={2}>
           <Avatar style={{marginTop: '5px', marginLeft: '5px'}} src={avatar}/>
         </Col>
-        <Col style={{width: '100%', height: 'fit-content', marginLeft: '5px'}} span={21}>
+        <Col style={{height: 'fit-content', marginLeft: '5px'}} span={21}>
           <Text strong>{isUser ? "You" : name}</Text>
           <br/>
-          {message}
+          <div style={{wordWrap:'break-word'}}>{message}</div>
         </Col>
       </Row>
     </div>

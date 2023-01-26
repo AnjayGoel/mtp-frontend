@@ -8,7 +8,6 @@ import {googleLogout} from "@react-oauth/google";
 import {UserOutlined} from "@ant-design/icons";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import Video from "./pages/Video";
 import {Game} from "./pages/Game";
 
 const App = () => {
@@ -27,25 +26,35 @@ const App = () => {
   }
 
   return (
-    <div style={{height: '100vh', width: '100vw'}}>
+    <div style={{
+      height: '100vh',
+      width: '100vw',
+      padding: '10px',
+      display:'flex',
+      flexFlow:'column'
+    }}>
       <div style={{
         maxHeight: '5vh',
+        width:'100%',
+        boxSizing:'border-box',
         height: 'fit-content',
-        width: '100vw',
         justifyContent: 'right',
-        display: 'flex',
-        padding: '5px'
+        display: 'flex'
       }}>
-        {userInfo === null && <Avatar style={{margin: '5px 5px 0 0'}}><UserOutlined/></Avatar>}
+        {userInfo === null && <Avatar icon={<UserOutlined/>}><UserOutlined/></Avatar>}
         {userInfo !== null && (
           <Popover content={<Button onClick={() => {
             logout()
           }}>Logout</Button>} title={userInfo.name}>
-            <Avatar style={{margin: '5px 5px 0 0'}} src={userInfo.picture}/>
+            <Avatar src={userInfo.picture}/>
           </Popover>
         )}
       </div>
-      <div style={{height: '95vh', width: '100vw'}}>
+      <div style={{
+        width:'100%',
+        height:'100%',
+        boxSizing:'border-box',
+      }}>
         <HashRouter>
           <Routes>
             <Route element={<AuthWrapper/>}>
@@ -53,7 +62,6 @@ const App = () => {
               <Route path="/signup" element={<Signup/>}/>
             </Route>
             <Route path="/login" element={<Login/>}/>
-            <Route path="/video" element={<Video/>}/>
           </Routes>
         </HashRouter>
       </div>

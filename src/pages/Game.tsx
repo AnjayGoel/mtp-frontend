@@ -1,39 +1,22 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Button, Col, Input, List, notification, Row, Spin} from "antd";
+import React, {useEffect, useState} from 'react';
+import {Col, notification, Row, Spin} from "antd";
 import useWebSocket from "react-use-websocket";
-import ChatMessage, {ChatMessageProps} from "../components/ChatMessage";
-import exp from "constants";
+import {ChatMessageProps} from "../components/ChatMessage";
 import {getUserInfo} from "../utils";
-import {SendOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
-import {sleep} from "react-query/types/core/utils";
-import video from "./Video";
+import {Commands} from "../constants";
+import ChatBox from "../components/ChatBox";
 
-enum Commands {
-  GAME_START = "game_start",
-  GAME_UPDATE = "game_update",
-  CHAT = "chat",
-  PLAYER_DISCONNECT = "player_disconnect",
-  WEB_RTC_MEDIA_OFFER = "web_rtc_media_offer",
-  WEB_RTC_MEDIA_ANSWER = "web_rtc_media_answer",
-  WEB_RTC_ICE_CANDIDATE = "web_rtc_ice_candidate",
-
-  WEB_RTC_REMOTE_PEER_ICE_CANDIDATE = "remote_peer_ice_candidate"
-}
 
 export const Game = () => {
   const navigate = useNavigate();
-  const [socketUrl, setSocketUrl] = useState("wss://gametheorymtp.azurewebsites.net");
+
+  const [socketUrl, setSocketUrl] = useState(process.env["REACT_APP_WS_URL"] as string);
   const [chats, setChats] = useState<ChatMessageProps[]>([]);
   const [opponentInfo, setOpponentInfo] = useState(null)
   const [gameType, setGameType] = useState<string[]>([])
   const [gameStarted, setGameStarted] = useState(false)
   const [isPlayerOne, setIsPlayerOne] = useState(false)
-  //const [localStream, setLocalStream] = useState(null);
-  //const [remoteStream, setRemoteStream] = useState(null);
-  //const localVideo = useRef<HTMLMediaElement>();
-  //const remoteVideo = useRef<HTMLMediaElement>();
-
   const [webRTCPeer, setWebRTCPeer] = useState(new RTCPeerConnection({
       iceServers: [
         {
@@ -47,22 +30,13 @@ export const Game = () => {
     (
       async () => {
         if (!gameStarted || !gameType.includes("VIDEO")) return;
-        console.log("INIT")
         const constraints = {
           audio: false,
           video: true
         };
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
         stream.getTracks().forEach(track => webRTCPeer.addTrack(track, stream));
-
-
-        //TODO: Fix this
-
-        //localVideo.current.srcObject = stream;
-        //(document.querySelector('#localVideo') as HTMLMediaElement).srcObject = stream;
-
-
-        //document.querySelector('#localVideo').srcObject = stream;
+        (document.querySelector('#localVideo') as HTMLMediaElement).srcObject = stream;
 
         if (isPlayerOne) {
           console.log("PLAYER ONE")
@@ -78,10 +52,6 @@ export const Game = () => {
 
   }, [gameStarted])
 
-  console.log(process.env["REACT_APP_WS_URL"] as string)
-  console.log(process.env)
-  console.log("HERE")
-
   const {sendMessage, lastMessage} = useWebSocket(socketUrl, {
     share: true,
     queryParams: {'token': localStorage.getItem('token')!!}
@@ -89,8 +59,6 @@ export const Game = () => {
 
 
   const handleMediaOffer = async (data: any) => {
-    console.log("RECEIVED MEDIA OFFER")
-    console.log(data)
     await webRTCPeer.setRemoteDescription(new RTCSessionDescription(data.offer));
     const peerAnswer = await webRTCPeer.createAnswer();
     await webRTCPeer.setLocalDescription(new RTCSessionDescription(peerAnswer));
@@ -98,8 +66,6 @@ export const Game = () => {
   };
 
   const handleMediaAnswer = async (data: any) => {
-    console.log("GOT MEDIA ANSWER")
-    console.log(data)
     await webRTCPeer.setRemoteDescription(new RTCSessionDescription(data.answer));
   };
 
@@ -108,28 +74,20 @@ export const Game = () => {
   }
 
   const handleRemotePeerIceCandidate = async (data: any) => {
-    console.log("RECEIVED RICE CAN")
-    console.log(data)
     try {
       const candidate = new RTCIceCandidate(data.candidate);
       await webRTCPeer.addIceCandidate(candidate);
     } catch (error) {
-      console.log("RICE ERROR")
       console.log(error)
     }
   }
 
   webRTCPeer.addEventListener('track', (event) => {
-    //TODO: Fix this
-    console.log("New Track");
-
     const [stream] = event.streams;
     (document.querySelector('#remoteVideo') as HTMLMediaElement).srcObject = stream;
   })
 
   const sendMediaAnswer = (peerAnswer: any, data: any) => {
-    console.log("SENDING MEDIA ANSWER")
-    console.log(peerAnswer)
     sendMessage(JSON.stringify({
       type: Commands.WEB_RTC_MEDIA_ANSWER,
       data: {
@@ -139,8 +97,6 @@ export const Game = () => {
   }
 
   const sendMediaOffer = (localPeerOffer: any) => {
-    console.log("SENDING MEDIA OFFER")
-    console.log(localPeerOffer)
     sendMessage(JSON.stringify({
       type: Commands.WEB_RTC_MEDIA_OFFER,
       data: {
@@ -150,8 +106,6 @@ export const Game = () => {
   }
 
   const sendIceCandidate = (event: any) => {
-    console.log("SENDING ICE CAN")
-    console.log(event)
     sendMessage(JSON.stringify({
       type: Commands.WEB_RTC_ICE_CANDIDATE,
       data: {
@@ -234,11 +188,11 @@ export const Game = () => {
   }
 
   return (
-    <Row style={{width: '100%', height: '100vh', padding: '10px'}}>
+    <Row style={{width: '100%', height: '100%'}}>
       <Col span={16}>Play area</Col>
-      <Col span={8} style={{backgroundColor: "black"}}>
-        <div style={{width: '100%', height: '100%'}}>
-          <div style={{width: '100%', height: "30%", backgroundColor: 'red'}}>
+      <Col span={8}>
+        <div style={{width: '100%', height: '100%', maxHeight: '94vh', padding: '10px'}}>
+          <div style={{width: '100%', height: '25%', boxSizing: 'border-box'}}>
             {
               gameType.includes("INFO") && opponentInfo !== null && (
                 <div>
@@ -252,46 +206,21 @@ export const Game = () => {
             }
 
           </div>
-          <div style={{width: '100%', height: "30%", backgroundColor: 'yellow'}}>
-
-            <video id="remoteVideo" playsInline autoPlay></video>
-            <video id="localVideo" playsInline autoPlay></video>
-
-
-          </div>
-          <div style={{width: '100%', height: "30%", backgroundColor: 'green', overflowY: 'scroll'}}>
-            <div style={{backgroundColor: '#f1f1f1'}}>
-              <List style={{
-                overflowY: 'scroll',
-                overflowX: 'clip',
-                marginBottom: '5px'
-              }}>{
-                chats.map(it => {
-                  return (
-                    <ChatMessage
-                      name={it.name}
-                      email={it.email}
-                      avatar={it.avatar}
-                      message={it.message}
-                    />
-                  )
-                })}
-              </List>
-              <Input.Group compact>
-                <Input style={{width: '90%'}}
-                       value={input}
-                       onKeyPress={(event) => {
-                         if (event.key === 'Enter') {
-                           onChatInput()
-                         }
-                       }}
-                       onChange={(event) => setInput(event.target.value)}/>
-                <Button style={{width: '10%'}} type="primary" onClick={onChatInput}>
-                  <SendOutlined/>
-                </Button>
-              </Input.Group>
+          <div style={{
+            width: '100%',
+            height: '30%', boxSizing: 'border-box',
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'end'
+          }}>
+            <div style={{width: '60%', height: 'fit-content'}}>
+              <video height="auto" width="100%" id="remoteVideo" playsInline autoPlay></video>
+            </div>
+            <div style={{width: '40%', height: 'fit-content'}}>
+              <video height="auto" width="100%" id="localVideo" playsInline autoPlay></video>
             </div>
           </div>
+          <ChatBox chats={chats} sendMessage={sendMessage}/>
         </div>
       </Col>
     </Row>)

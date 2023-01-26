@@ -17,35 +17,6 @@ export const getUserInfo = () => {
   }
 }
 
-
-export class APIClient {
-  static instance: APIClient;
-  axiosInstance: AxiosInstance;
-
-  private constructor() {
-    this.axiosInstance = axios.create({
-      baseURL: "https://gametheorymtp.azurewebsites.net"
-    });
-  }
-
-  public static async request(config: any) {
-    config.headers = {
-      'Authorization': 'Bearer ' + localStorage.getItem("token"),
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    }
-    return (await APIClient.getInstance().axiosInstance.request(config)).data
-  }
-
-  public static getInstance(): APIClient {
-    if (!APIClient.instance) {
-      APIClient.instance = new APIClient();
-    }
-    return APIClient.instance;
-  }
-}
-
-
 export const getUseQueryOptions = (
   retry: boolean | number = 1,
   staleTime: number = 60 * 1000,
