@@ -45,12 +45,22 @@ export const signUp = async (signupParams: SignupParams) => {
   )
 }
 
-export interface checkSignedUpResponse {
-  exists: boolean
+export interface PlayerProfile {
+  name: string
+  email: string
+  avatar: string,
+  hall: string
+  year: string
+  department: string
 }
 
-export const checkSignedUp = async () => {
-  const data: checkSignedUpResponse = await APIClient.request(
+export interface getPlayerResponse {
+  exists: boolean,
+  profile?: PlayerProfile
+}
+
+export const getPlayer = async () => {
+  const data: getPlayerResponse = await APIClient.request(
     {
       url: '/player/check',
       method: 'GET'

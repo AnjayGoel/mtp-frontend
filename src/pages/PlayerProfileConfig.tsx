@@ -1,30 +1,54 @@
-import React from 'react';
-import {Button, Form, notification, Select} from "antd";
-import {useMutation} from "react-query";
-import {signUp} from "../api";
+import React, {useEffect, useState} from 'react';
+import {Button, Form, Input, notification, Select, Spin} from "antd";
+import {useMutation, useQuery} from "react-query";
+import {getPlayer, PlayerProfile, signUp} from "../api";
 import {useNavigate} from "react-router-dom";
+import {getUseQueryOptions} from "../utils";
 
 const {Option} = Select
 
-const Signup = () => {
+export interface PlayerProfileConfigProps {
+  isUpdate: boolean,
+  closeCallback: Function
+}
+
+const PlayerProfileConfig = ({isUpdate, closeCallback}: PlayerProfileConfigProps) => {
 
   const [form] = Form.useForm()
-  const navigate = useNavigate();
+
+  const playerProfileQuery = useQuery(
+    [{"key": "playerProfile"}],
+    getPlayer,
+    getUseQueryOptions(1, 60 * 1000, isUpdate)
+  )
+
+  useEffect(() => {
+    if (playerProfileQuery.isSuccess) {
+      console.log(playerProfileQuery.data.profile)
+      form.setFieldsValue(playerProfileQuery.data.profile)
+    }
+  }, [playerProfileQuery])
 
   const signUpQuery = useMutation(signUp, {
     onSuccess: (data) => {
       console.log(data)
-      notification.success({message: 'Signup up successfully'})
-      navigate("/")
+      notification.success({message: isUpdate ? 'Profile Updated' : 'Signup successful'})
+      closeCallback()
     },
     onError: (e) => {
       console.log(e)
-      notification.success({message: 'An error occurred'})
+      notification.error({message: 'An error occurred'})
     }
   })
 
   const onFinish = (values: any) => {
     signUpQuery.mutate(values)
+  }
+
+  if (isUpdate && playerProfileQuery.isLoading) {
+    return (
+      <Spin tip={"Loading"}/>
+    )
   }
 
   return (
@@ -69,15 +93,23 @@ const Signup = () => {
             <Option value="5" key={4}>5</Option>
           </Select>
         </Form.Item>
+
+        <Form.Item
+          name="upi_id"
+          label="UPI ID"
+          rules={[{required: true, message: ''}]}
+        >
+          <Input/>
+        </Form.Item>
         <Button
           type='primary'
           htmlType='submit'
         >
-          Submit
+          {isUpdate ? 'Update' : 'Signup'}
         </Button>
       </Form>
     </div>
   )
 };
 
-export default Signup;
+export default PlayerProfileConfig;
