@@ -30,3 +30,19 @@ export const getUseQueryOptions = (
     enabled: enabled,
   }
 }
+
+export const getSuperscript = (num: string)=>{
+  switch (parseInt(num)){
+    case 1:
+      return <span>1<sup>st</sup></span>
+    case 2:
+      return <span>2<sup>nd</sup></span>
+    case 3:
+      return <span>1<sup>rd</sup></span>
+    case 4:
+      return <span>4<sup>th</sup></span>
+    case 5:
+      return <span>5<sup>th</sup></span>
+
+  }
+}

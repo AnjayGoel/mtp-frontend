@@ -8,7 +8,7 @@ import {googleLogout} from "@react-oauth/google";
 import {UserOutlined} from "@ant-design/icons";
 import PlayerProfileConfig from "./pages/PlayerProfileConfig";
 import Login from "./pages/Login";
-import {Game} from "./pages/Game";
+import {GameContainer} from "./pages/GameContainer";
 
 const App = () => {
 
@@ -76,7 +76,7 @@ const App = () => {
         <HashRouter>
           <Routes>
             <Route element={<AuthWrapper/>}>
-              <Route path="/" element={<Game/>}/>
+              <Route path="/" element={<GameContainer/>}/>
             </Route>
             <Route path="/login" element={<Login/>}/>
           </Routes>

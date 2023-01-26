@@ -41,6 +41,7 @@ const ChatBox = ({chats, sendMessage}: ChatBoxProps) => {
       style={{
         width: '100%',
         height: '100%',
+        backgroundColor: '#f9f9f9',
         boxSizing: 'border-box',
       }}
     >
