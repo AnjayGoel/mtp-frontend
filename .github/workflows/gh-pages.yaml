@@ -22,6 +22,7 @@ jobs:
           CI: false
           REACT_APP_GOOGLE_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}
           REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
+          REACT_APP_WS_URL: ${{ secrets.REACT_APP_WS_URL }}
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.4.1
