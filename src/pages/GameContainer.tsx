@@ -19,6 +19,11 @@ export const GameContainer = () => {
   const [gameType, setGameType] = useState<string[]>([])
   const [gameStarted, setGameStarted] = useState(false)
   const [isPlayerOne, setIsPlayerOne] = useState(false)
+  const {sendMessage, lastMessage} = useWebSocket(socketUrl, {
+    share: true,
+    queryParams: {'token': localStorage.getItem('token')!!}
+  });
+
   const [webRTCPeer, setWebRTCPeer] = useState(new RTCPeerConnection({
       iceServers: [
         {
@@ -53,10 +58,7 @@ export const GameContainer = () => {
 
   }, [gameStarted])
 
-  const {sendMessage, lastMessage} = useWebSocket(socketUrl, {
-    share: true,
-    queryParams: {'token': localStorage.getItem('token')!!}
-  });
+
 
 
   const handleMediaOffer = async (data: any) => {
@@ -124,11 +126,12 @@ export const GameContainer = () => {
   }
 
   const handleGameDisconnect = (message: any) => {
-    notification.error({message: 'The other player has left the game. Please Refresh the Page', duration: 5})
+    notification.error({message: 'The other player has left the game', duration: 5})
     setGameStarted(false)
     setChats([])
     setOpponentInfo(null)
     setGameType([])
+    navigate('/')
   }
 
 
@@ -183,11 +186,10 @@ export const GameContainer = () => {
           <div style={{width: '100%', height: '25%', boxSizing: 'border-box'}}>
             {
               gameType.includes("INFO") && opponentInfo !== null && (
-                <div style={{wordBreak:'break-word'}}>
+                <div style={{wordBreak: 'break-word'}}>
                   The other person is <Text mark strong code>{opponentInfo["name"]}</Text>.
                   A <Text mark strong code>{getSuperscript(opponentInfo["year"])}</Text> year
-                  student in the department
-                  of <Text mark strong code>{opponentInfo["department"]}</Text>
+                  student in the department of <Text mark strong code>{opponentInfo["department"]}</Text>
                   from <Text mark strong code>{opponentInfo["hall"]}</Text>
                 </div>
               )

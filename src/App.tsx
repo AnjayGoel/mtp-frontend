@@ -5,10 +5,13 @@ import {BrowserRouter, Navigate, Outlet, Route, Routes, HashRouter} from "react-
 import {Avatar, Button, Modal, Popover, Space} from "antd";
 import {getUserInfo} from "./utils";
 import {googleLogout} from "@react-oauth/google";
-import {UserOutlined} from "@ant-design/icons";
+import {QuestionCircleOutlined, UserOutlined} from "@ant-design/icons";
 import PlayerProfileConfig from "./pages/PlayerProfileConfig";
 import Login from "./pages/Login";
 import {GameContainer} from "./pages/GameContainer";
+import Instructions from "./pages/Instructions";
+import Home from "./pages/Home";
+import PrisonerDilemma from "./games/PrisonerDilemma";
 
 const App = () => {
 
@@ -22,6 +25,7 @@ const App = () => {
 
 
   const [showPlayerProfile, setShowPlayerProfile] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   const AuthWrapper = () => {
     return getUserInfo() == null
@@ -51,6 +55,12 @@ const App = () => {
         justifyContent: 'right',
         display: 'flex'
       }}>
+        <Button
+          style={{marginRight: '10px'}}
+          onClick={() => setShowInstructions(true)}
+          icon={<QuestionCircleOutlined/>}>
+          Instructions
+        </Button>
         {userInfo === null && <Avatar icon={<UserOutlined/>}><UserOutlined/></Avatar>}
         {userInfo !== null && (
           <Popover content={
@@ -76,9 +86,16 @@ const App = () => {
         <HashRouter>
           <Routes>
             <Route element={<AuthWrapper/>}>
-              <Route path="/" element={<GameContainer/>}/>
+              <Route path="/game" element={<GameContainer/>}/>
+              <Route path="/" element={<Home showInstructions={() => {
+                setShowInstructions(true)
+              }}/>}/>
             </Route>
             <Route path="/login" element={<Login/>}/>
+            <Route path="/instructions" element={<Instructions/>}/>
+            <Route path="/pd" element={<PrisonerDilemma callback={(state: any) => {
+              console.log(state)
+            }}/>}/>
           </Routes>
         </HashRouter>
       </div>
@@ -97,6 +114,21 @@ const App = () => {
         <PlayerProfileConfig isUpdate={true} closeCallback={() => {
           setShowPlayerProfile(false)
         }}/>
+      </Modal>
+
+      <Modal
+        width={'50vw'}
+        title="Instructions" open={showInstructions}
+        onOk={() => {
+          setShowInstructions(false)
+        }}
+        onCancel={() => {
+          setShowInstructions(false)
+        }}
+        cancelButtonProps={{style: {display: 'none'}}}
+        okButtonProps={{style: {display: 'none'}}}
+      >
+        <Instructions/>
       </Modal>
     </div>
   )
