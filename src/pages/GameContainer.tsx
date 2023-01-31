@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Col, notification, Row, Spin} from "antd";
+import {Col, notification, Progress, Row, Spin} from "antd";
 import useWebSocket from "react-use-websocket";
 import {ChatMessageProps} from "../components/ChatMessage";
 import {useNavigate} from "react-router-dom";
@@ -7,6 +7,9 @@ import {Commands} from "../constants";
 import ChatBox from "../components/ChatBox";
 import {getSuperscript} from "../utils";
 import {Typography} from "antd";
+import {useInterval} from 'usehooks-ts'
+import {Game} from "../api";
+import {getDefaultResp, getGameComponent, getGameTimeout} from "../games/GameUtils";
 
 const {Text, Link} = Typography;
 
@@ -15,10 +18,9 @@ export const GameContainer = () => {
 
   const [socketUrl, setSocketUrl] = useState(process.env["REACT_APP_WS_URL"] as string);
   const [chats, setChats] = useState<ChatMessageProps[]>([]);
-  const [opponentInfo, setOpponentInfo] = useState(null)
-  const [gameType, setGameType] = useState<string[]>([])
-  const [gameStarted, setGameStarted] = useState(false)
-  const [isPlayerOne, setIsPlayerOne] = useState(false)
+  const [game, setGame] = useState<Game | null>(null);
+
+  const [gameComponent, setGameComponent] = useState<any>(<div/>);
   const {sendMessage, lastMessage} = useWebSocket(socketUrl, {
     share: true,
     queryParams: {'token': localStorage.getItem('token')!!}
@@ -36,7 +38,7 @@ export const GameContainer = () => {
   useEffect(() => {
     (
       async () => {
-        if (!gameStarted || !gameType.includes("VIDEO")) return;
+        if (game === null || !game.infoType.includes("VIDEO")) return;
         const constraints = {
           audio: false,
           video: true
@@ -45,7 +47,7 @@ export const GameContainer = () => {
         stream.getTracks().forEach(track => webRTCPeer.addTrack(track, stream));
         (document.querySelector('#localVideo') as HTMLMediaElement).srcObject = stream;
 
-        if (isPlayerOne) {
+        if (game.isServer) {
           const localPeerOffer = await webRTCPeer.createOffer();
           await webRTCPeer.setLocalDescription(new RTCSessionDescription(localPeerOffer));
           sendMediaOffer(localPeerOffer);
@@ -56,9 +58,7 @@ export const GameContainer = () => {
     return () => {
     };
 
-  }, [gameStarted])
-
-
+  }, [game])
 
 
   const handleMediaOffer = async (data: any) => {
@@ -81,7 +81,6 @@ export const GameContainer = () => {
       const candidate = new RTCIceCandidate(data.candidate);
       await webRTCPeer.addIceCandidate(candidate);
     } catch (error) {
-      console.log(error)
     }
   }
 
@@ -119,18 +118,26 @@ export const GameContainer = () => {
 
 
   const handleGameStart = (message: any) => {
-    setGameType(message["game_type"])
-    setOpponentInfo(message["opponent"])
-    setIsPlayerOne(message["is_player_one"])
-    setGameStarted(true)
+    setGame({
+      gameName: message["game_name"],
+      infoType: message["info_type"],
+      opponent: message["opponent"],
+      isServer: message["is_server"],
+      timeout: getGameTimeout(message["game_name"])
+    })
+    setGameComponent(getGameComponent(message["game_name"],
+      (event: any) => {
+        sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
+      }))
+    notification.info({message: 'Next game starting soon'})
   }
+
 
   const handleGameDisconnect = (message: any) => {
     notification.error({message: 'The other player has left the game', duration: 5})
-    setGameStarted(false)
+    setGame(null)
+    setGameComponent(<div/>)
     setChats([])
-    setOpponentInfo(null)
-    setGameType([])
     navigate('/')
   }
 
@@ -140,6 +147,10 @@ export const GameContainer = () => {
 
     let data = messageJSON["data"]
     let type = messageJSON["type"]
+
+
+    console.log(messageJSON)
+    console.log('------------NM---------------')
     if (type === Commands.CHAT) {
       setChats(chats.concat(data));
     } else if (type === Commands.GAME_START) {
@@ -166,7 +177,7 @@ export const GameContainer = () => {
   }, [lastMessage]);
 
 
-  if (!gameStarted) {
+  if (game === null) {
     return <div
       style={{
         width: '100%',
@@ -180,17 +191,21 @@ export const GameContainer = () => {
 
   return (
     <Row style={{width: '100%', height: '100%'}}>
-      <Col span={16}>Play area</Col>
+      <Col span={16}>
+        <div>
+          {gameComponent}
+        </div>
+      </Col>
       <Col span={8}>
         <div style={{width: '100%', height: '100%', maxHeight: '94vh', padding: '10px'}}>
           <div style={{width: '100%', height: '25%', boxSizing: 'border-box'}}>
             {
-              gameType.includes("INFO") && opponentInfo !== null && (
+              game.infoType.includes("INFO") && game.opponent !== null && (
                 <div style={{wordBreak: 'break-word'}}>
-                  The other person is <Text mark strong code>{opponentInfo["name"]}</Text>.
-                  A <Text mark strong code>{getSuperscript(opponentInfo["year"])}</Text> year
-                  student in the department of <Text mark strong code>{opponentInfo["department"]}</Text>
-                  from <Text mark strong code>{opponentInfo["hall"]}</Text>
+                  The other person is <Text mark strong code>{game.opponent["name"]}</Text>.
+                  A <Text mark strong code>{getSuperscript(game.opponent["year"])}</Text> year
+                  student in the department of <Text mark strong code>{game.opponent["department"]}</Text>
+                  from <Text mark strong code>{game.opponent["hall"]}</Text>
                 </div>
               )
             }

@@ -1,6 +1,9 @@
-import React, {useState} from 'react';
-import {Button, Col, Divider, Row, Select, Slider, Space, Typography} from "antd";
+import React, {useEffect, useState} from 'react';
+import {Button, Col, Divider, Progress, Row, Select, Slider, Space, Typography} from "antd";
 import pdImage from "../assets/pd.png"
+import {LoadingOutlined} from "@ant-design/icons";
+import {Commands} from "../constants";
+import {getDefaultResp, getGameTimeout} from "./GameUtils";
 
 const {Option} = Select
 const {Title, Paragraph, Text, Link} = Typography;
@@ -13,11 +16,40 @@ const PrisonerDilemma = ({callback}: PrisonerDilemmaProps) => {
 
   const [action, setAction] = useState<string | null>(null)
   const [response, setResponse] = useState<number>(5)
+  const [respSent, setRespSent] = useState(false)
 
+  const [countdown, setCountdown] = useState<number>(1);
+
+
+  useEffect(() => {
+    const timeout = getGameTimeout("prisoners_dilemma")
+    console.log("[]")
+
+
+    const interval = setInterval(() => {
+        console.log("CALLED")
+        console.log(countdown)
+        console.log(Math.ceil(100.0 / timeout))
+        console.log(countdown + Math.ceil(100.0 / timeout))
+
+        setCountdown(countdown + Math.ceil(100.0 / timeout))
+        if (countdown > 100) {
+          callback(
+            JSON.stringify({
+              'type': Commands.GAME_UPDATE, data: getDefaultResp("prisoners_dilemma")
+            }))
+          setCountdown(0)
+        }
+      },
+      1000
+    )
+
+    return () => clearInterval(interval);
+  }, [])
 
   return (
     <Typography>
-
+      <Progress percent={countdown}/>
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
         <img style={{width: '30em', height: '25em'}} src={pdImage}/>
         <div style={{paddingRight: '10px'}}>
@@ -39,7 +71,7 @@ const PrisonerDilemma = ({callback}: PrisonerDilemmaProps) => {
         <Divider/>
         {action === null && (
           <div>
-            What wil you do?
+            <Text strong>What wil you do?</Text>
             <Row gutter={24} style={{minWidth: '40vw'}}>
               <Col span={12}>
                 <Button type='primary' block onClick={() => setAction('c')}>Confess</Button>
@@ -52,9 +84,9 @@ const PrisonerDilemma = ({callback}: PrisonerDilemmaProps) => {
             </Row>
           </div>
         )}
-        {action !== null && (
+        {action !== null && !respSent && (
           <div>
-            How trustworthy is the other player?
+            <Text strong>How trustworthy is the other player?</Text>
             <Row gutter={24} style={{width: '40vw'}}>
               <Col span={20}>
                 <Slider
@@ -68,12 +100,18 @@ const PrisonerDilemma = ({callback}: PrisonerDilemmaProps) => {
               </Col>
               <Col span={4}>
                 <Button block onClick={() => {
+                  setRespSent(true)
                   callback({action: action, response: response})
                 }}>
                   Done
                 </Button></Col>
             </Row>
           </div>
+        )}
+        {respSent && (
+          <Space><LoadingOutlined style={{fontSize: 24}} spin/>
+            <Text strong>Please wait for other player to respond</Text>
+          </Space>
         )}
       </div>
     </Typography>
