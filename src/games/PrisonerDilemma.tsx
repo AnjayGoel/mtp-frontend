@@ -1,8 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Button, Col, Divider,notification, Progress, Row, Select, Slider, Space, Typography} from "antd";
+import {Button, Col, Divider, notification, Progress, Row, Select, Slider, Space, Typography} from "antd";
 import pdImage from "../assets/pd.png"
 import {LoadingOutlined} from "@ant-design/icons";
-import {Commands} from "../constants";
 
 const {Option} = Select
 const {Title, Paragraph, Text, Link} = Typography;

@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Button, Form, Input, notification, Select, Spin} from "antd";
 import {useMutation, useQuery} from "react-query";
-import {getPlayer, PlayerProfile, signUp} from "../api";
-import {useNavigate} from "react-router-dom";
+import {getPlayer, signUp} from "../api";
 import {getUseQueryOptions} from "../utils";
 import {DEPARTMENTS, HALLS} from "../constants";
 

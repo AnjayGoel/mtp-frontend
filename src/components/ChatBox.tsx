@@ -1,5 +1,5 @@
 import ChatMessage, {ChatMessageProps} from "./ChatMessage";
-import {Button, Card, Input} from "antd";
+import {Button, Input} from "antd";
 import {SendOutlined} from "@ant-design/icons";
 import React, {useEffect, useRef, useState} from "react";
 import {getUserInfo} from "../utils";

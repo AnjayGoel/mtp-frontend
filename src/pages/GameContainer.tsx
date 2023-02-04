@@ -1,13 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Col, notification, Progress, Row, Spin} from "antd";
+import {Col, notification, Row, Spin, Typography} from "antd";
 import useWebSocket from "react-use-websocket";
 import {ChatMessageProps} from "../components/ChatMessage";
 import {useNavigate} from "react-router-dom";
 import {Commands} from "../constants";
 import ChatBox from "../components/ChatBox";
 import {getSuperscript} from "../utils";
-import {Typography} from "antd";
-import {useInterval} from 'usehooks-ts'
 import {Game} from "../api";
 import {getGameComponent} from "../games/GameUtils";
 

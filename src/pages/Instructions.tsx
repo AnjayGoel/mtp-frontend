@@ -1,6 +1,5 @@
 import React from 'react';
-import {Image, Select, Typography} from "antd";
-import pdImage from "../assets/pd.png"
+import {Select, Typography} from "antd";
 import rpcImage from "../assets/rpc.png"
 import sgImage from "../assets/sq.png"
 

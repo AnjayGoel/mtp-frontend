@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Select, Space, Typography} from "antd";
+import {Button, Select, Typography} from "antd";
 import {useNavigate} from "react-router-dom";
 import {QuestionCircleOutlined} from "@ant-design/icons";
 

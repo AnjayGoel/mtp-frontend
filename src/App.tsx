@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import 'antd/dist/reset.css';
 import './App.css';
-import {BrowserRouter, Navigate, Outlet, Route, Routes, HashRouter} from "react-router-dom";
+import {HashRouter, Navigate, Outlet, Route, Routes} from "react-router-dom";
 import {Avatar, Button, Modal, Popover, Space} from "antd";
 import {getUserInfo} from "./utils";
 import {googleLogout} from "@react-oauth/google";
@@ -11,7 +11,6 @@ import Login from "./pages/Login";
 import {GameContainer} from "./pages/GameContainer";
 import Instructions from "./pages/Instructions";
 import Home from "./pages/Home";
-import PrisonerDilemma from "./games/PrisonerDilemma";
 
 const App = () => {
 
