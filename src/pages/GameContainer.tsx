@@ -9,7 +9,7 @@ import {getSuperscript} from "../utils";
 import {Typography} from "antd";
 import {useInterval} from 'usehooks-ts'
 import {Game} from "../api";
-import {getDefaultResp, getGameComponent, getGameTimeout} from "../games/GameUtils";
+import {getGameComponent} from "../games/GameUtils";
 
 const {Text, Link} = Typography;
 
@@ -123,13 +123,15 @@ export const GameContainer = () => {
       infoType: message["info_type"],
       opponent: message["opponent"],
       isServer: message["is_server"],
-      timeout: getGameTimeout(message["game_name"])
+      config: message['config']
     })
-    setGameComponent(getGameComponent(message["game_name"],
+    setGameComponent(getGameComponent(message["game_name"], message['config'],
       (event: any) => {
-        sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
+        console.log('&&')
+        console.log(event)
+        console.log('&&')
+        sendMessage(event)
       }))
-    notification.info({message: 'Next game starting soon'})
   }
 
 

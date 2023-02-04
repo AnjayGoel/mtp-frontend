@@ -1,55 +1,67 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Col, Divider, Progress, Row, Select, Slider, Space, Typography} from "antd";
+import React, {useEffect, useRef, useState} from 'react';
+import {Button, Col, Divider,notification, Progress, Row, Select, Slider, Space, Typography} from "antd";
 import pdImage from "../assets/pd.png"
 import {LoadingOutlined} from "@ant-design/icons";
 import {Commands} from "../constants";
-import {getDefaultResp, getGameTimeout} from "./GameUtils";
 
 const {Option} = Select
 const {Title, Paragraph, Text, Link} = Typography;
 
 export interface PrisonerDilemmaProps {
+  config: any
   callback: Function
 }
 
-const PrisonerDilemma = ({callback}: PrisonerDilemmaProps) => {
+const PrisonerDilemma = ({config, callback}: PrisonerDilemmaProps) => {
 
   const [action, setAction] = useState<string | null>(null)
   const [response, setResponse] = useState<number>(5)
   const [respSent, setRespSent] = useState(false)
 
   const [countdown, setCountdown] = useState<number>(1);
+  const intervalRef = useRef<null | NodeJS.Timeout>(null);
 
+  const initInterval = () => {
+    intervalRef.current = setInterval(() => {
+      setCountdown(countdown + 1)
+    }, 1000);
+    return () => clearInterval(intervalRef.current as NodeJS.Timeout);
+  }
+
+  const reset = () => {
+    setAction(null)
+    setRespSent(false)
+    setResponse(5)
+    setCountdown(0)
+    initInterval()
+  }
 
   useEffect(() => {
-    const timeout = getGameTimeout("prisoners_dilemma")
-    console.log("[]")
+    return initInterval()
+  });
 
+  useEffect(() => {
+    if (config['timeout'] - countdown < 5 && config['timeout'] - countdown > 0) {
+      notification.info({
+        message: `Next game starting in ${config['timeout'] - countdown}`,
+        key: 'timeout'
+      })
+    }
+    if (config['timeout'] - countdown < 0 || config['timeout'] - countdown > 5) {
+      notification.destroy('timeout')
+    }
 
-    const interval = setInterval(() => {
-        console.log("CALLED")
-        console.log(countdown)
-        console.log(Math.ceil(100.0 / timeout))
-        console.log(countdown + Math.ceil(100.0 / timeout))
+    if (countdown > config['timeout']) {
+      clearInterval(intervalRef.current as NodeJS.Timeout);
+      callback(config['default'])
+      reset()
+    }
+  }, [countdown])
 
-        setCountdown(countdown + Math.ceil(100.0 / timeout))
-        if (countdown > 100) {
-          callback(
-            JSON.stringify({
-              'type': Commands.GAME_UPDATE, data: getDefaultResp("prisoners_dilemma")
-            }))
-          setCountdown(0)
-        }
-      },
-      1000
-    )
-
-    return () => clearInterval(interval);
-  }, [])
 
   return (
     <Typography>
-      <Progress percent={countdown}/>
+      <Progress showInfo={false} percent={countdown * 100 / config['timeout']}/>
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
         <img style={{width: '30em', height: '25em'}} src={pdImage}/>
         <div style={{paddingRight: '10px'}}>

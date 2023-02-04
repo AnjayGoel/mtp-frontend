@@ -50,7 +50,7 @@ export interface Game {
   opponent: any,
   infoType: string[]
   isServer: boolean,
-  timeout: number
+  config: any
 }
 
 export interface PlayerProfile {

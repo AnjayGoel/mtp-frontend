@@ -93,9 +93,6 @@ const App = () => {
             </Route>
             <Route path="/login" element={<Login/>}/>
             <Route path="/instructions" element={<Instructions/>}/>
-            <Route path="/pd" element={<PrisonerDilemma callback={(state: any) => {
-              console.log(state)
-            }}/>}/>
           </Routes>
         </HashRouter>
       </div>
