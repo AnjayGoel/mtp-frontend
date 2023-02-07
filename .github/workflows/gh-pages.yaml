@@ -20,9 +20,9 @@ jobs:
           npm run build
         env:
           CI: false
-          REACT_APP_GOOGLE_CLIENT_ID: ${{ secrets.REACT_APP_GOOGLE_CLIENT_ID }}
-          REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
-          REACT_APP_WS_URL: ${{ secrets.REACT_APP_WS_URL }}
+          REACT_APP_GOOGLE_CLIENT_ID: '843781250860-4akb52ku37826s34q8npd03p712s3663.apps.googleusercontent.com'
+          REACT_APP_BASE_URL: 'https://gametheorymtp.azurewebsites.net'
+          REACT_APP_WS_URL: 'wss://gametheorymtp.azurewebsites.net'
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.4.1
