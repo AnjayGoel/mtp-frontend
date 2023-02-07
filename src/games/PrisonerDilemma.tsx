@@ -2,16 +2,17 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Button, Col, Divider, notification, Progress, Row, Select, Slider, Space, Typography} from "antd";
 import pdImage from "../assets/pd.png"
 import {LoadingOutlined} from "@ant-design/icons";
+import {Game} from "../api";
 
 const {Option} = Select
 const {Title, Paragraph, Text, Link} = Typography;
 
 export interface PrisonerDilemmaProps {
-  config: any
+  game: Game
   callback: Function
 }
 
-const PrisonerDilemma = ({config, callback}: PrisonerDilemmaProps) => {
+const PrisonerDilemma = ({game, callback}: PrisonerDilemmaProps) => {
 
   const [action, setAction] = useState<string | null>(null)
   const [response, setResponse] = useState<number>(5)
@@ -40,27 +41,26 @@ const PrisonerDilemma = ({config, callback}: PrisonerDilemmaProps) => {
   });
 
   useEffect(() => {
-    if (config['timeout'] - countdown < 5 && config['timeout'] - countdown > 0) {
+    if (game.config['timeout'] - countdown < 5 && game.config['timeout'] - countdown > 0) {
       notification.info({
-        message: `Next game starting in ${config['timeout'] - countdown}`,
+        message: `Next game starting in ${game.config['timeout'] - countdown}`,
         key: 'timeout'
       })
     }
-    if (config['timeout'] - countdown < 0 || config['timeout'] - countdown > 5) {
+    if (game.config['timeout'] - countdown < 0 || game.config['timeout'] - countdown > 5) {
       notification.destroy('timeout')
     }
 
-    if (countdown > config['timeout']) {
+    if (countdown > game.config['timeout']) {
       clearInterval(intervalRef.current as NodeJS.Timeout);
-      callback(config['default'])
+      callback(game.config['default'])
       reset()
     }
   }, [countdown])
 
-
   return (
     <Typography>
-      <Progress showInfo={false} percent={countdown * 100 / config['timeout']}/>
+      <Progress showInfo={false} percent={countdown * 100 / game.config['timeout']}/>
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
         <img style={{width: '30em', height: '25em'}} src={pdImage}/>
         <div style={{paddingRight: '10px'}}>

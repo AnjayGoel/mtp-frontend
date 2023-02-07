@@ -7,7 +7,8 @@ import {Commands} from "../constants";
 import ChatBox from "../components/ChatBox";
 import {getSuperscript} from "../utils";
 import {Game} from "../api";
-import {getGameComponent} from "../games/GameUtils";
+import PrisonerDilemma from "../games/PrisonerDilemma";
+import TrustGame from "../games/TrustGame";
 
 const {Text, Link} = Typography;
 
@@ -17,8 +18,6 @@ export const GameContainer = () => {
   const [socketUrl, setSocketUrl] = useState(process.env["REACT_APP_WS_URL"] as string);
   const [chats, setChats] = useState<ChatMessageProps[]>([]);
   const [game, setGame] = useState<Game | null>(null);
-
-  const [gameComponent, setGameComponent] = useState<any>(<div/>);
   const {sendMessage, lastMessage} = useWebSocket(socketUrl, {
     share: true,
     queryParams: {'token': localStorage.getItem('token')!!}
@@ -121,26 +120,25 @@ export const GameContainer = () => {
       infoType: message["info_type"],
       opponent: message["opponent"],
       isServer: message["is_server"],
-      config: message['config']
+      config: message['config'],
+      state: message['state']
     })
-    setGameComponent(getGameComponent(message["game_name"], message['config'],
-      (event: any) => {
-        console.log('&&')
-        console.log(event)
-        console.log('&&')
-        sendMessage(event)
-      }))
   }
 
 
   const handleGameDisconnect = (message: any) => {
     notification.error({message: 'The other player has left the game', duration: 5})
     setGame(null)
-    setGameComponent(<div/>)
     setChats([])
     navigate('/')
   }
 
+
+  const handleGameUpdate = (message: any) => {
+    if (game == null) return;
+    game.state = message['state']
+    setGame(game)
+  }
 
   const handleWebsocketMessage = (message: MessageEvent) => {
     let messageJSON = JSON.parse(message.data)
@@ -149,12 +147,16 @@ export const GameContainer = () => {
     let type = messageJSON["type"]
 
 
+
+    console.log(type)
     console.log(messageJSON)
     console.log('------------NM---------------')
     if (type === Commands.CHAT) {
       setChats(chats.concat(data));
     } else if (type === Commands.GAME_START) {
       handleGameStart(data)
+    } else if (type === Commands.GAME_UPDATE) {
+      handleGameUpdate(data)
     } else if (type === Commands.PLAYER_DISCONNECT) {
       handleGameDisconnect(data)
     } else if (type === Commands.WEB_RTC_MEDIA_ANSWER) {
@@ -193,7 +195,18 @@ export const GameContainer = () => {
     <Row style={{width: '100%', height: '100%'}}>
       <Col span={16}>
         <div>
-          {gameComponent}
+          {game.gameName === "prisoners_dilemma" && (
+            <PrisonerDilemma game={game} callback={(event: any) => {
+              sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
+            }}/>)
+          }
+          {game.gameName === "trust_game" && (
+            <TrustGame
+              game={game}
+              callback={(event: any) => {
+                sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
+              }}/>
+          )}
         </div>
       </Col>
       <Col span={8}>
@@ -202,8 +215,7 @@ export const GameContainer = () => {
             {
               game.infoType.includes("INFO") && game.opponent !== null && (
                 <div style={{wordBreak: 'break-word'}}>
-                  The other person is <Text mark strong code>{game.opponent["name"]}</Text>.
-                  A <Text mark strong code>{getSuperscript(game.opponent["year"])}</Text> year
+                  The other person is a <Text mark strong code>{getSuperscript(game.opponent["year"])}</Text> year
                   student in the department of <Text mark strong code>{game.opponent["department"]}</Text>
                   from <Text mark strong code>{game.opponent["hall"]}</Text>
                 </div>
@@ -226,7 +238,10 @@ export const GameContainer = () => {
             </div>
           </div>
           <div style={{height: '45%', width: '100%'}}>
-            <ChatBox chats={chats} sendMessage={sendMessage}/>
+            {
+              game.infoType.includes("CHAT") &&
+                <ChatBox chats={chats} sendMessage={sendMessage}/>
+            }
           </div>
         </div>
       </Col>

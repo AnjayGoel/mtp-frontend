@@ -1,0 +1,201 @@
+import React, {useEffect, useRef, useState} from 'react';
+import {Button, Col, Divider, notification, Progress, Row, Select, Slider, Space, Typography} from "antd";
+import igImage from "../assets/ig.png"
+import {LoadingOutlined} from "@ant-design/icons";
+import {getUserInfo} from "../utils";
+import {Game} from "../api";
+
+const {Option} = Select
+const {Title, Paragraph, Text, Link} = Typography;
+
+export interface TrustGameProps {
+  game: Game
+  callback: Function
+}
+
+const TrustGame = ({game, callback}: TrustGameProps) => {
+
+  const [serverAction, setServerAction] = useState<number | null>(null)
+  const [clientAction, setClientAction] = useState<number | null>(null)
+  const [response, setResponse] = useState<number>(50)
+
+  const [countdown, setCountdown] = useState<number>(1);
+  const intervalRef = useRef<null | NodeJS.Timeout>(null);
+
+  const initInterval = () => {
+    intervalRef.current = setInterval(() => {
+      setCountdown(countdown + 1)
+    }, 1000);
+    return () => clearInterval(intervalRef.current as NodeJS.Timeout);
+  }
+
+  const reset = () => {
+    setServerAction(null)
+    setClientAction(null)
+    setResponse(5)
+    setCountdown(0)
+    initInterval()
+  }
+
+  useEffect(() => {
+    console.log(game)
+    if (game.isServer) {
+      for (let email in game.state) {
+        console.log(game)
+        console.log("server email " + email)
+        if (email === getUserInfo()['email']) {
+          setServerAction(game.state[email]['action'])
+        } else {
+          setClientAction(game.state[email]['action'])
+        }
+      }
+    } else {
+      for (let email in game.state) {
+        console.log(game)
+        console.log("client email " + email)
+        if (email === getUserInfo()['email']) {
+          setClientAction(game.state[email]['action'])
+        } else {
+          setServerAction(game.state[email]['action'])
+          setResponse(Math.floor(game.state[email]['action'] * 3 / 2))
+        }
+      }
+    }
+
+  }, [game.state])
+
+  useEffect(() => {
+    return initInterval()
+  });
+
+  useEffect(() => {
+    if (game.config['timeout'] - countdown < 5 && game.config['timeout'] - countdown > 0) {
+      notification.info({
+        message: `Next game starting in ${game.config['timeout'] - countdown}`,
+        key: 'timeout'
+      })
+    }
+    if (game.config['timeout'] - countdown < 0 || game.config['timeout'] - countdown > 5) {
+      notification.destroy('timeout')
+    }
+
+    if (countdown > game.config['timeout']) {
+      clearInterval(intervalRef.current as NodeJS.Timeout);
+      callback(game.config['default'])
+      reset()
+    }
+  }, [countdown])
+
+
+  return (
+    <Typography>
+      <Progress showInfo={false} percent={countdown * 100 / game.config['timeout']}/>
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
+        <img style={{width: '50em', height: '25em'}} src={igImage}/>
+        <div style={{paddingRight: '10px'}}>
+          {
+            game.isServer && (
+              <span>
+                  <ul>
+                    <li> You are given 100 rupees, you can keep any proportion (including all) of it and send the rest to the other player</li>
+                    <li> Whatever you send will be <Text strong>tripled</Text> and given to the other player</li>
+                    <li>The other player will have an option to keep any proportion (including all) of the sum and send rest back to you</li>
+                  </ul>
+              </span>
+            )
+          }
+          {!game.isServer && (
+
+            <span>
+                  <ul>
+                    <li> The other player is given 100 rupees, they can keep any proportion (including all) of it and send the rest to you</li>
+                    <li> Whatever they send will be <Text strong>tripled</Text> and given to the you</li>
+                    <li> You have an option to keep any proportion (including all) of the sum and send rest back to the other player</li>
+                  </ul>
+              </span>
+          )}
+        </div>
+        <Divider/>
+        {game.isServer && serverAction === null &&
+          (<div>
+              <Text strong>What much will you send?</Text>
+              <Row gutter={24} style={{width: '40vw'}}>
+                <Col span={20}>
+                  <Slider
+                    marks={{0: 0, 100: 100}}
+                    defaultValue={50} min={0} max={100}
+                    onChange={(value: number) => {
+                      setResponse(value)
+                    }}/>
+                </Col>
+                <Col span={4}>
+                  <Button block onClick={() => {
+                    callback({action: response})
+                  }}>
+                    Done
+                  </Button></Col>
+              </Row>
+            </div>
+          )}
+        {game.isServer && serverAction !== null && clientAction === null && (
+          <Space>
+            <LoadingOutlined style={{fontSize: 24}} spin/>
+            <Text strong>Please wait for other player to respond</Text>
+          </Space>
+        )}
+
+        {game.isServer && serverAction !== null && clientAction !== null && (
+          <Space>
+            <Text strong>
+              The other player sent back {clientAction} rupees.<br/>
+              Final payoffs: You: {clientAction + 100 - serverAction} & Other Player: {serverAction * 3 - clientAction}
+            </Text>
+          </Space>
+        )}
+
+        {!game.isServer && clientAction !== null && serverAction !== null && (
+          <Space>
+            <Text strong>
+              You sent {clientAction} rupees back out of {3 * serverAction}.<br/>
+              Final payoffs: You: {serverAction * 3 - clientAction} & Other Player: {clientAction + 100 - serverAction}
+            </Text>
+          </Space>
+        )}
+
+        {!game.isServer && serverAction !== null && clientAction == null && (
+          <div>
+            <Text strong>The other player sent you {serverAction} rupees. You now have {serverAction * 3} rupees</Text>.
+            <Text>How much will you send back?</Text>
+            <Row gutter={24} style={{width: '40vw'}}>
+              <Col span={20}>
+                <Slider
+                  marks={{0: 0, [3 * serverAction]: 3 * serverAction}}
+                  defaultValue={Math.floor(serverAction * 3 / 2)} min={0} max={3 * serverAction}
+                  onChange={(value: number) => {
+                    setResponse(value)
+                  }}/>
+              </Col>
+              <Col span={4}>
+                <Button block onClick={() => {
+                  callback({action: response})
+                }}>
+                  Done
+                </Button></Col>
+            </Row>
+          </div>
+        )}
+
+        {!game.isServer && serverAction === null &&
+          (
+            <Space>
+              <LoadingOutlined style={{fontSize: 24}} spin/>
+              <Text strong>Please wait for other player to respond</Text>
+            </Space>
+          )
+        }
+      </div>
+    </Typography>
+  )
+};
+
+export default TrustGame;

@@ -51,6 +51,7 @@ export interface Game {
   infoType: string[]
   isServer: boolean,
   config: any
+  state: any
 }
 
 export interface PlayerProfile {
