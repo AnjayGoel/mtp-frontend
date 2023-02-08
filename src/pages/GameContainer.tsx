@@ -11,6 +11,8 @@ import PrisonerDilemma from "../games/PrisonerDilemma";
 import TrustGame from "../games/TrustGame";
 import Intro from "../games/Intro";
 import Machine from "../games/Machine";
+import Fade from "../games/Fade";
+import "../games/styles.css";
 
 const {Text, Link} = Typography;
 
@@ -149,7 +151,6 @@ export const GameContainer = () => {
     let type = messageJSON["type"]
 
 
-
     console.log(type)
     console.log(messageJSON)
     console.log('------------NM---------------')
@@ -197,32 +198,43 @@ export const GameContainer = () => {
     <Row style={{width: '100%', height: '100%'}}>
       <Col span={16}>
         <div>
+
+
           {game.gameId === 0 && (
-            <Intro game={game} callback={(event: any) => {
-              sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
-            }}/>)
+            <Fade show={game.gameId === 0}>
+              <Intro game={game} callback={(event: any) => {
+                sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
+              }}/>
+            </Fade>
+          )
           }
           {game.gameId === 1 && (
-            <Machine
-              game={game}
-              callback={(event: any) => {
-                sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
-              }}/>
+            <Fade show={game.gameId === 1}>
+              <Machine
+                game={game}
+                callback={(event: any) => {
+                  sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
+                }}/>
+            </Fade>
           )}
           {game.gameId === 2 && (
-            <PrisonerDilemma
-              game={game}
-              callback={(event: any) => {
-                sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
-              }}/>
+            <Fade show={game.gameId === 2}>
+              <PrisonerDilemma
+                game={game}
+                callback={(event: any) => {
+                  sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
+                }}/>
+            </Fade>
           )}
 
           {game.gameId === 3 && (
-            <TrustGame
-              game={game}
-              callback={(event: any) => {
-                sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
-              }}/>
+            <Fade show={game.gameId === 3}>
+              <TrustGame
+                game={game}
+                callback={(event: any) => {
+                  sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
+                }}/>
+            </Fade>
           )}
         </div>
       </Col>
