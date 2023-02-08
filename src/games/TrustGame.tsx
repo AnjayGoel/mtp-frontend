@@ -38,11 +38,8 @@ const TrustGame = ({game, callback}: TrustGameProps) => {
   }
 
   useEffect(() => {
-    console.log(game)
     if (game.isServer) {
       for (let email in game.state) {
-        console.log(game)
-        console.log("server email " + email)
         if (email === getUserInfo()['email']) {
           setServerAction(game.state[email]['action'])
         } else {
@@ -51,8 +48,6 @@ const TrustGame = ({game, callback}: TrustGameProps) => {
       }
     } else {
       for (let email in game.state) {
-        console.log(game)
-        console.log("client email " + email)
         if (email === getUserInfo()['email']) {
           setClientAction(game.state[email]['action'])
         } else {
@@ -81,7 +76,9 @@ const TrustGame = ({game, callback}: TrustGameProps) => {
 
     if (countdown > game.config['timeout']) {
       clearInterval(intervalRef.current as NodeJS.Timeout);
-      callback(game.config['default'])
+      if ((game.isServer && serverAction == null) || (!game.isServer && clientAction == null)) {
+        callback(game.config['default'])
+      }
       reset()
     }
   }, [countdown])
@@ -96,20 +93,21 @@ const TrustGame = ({game, callback}: TrustGameProps) => {
           {
             game.isServer && (
               <span>
+                After the whole ordeal with the police, you and the other player have stumbled upon another opportunity in the stock market (its totally legal).
                   <ul>
-                    <li> You are given 100 rupees, you can keep any proportion (including all) of it and send the rest to the other player</li>
-                    <li> Whatever you send will be <Text strong>tripled</Text> and given to the other player</li>
-                    <li>The other player will have an option to keep any proportion (including all) of the sum and send rest back to you</li>
+                    <li> You have 100 rupees, you can keep any proportion (including all) of it and invest the rest</li>
+                    <li> Whatever you invest will be <Text strong>tripled</Text> and given to the other player</li>
+                    <li> The other player will have an option to keep any proportion (including all) of the sum and send rest back to you</li>
                   </ul>
               </span>
             )
           }
           {!game.isServer && (
-
             <span>
+                  After the whole ordeal with the police, you and your friend have stumbled upon another opportunity in the stock market (its totally legal).
                   <ul>
-                    <li> The other player is given 100 rupees, they can keep any proportion (including all) of it and send the rest to you</li>
-                    <li> Whatever they send will be <Text strong>tripled</Text> and given to the you</li>
+                    <li> The other player has 100 rupees, they can keep any proportion (including all) of it and invest the rest</li>
+                    <li> Whatever they invest will be <Text strong>tripled</Text> and given to the you</li>
                     <li> You have an option to keep any proportion (including all) of the sum and send rest back to the other player</li>
                   </ul>
               </span>
@@ -118,7 +116,7 @@ const TrustGame = ({game, callback}: TrustGameProps) => {
         <Divider/>
         {game.isServer && serverAction === null &&
           (<div>
-              <Text strong>What much will you send?</Text>
+              <Text strong>What much will you invest?</Text>
               <Row gutter={24} style={{width: '40vw'}}>
                 <Col span={20}>
                   <Slider

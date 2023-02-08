@@ -33,7 +33,7 @@ const ChatMessage = ({name, email, avatar, message}: ChatMessageProps) => {
           marginLeft: '5px',
           paddingBottom: '5px'
         }} span={21}>
-          <Text style={{color: isSelf ? 'white' : 'black'}} strong>{isSelf ? "You" : name}</Text>
+          <Text style={{color: isSelf ? 'white' : 'black'}} strong>{isSelf ? "You" : "Other Person"}</Text>
           <br/>
           <div style={{wordWrap: 'break-word'}}>{message}</div>
         </Col>

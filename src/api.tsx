@@ -46,7 +46,7 @@ export const signUp = async (signupParams: SignupParams) => {
 }
 
 export interface Game {
-  gameName: string,
+  gameId: number,
   opponent: any,
   infoType: string[]
   isServer: boolean,

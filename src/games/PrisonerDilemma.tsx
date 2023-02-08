@@ -64,17 +64,15 @@ const PrisonerDilemma = ({game, callback}: PrisonerDilemmaProps) => {
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
         <img style={{width: '30em', height: '25em'}} src={pdImage}/>
         <div style={{paddingRight: '10px'}}>
-          The police has arrested you and your friend for a crime. Both of you are held in different cells.
+          The police found you and the other player exploiting the ATM machine. Both of you are held in different cells.
           The police officer offers you both the opportunity to either remain silent or blame another suspect.
           <ul>
-            <li>If both of you <Text strong>remain silent</Text>, both will serve only <Text strong>one year in
-              prison</Text>.
+            <li>If both of you <Text strong>remain silent</Text>, both will be <Text strong>fined 100 rupees</Text>
             </li>
-            <li>If you <Text strong>both blame each other</Text>, both will <Text strong>serve five years</Text> in
-              prison.
+            <li>If you <Text strong>both blame each other</Text>, both will be <Text strong>fined 300 rupees</Text>
             </li>
             <li>If one of you blames another and the other remains silent, the one who
-              remained silent would serve <Text strong>twenty years</Text> in prison, while <Text strong>the other would
+              remained silent be <Text strong>fined 500 rupees</Text>, while <Text strong>the other would
                 be set free</Text>.
             </li>
           </ul>
@@ -85,7 +83,7 @@ const PrisonerDilemma = ({game, callback}: PrisonerDilemmaProps) => {
             <Text strong>What wil you do?</Text>
             <Row gutter={24} style={{minWidth: '40vw'}}>
               <Col span={12}>
-                <Button type='primary' block onClick={() => setAction('c')}>Confess</Button>
+                <Button type='primary' block onClick={() => setAction('c')}>Blame Other</Button>
               </Col>
               <Col span={12}>
                 <Button type='primary' block onClick={() => {

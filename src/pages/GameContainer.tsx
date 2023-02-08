@@ -9,6 +9,8 @@ import {getSuperscript} from "../utils";
 import {Game} from "../api";
 import PrisonerDilemma from "../games/PrisonerDilemma";
 import TrustGame from "../games/TrustGame";
+import Intro from "../games/Intro";
+import Machine from "../games/Machine";
 
 const {Text, Link} = Typography;
 
@@ -116,7 +118,7 @@ export const GameContainer = () => {
 
   const handleGameStart = (message: any) => {
     setGame({
-      gameName: message["game_name"],
+      gameId: message["game_id"],
       infoType: message["info_type"],
       opponent: message["opponent"],
       isServer: message["is_server"],
@@ -195,12 +197,27 @@ export const GameContainer = () => {
     <Row style={{width: '100%', height: '100%'}}>
       <Col span={16}>
         <div>
-          {game.gameName === "prisoners_dilemma" && (
-            <PrisonerDilemma game={game} callback={(event: any) => {
+          {game.gameId === 0 && (
+            <Intro game={game} callback={(event: any) => {
               sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
             }}/>)
           }
-          {game.gameName === "trust_game" && (
+          {game.gameId === 1 && (
+            <Machine
+              game={game}
+              callback={(event: any) => {
+                sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
+              }}/>
+          )}
+          {game.gameId === 2 && (
+            <PrisonerDilemma
+              game={game}
+              callback={(event: any) => {
+                sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
+              }}/>
+          )}
+
+          {game.gameId === 3 && (
             <TrustGame
               game={game}
               callback={(event: any) => {
