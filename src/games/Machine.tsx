@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Button, Col, Divider, notification, Progress, Row, Select, Slider, Space, Typography} from "antd";
-import pdImage from "../assets/pd.png"
+import {Button, Col, Divider, Image, notification, Progress, Row, Select, Slider, Space, Typography} from "antd";
+import image from "../assets/Machine.png"
 import {LoadingOutlined} from "@ant-design/icons";
 import {Game} from "../api";
 
@@ -58,11 +58,12 @@ const Machine = ({game, callback}: MachineProps) => {
     <Typography>
       <Progress showInfo={false} percent={countdown * 100 / game.config['timeout']}/>
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-        <img style={{width: '30em', height: '25em'}} src={pdImage}/>
-        <div style={{paddingRight: '10px'}}>
-          You have encountered a faulty ATM machine. If you put in 100 rupees in the machine, the other player gets
-          300 rupees – and vice versa. You both can either choose to put in the money, or not to.
-        </div>
+        <Image width='25em' src={image}/>
+        <Paragraph style={{padding: '10px'}}>
+          You and the other player have encountered a faulty ATM machine.
+          If you put in 100 rupees in the machine, the other player gets
+          300 rupees and vice versa. You both can either choose to put in the money, or not to.
+        </Paragraph>
         <Divider/>
         {action === null && (
           <div>
@@ -73,25 +74,25 @@ const Machine = ({game, callback}: MachineProps) => {
                   setAction('c')
                   callback('c')
                 }}>Put 100 Rupees</Button>
-                  </Col>
-                  <Col span={12}>
-                  <Button type='primary' block onClick={() => {
+              </Col>
+              <Col span={12}>
+                <Button type='primary' block onClick={() => {
                   callback('d')
                   setAction('d')
                 }}>Don't Put 100 Rupees</Button>
-                  </Col>
-                  </Row>
-                  </div>
-                  )}
-
-                  {action !== null && (
-                    <Space><LoadingOutlined style={{fontSize: 24}} spin/>
-                      <Text strong>Please wait for other player to respond</Text>
-                    </Space>
-                  )}
+              </Col>
+            </Row>
           </div>
-          </Typography>
-          )
-        };
+        )}
 
-        export default Machine;
+        {action !== null && (
+          <Space><LoadingOutlined style={{fontSize: 24}} spin/>
+            <Text strong>Please wait for other player to respond</Text>
+          </Space>
+        )}
+      </div>
+    </Typography>
+  )
+};
+
+export default Machine;

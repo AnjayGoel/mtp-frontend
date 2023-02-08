@@ -1,7 +1,7 @@
 import React from 'react';
 import {Select, Typography} from "antd";
-import rpcImage from "../assets/rpc.png"
-import sgImage from "../assets/sq.png"
+import rpcImage from "../assets/old/rpc.png"
+import sgImage from "../assets/old/sq.png"
 
 const {Option} = Select
 const {Title, Paragraph, Text, Link} = Typography;

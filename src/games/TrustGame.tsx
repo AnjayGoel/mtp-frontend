@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Button, Col, Divider, notification, Progress, Row, Select, Slider, Space, Typography} from "antd";
-import igImage from "../assets/ig.png"
+import {Button, Col, Divider, Image, notification, Progress, Row, Select, Slider, Space, Typography} from "antd";
+import image from "../assets/TrustGame.png"
 import {LoadingOutlined} from "@ant-design/icons";
 import {getUserInfo} from "../utils";
 import {Game} from "../api";
@@ -88,29 +88,29 @@ const TrustGame = ({game, callback}: TrustGameProps) => {
     <Typography>
       <Progress showInfo={false} percent={countdown * 100 / game.config['timeout']}/>
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-        <img style={{width: '50em', height: '25em'}} src={igImage}/>
-        <div style={{paddingRight: '10px'}}>
+        <Image width={'25em'} src={image}/>
+        <div style={{padding: '10px'}}>
           {
             game.isServer && (
-              <span>
+              <Paragraph>
                 After the whole ordeal with the police, you and the other player have stumbled upon another opportunity in the stock market (its totally legal).
                   <ul>
                     <li> You have 100 rupees, you can keep any proportion (including all) of it and invest the rest</li>
                     <li> Whatever you invest will be <Text strong>tripled</Text> and given to the other player</li>
                     <li> The other player will have an option to keep any proportion (including all) of the sum and send rest back to you</li>
                   </ul>
-              </span>
+              </Paragraph>
             )
           }
           {!game.isServer && (
-            <span>
+            <Paragraph>
                   After the whole ordeal with the police, you and your friend have stumbled upon another opportunity in the stock market (its totally legal).
                   <ul>
                     <li> The other player has 100 rupees, they can keep any proportion (including all) of it and invest the rest</li>
                     <li> Whatever they invest will be <Text strong>tripled</Text> and given to the you</li>
                     <li> You have an option to keep any proportion (including all) of the sum and send rest back to the other player</li>
                   </ul>
-              </span>
+              </Paragraph>
           )}
         </div>
         <Divider/>
@@ -128,6 +128,7 @@ const TrustGame = ({game, callback}: TrustGameProps) => {
                 </Col>
                 <Col span={4}>
                   <Button block onClick={() => {
+                    setServerAction(response)
                     callback({action: response})
                   }}>
                     Done
@@ -175,6 +176,7 @@ const TrustGame = ({game, callback}: TrustGameProps) => {
               </Col>
               <Col span={4}>
                 <Button block onClick={() => {
+                  setClientAction(response)
                   callback({action: response})
                 }}>
                   Done

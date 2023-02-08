@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Button, Col, Divider, notification, Progress, Row, Select, Slider, Space, Typography} from "antd";
-import pdImage from "../assets/pd.png"
+import {Button, Col, Divider, Image, notification, Progress, Row, Select, Slider, Space, Typography} from "antd";
+import image from "../assets/PrisonersDilemma.png"
 import {LoadingOutlined} from "@ant-design/icons";
 import {Game} from "../api";
 
@@ -62,21 +62,21 @@ const PrisonerDilemma = ({game, callback}: PrisonerDilemmaProps) => {
     <Typography>
       <Progress showInfo={false} percent={countdown * 100 / game.config['timeout']}/>
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-        <img style={{width: '30em', height: '25em'}} src={pdImage}/>
-        <div style={{paddingRight: '10px'}}>
+        <Image width={'25em'} src={image}/>
+        <Paragraph style={{padding: '10px'}}>
           The police found you and the other player exploiting the ATM machine. Both of you are held in different cells.
-          The police officer offers you both the opportunity to either remain silent or blame another suspect.
+          The police officer offers you both the opportunity to either remain silent or blame the other.
           <ul>
             <li>If both of you <Text strong>remain silent</Text>, both will be <Text strong>fined 100 rupees</Text>
             </li>
-            <li>If you <Text strong>both blame each other</Text>, both will be <Text strong>fined 300 rupees</Text>
+            <li>If both of you <Text strong>blame each other</Text>, both will be <Text strong>fined 300 rupees</Text>
             </li>
-            <li>If one of you blames another and the other remains silent, the one who
+            <li>If one of you blames the other and the other remains silent, the one who
               remained silent be <Text strong>fined 500 rupees</Text>, while <Text strong>the other would
                 be set free</Text>.
             </li>
           </ul>
-        </div>
+        </Paragraph>
         <Divider/>
         {action === null && (
           <div>

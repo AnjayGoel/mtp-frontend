@@ -1,9 +1,0 @@
-   For example, lets take a look at the famous prisoners dilemma.
-
-        Imagine that the police arrested you and your friend for a crime. Both of you are held in different cells and
-        cannot communicate with each other. The police officer offers you both the opportunity to either remain
-        silent or blame another suspect. If both of you suspects remain silent, both will serve only one year in prison.
-        If you both blame each other, both will serve five years in prison.
-
-        If one of you blames another and the other remains silent, the one who remained silent would serve
-        twenty years in prison, while another suspect would be set free. The payoff would look like this:

@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Button, Col, Divider, Form, notification, Progress, Row, Select, Slider, Space, Typography} from "antd";
-import pdImage from "../assets/pd.png"
+import pdImage from "../assets/old/pd.png"
 import {LoadingOutlined} from "@ant-design/icons";
 import {Game} from "../api";
 
@@ -76,7 +76,7 @@ const Intro = ({game, callback}: IntroProps) => {
               </li>
             )}
             {game.infoType.includes('VIDEO') && (
-              <li>You can see the other person through the camera</li>
+              <li>You can see each other through the webcam</li>
             )}
           </ul>
         </div>
@@ -92,24 +92,28 @@ const Intro = ({game, callback}: IntroProps) => {
 
             <Form
               layout='vertical'
+              initialValues={{
+                'know': false,
+                'trust': 5
+              }}
               onFinish={(values) => {
                 setAction(values)
                 callback(values)
               }}
             >
-              {game.infoType.includes('VIDEO') && (
-                <Form.Item
-                  label="Do you personally know the other person"
-                  name="know"
-                  rules={[{required: true, message: 'Please, answer this question first'}]}
-                >
-                  <Select
-                    style={{width: 'fit-content'}}
-                    options={[{label: 'Yes', value: true}, {label: 'No', value: false}]}
-                    defaultValue={false}
-                  />
-                </Form.Item>)
-              }
+
+              <Form.Item
+                label="Do you personally know the other person?"
+                name="know"
+                rules={[{required: true, message: 'Please, answer this question first'}]}
+              >
+                <Select
+                  style={{width: 'fit-content'}}
+                  options={[{label: 'Yes', value: true}, {label: 'No', value: false}]}
+                  defaultValue={false}
+                />
+              </Form.Item>
+
               <Form.Item
                 label="How trustworthy is the other person?"
                 name="trust"
@@ -121,7 +125,6 @@ const Intro = ({game, callback}: IntroProps) => {
               <Button type="primary" htmlType="submit">
                 Done
               </Button>
-
 
             </Form>
           </div>
