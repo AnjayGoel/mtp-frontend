@@ -104,7 +104,7 @@ const TrustGame = ({game, callback}: TrustGameProps) => {
           }
           {!game.isServer && (
             <Paragraph>
-                  After the whole ordeal with the police, you and your friend have stumbled upon another opportunity in the stock market (its totally legal).
+                  After the whole ordeal with the police, you and the other player have stumbled upon another opportunity in the stock market (its totally legal).
                   <ul>
                     <li> The other player has 100 rupees, they can keep any proportion (including all) of it and invest the rest</li>
                     <li> Whatever they invest will be <Text strong>tripled</Text> and given to the you</li>

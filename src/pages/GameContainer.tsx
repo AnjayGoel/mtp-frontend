@@ -13,6 +13,7 @@ import Intro from "../games/Intro";
 import Machine from "../games/Machine";
 import Fade from "../games/Fade";
 import "../games/styles.css";
+import Outro from "./Outro";
 
 const {Text, Link} = Typography;
 
@@ -194,12 +195,18 @@ export const GameContainer = () => {
     </div>
   }
 
+  if (game.gameId === 4) {
+    return (
+      <Fade show={game.gameId === 4}>
+        <Outro/>
+      </Fade>
+    )
+  }
+
   return (
     <Row style={{width: '100%', height: '100%'}}>
       <Col span={16}>
         <div>
-
-
           {game.gameId === 0 && (
             <Fade show={game.gameId === 0}>
               <Intro game={game} callback={(event: any) => {

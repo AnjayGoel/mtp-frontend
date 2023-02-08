@@ -15,8 +15,6 @@ export interface PrisonerDilemmaProps {
 const PrisonerDilemma = ({game, callback}: PrisonerDilemmaProps) => {
 
   const [action, setAction] = useState<string | null>(null)
-  const [response, setResponse] = useState<number>(5)
-  const [respSent, setRespSent] = useState(false)
 
   const [countdown, setCountdown] = useState<number>(1);
   const intervalRef = useRef<null | NodeJS.Timeout>(null);
@@ -30,8 +28,6 @@ const PrisonerDilemma = ({game, callback}: PrisonerDilemmaProps) => {
 
   const reset = () => {
     setAction(null)
-    setRespSent(false)
-    setResponse(5)
     setCountdown(0)
     initInterval()
   }
@@ -83,41 +79,22 @@ const PrisonerDilemma = ({game, callback}: PrisonerDilemmaProps) => {
             <Text strong>What wil you do?</Text>
             <Row gutter={24} style={{minWidth: '40vw'}}>
               <Col span={12}>
-                <Button type='primary' block onClick={() => setAction('c')}>Blame Other</Button>
+                <Button type='primary' block onClick={() => {
+                  callback('c')
+                  setAction('c')
+                }
+                }>Blame Other</Button>
               </Col>
               <Col span={12}>
                 <Button type='primary' block onClick={() => {
                   setAction('d')
+                  callback('d')
                 }}>Remain Silent</Button>
               </Col>
             </Row>
           </div>
         )}
-        {action !== null && !respSent && (
-          <div>
-            <Text strong>How trustworthy is the other player?</Text>
-            <Row gutter={24} style={{width: '40vw'}}>
-              <Col span={20}>
-                <Slider
-                  defaultValue={5} min={0} max={10}
-                  marks={Object.fromEntries([...Array(11)].map((_, it) => {
-                    return [it, it]
-                  }))}
-                  onChange={(value: number) => {
-                    setResponse(value)
-                  }}/>
-              </Col>
-              <Col span={4}>
-                <Button block onClick={() => {
-                  setRespSent(true)
-                  callback({action: action, response: response})
-                }}>
-                  Done
-                </Button></Col>
-            </Row>
-          </div>
-        )}
-        {respSent && (
+        {action !== null && (
           <Space><LoadingOutlined style={{fontSize: 24}} spin/>
             <Text strong>Please wait for other player to respond</Text>
           </Space>
