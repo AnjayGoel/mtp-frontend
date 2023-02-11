@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Col, notification, Row, Spin, Typography} from "antd";
+import {Card, Col, notification, Row, Spin, Typography} from "antd";
 import useWebSocket from "react-use-websocket";
 import {ChatMessageProps} from "../components/ChatMessage";
 import {useNavigate} from "react-router-dom";
@@ -13,8 +13,9 @@ import Intro from "../games/Intro";
 import Machine from "../games/Machine";
 import Fade from "../games/Fade";
 import "../games/styles.css";
-import Outro from "./Outro";
+import Thanks from "./Thanks";
 import CountDown from "../components/Countdown";
+import Outro from "../games/Outro";
 
 const {Text, Link} = Typography;
 
@@ -151,8 +152,6 @@ export const GameContainer = () => {
 
   const handleGameUpdate = (message: any) => {
     if (game == null) return;
-    //let newGame = {...game, state:message['state']}
-    //newGame.state = message['state']
     setGame({...game, state: message['state']})
   }
 
@@ -204,6 +203,10 @@ export const GameContainer = () => {
     </div>
   }
 
+  if (game.gameId === 0) {
+    navigate("/thanks")
+  }
+
   return (
     <Row style={{width: '100%', height: '100%'}}>
       <Col span={16}>
@@ -213,11 +216,6 @@ export const GameContainer = () => {
               if (game === null) return;
               sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: game?.config['default']}))
             }}/>
-          )}
-          {game.gameId === 0 && (
-            <Fade show={game.gameId === 0}>
-              <Outro/>
-            </Fade>
           )}
           {game.gameId === 1 && (
             <Fade show={game.gameId === 1}>
@@ -256,6 +254,16 @@ export const GameContainer = () => {
                 }}/>
             </Fade>
           )}
+
+          {game.gameId === 5 && (
+            <Fade show={game.gameId === 5}>
+              <Outro
+                game={game}
+                callback={(event: any) => {
+                  sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
+                }}/>
+            </Fade>
+          )}
         </div>
       </Col>
       <Col span={8}>
@@ -274,17 +282,35 @@ export const GameContainer = () => {
           </div>
           <div style={{
             width: '100%',
-            height: '30%', boxSizing: 'border-box',
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'end'
+            height: '30%'
           }}>
-            <div style={{width: '60%', height: 'fit-content', padding: '2px'}}>
-              <video height="auto" width="100%" id="remoteVideo" playsInline autoPlay></video>
-            </div>
-            <div style={{width: '40%', height: 'fit-content', padding: '2px'}}>
-              <video height="auto" width="100%" id="localVideo" playsInline autoPlay></video>
-            </div>
+            {game.infoType.includes("VIDEO") && (
+              <div style={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'end',
+                boxSizing: 'border-box'
+              }}>
+                <div style={{width: '60%', height: 'fit-content', padding: '2px'}}>
+                  <Card
+                    headStyle={{backgroundColor: '#1677ff', color: 'white'}}
+                    bodyStyle={{padding: '0px'}}
+                    size={"small"} title={"Other Person"}>
+                    <video height="auto" width="100%" id="remoteVideo" playsInline autoPlay></video>
+                  </Card>
+                </div>
+                <div style={{width: '40%', height: 'fit-content', padding: '2px'}}>
+                  <Card
+                    headStyle={{backgroundColor: '#1677ff', color: 'white'}}
+                    bodyStyle={{padding: '0px'}}
+                    size={"small"} title={"You"}>
+                    <video height="auto" width="100%" id="localVideo" playsInline autoPlay></video>
+                  </Card>
+                </div>
+              </div>)
+            }
           </div>
           <div style={{height: '45%', width: '100%'}}>
             {

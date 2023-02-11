@@ -40,6 +40,8 @@ const Intro = ({game, callback}: IntroProps) => {
               <li>You can see each other through the webcam</li>
             )}
           </ul>
+
+
         </div>
         <Divider/>
         {action !== null && (
@@ -49,45 +51,18 @@ const Intro = ({game, callback}: IntroProps) => {
         )}
         {action == null && (
           <div>
-            Before proceeding please answer this preliminary questions honestly.
-
-            <Form
-              layout='vertical'
-              initialValues={{
-                'know': false,
-                'trust': 5
-              }}
-              onFinish={(values) => {
-                setAction(values)
-                callback(values)
+            <p>
+              Take a minute to look around the screen and press ready when you are done.
+            </p>
+            <Button
+              type="primary"
+              onClick={() => {
+                setAction('')
+                callback('')
               }}
             >
-
-              <Form.Item
-                label="Do you personally know the other person?"
-                name="know"
-                rules={[{required: true, message: 'Please, answer this question first'}]}
-              >
-                <Select
-                  style={{width: 'fit-content'}}
-                  options={[{label: 'Yes', value: true}, {label: 'No', value: false}]}
-                  defaultValue={false}
-                />
-              </Form.Item>
-
-              <Form.Item
-                label="How trustworthy is the other person?"
-                name="trust"
-                rules={[{required: true, message: 'Please, answer this question first'}]}
-              >
-                <Slider min={0} max={10} defaultValue={5}/>
-              </Form.Item>
-
-              <Button type="primary" htmlType="submit">
-                Done
-              </Button>
-
-            </Form>
+              Ready
+            </Button>
           </div>
         )}
       </div>

@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 const {Option} = Select
 const {Title, Paragraph, Text, Link} = Typography;
 
-const Outro = () => {
+const Thanks = () => {
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState<number>(1);
   const intervalRef = useRef<null | NodeJS.Timeout>(null);
@@ -49,4 +49,4 @@ const Outro = () => {
   )
 };
 
-export default Outro;
+export default Thanks;

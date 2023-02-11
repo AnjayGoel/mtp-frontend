@@ -11,7 +11,7 @@ import Login from "./pages/Login";
 import {GameContainer} from "./pages/GameContainer";
 import Instructions from "./pages/Instructions";
 import Home from "./pages/Home";
-import Outro from "./pages/Outro";
+import Thanks from "./pages/Thanks";
 
 const App = () => {
 
@@ -93,7 +93,7 @@ const App = () => {
             </Route>
             <Route path="/login" element={<Login/>}/>
             <Route path="/instructions" element={<Instructions/>}/>
-            <Route path="/outro" element={<Outro/>}/>
+            <Route path="/thanks" element={<Thanks/>}/>
           </Routes>
         </HashRouter>
       </div>

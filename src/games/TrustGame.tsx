@@ -24,21 +24,21 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
     if (game.isServer) {
       for (let email in game.state) {
         if (email === getUserInfo()['email']) {
-          setServerAction(game.state[email]['action'])
+          setServerAction(game.state[email])
         } else {
-          setClientAction(game.state[email]['action'])
+          setClientAction(game.state[email])
         }
       }
     } else {
       for (let email in game.state) {
         if (email === getUserInfo()['email']) {
-          setClientAction(game.state[email]['action'])
+          setClientAction(game.state[email])
         } else {
-          setServerAction(game.state[email]['action'])
-          if (game.state[email]['action'] === 0) {
+          setServerAction(game.state[email])
+          if (game.state[email] === 0) {
             setClientAction(0)
           }
-          setResponse(Math.floor(game.state[email]['action'] * 3 / 2))
+          setResponse(Math.floor(game.state[email] * 3 / 2))
         }
       }
     }
@@ -98,7 +98,7 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
                 <Col span={4}>
                   <Button block onClick={() => {
                     setServerAction(response)
-                    callback({action: response})
+                    callback(response)
                   }}>
                     Done
                   </Button></Col>
@@ -114,7 +114,8 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
 
         {!game.isServer && serverAction !== null && clientAction == null && (
           <div>
-            <Text strong>The other player sent you {serverAction} rupees. You now have {serverAction * 3} rupees</Text>.
+            <Text strong>The other player sent you {serverAction} rupees. You now
+              have {serverAction * 3} rupees. </Text>
             <Text>How much will you send back?</Text>
             <Row gutter={24} style={{width: '40vw'}}>
               <Col span={20}>
@@ -128,7 +129,7 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
               <Col span={4}>
                 <Button block onClick={() => {
                   setClientAction(response)
-                  callback({action: response})
+                  callback(response)
                 }}>
                   Done
                 </Button></Col>
