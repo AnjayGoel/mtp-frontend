@@ -298,7 +298,12 @@ export const GameContainer = () => {
                     headStyle={{backgroundColor: '#1677ff', color: 'white'}}
                     bodyStyle={{padding: '0px'}}
                     size={"small"} title={"Other Person"}>
-                    <video height="auto" width="100%" id="remoteVideo" playsInline autoPlay></video>
+                    <video
+                      height="auto"
+                      width="100%"
+                      id="remoteVideo"
+                      poster={game.opponent['avatar'].replace("s96", "s512")}
+                      playsInline autoPlay></video>
                   </Card>
                 </div>
                 <div style={{width: '40%', height: 'fit-content', padding: '2px'}}>
