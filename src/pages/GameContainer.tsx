@@ -27,8 +27,7 @@ export const GameContainer = () => {
       name: 'System',
       email: 'system',
       avatar: '',
-      message: 'You can chat with each other here'
-
+      message: 'Chat with the other player here'
     }
   ]);
   const [game, setGame] = useState<Game | null>(null);
@@ -152,8 +151,9 @@ export const GameContainer = () => {
 
   const handleGameUpdate = (message: any) => {
     if (game == null) return;
-    game.state = message['state']
-    setGame(game)
+    //let newGame = {...game, state:message['state']}
+    //newGame.state = message['state']
+    setGame({...game, state: message['state']})
   }
 
   const handleWebsocketMessage = (message: MessageEvent) => {
@@ -162,10 +162,7 @@ export const GameContainer = () => {
     let data = messageJSON["data"]
     let type = messageJSON["type"]
 
-
-    console.log(type)
     console.log(messageJSON)
-    console.log('------------NM---------------')
 
     if (type === Commands.CHAT) {
       setChats(chats.concat(data));
@@ -252,6 +249,7 @@ export const GameContainer = () => {
           {game.gameId === 4 && (
             <Fade show={game.gameId === 4}>
               <TrustGame
+                state={game.state}
                 game={game}
                 callback={(event: any) => {
                   sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))

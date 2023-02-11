@@ -30,9 +30,12 @@ export const getUseQueryOptions = (
     enabled: enabled,
   }
 }
+export const isProd = (): boolean => {
+  return process.env.REACT_APP_ENV === 'prod'
+}
 
-export const getSuperscript = (num: string)=>{
-  switch (parseInt(num)){
+export const getSuperscript = (num: string) => {
+  switch (parseInt(num)) {
     case 1:
       return <span>1<sup>st</sup></span>
     case 2:

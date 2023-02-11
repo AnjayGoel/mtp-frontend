@@ -11,9 +11,10 @@ const {Title, Paragraph, Text, Link} = Typography;
 export interface TrustGameProps {
   game: Game
   callback: Function
+  state: any
 }
 
-const TrustGame = ({game, callback}: TrustGameProps) => {
+const TrustGame = ({game, callback, state}: TrustGameProps) => {
 
   const [serverAction, setServerAction] = useState<number | null>(null)
   const [clientAction, setClientAction] = useState<number | null>(null)
@@ -34,6 +35,9 @@ const TrustGame = ({game, callback}: TrustGameProps) => {
           setClientAction(game.state[email]['action'])
         } else {
           setServerAction(game.state[email]['action'])
+          if (game.state[email]['action'] === 0) {
+            setClientAction(0)
+          }
           setResponse(Math.floor(game.state[email]['action'] * 3 / 2))
         }
       }

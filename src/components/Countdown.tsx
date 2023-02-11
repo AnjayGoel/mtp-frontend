@@ -45,8 +45,9 @@ const CountDown = ({timeout, callback, gameId}: CountDownProps) => {
       startCountdown()
     }
   }, [countdown])
-
-
+  if (gameId === 0) {
+    return <div/>
+  }
   return (<Progress showInfo={false} percent={countdown * 100 / timeout}/>)
 };
 
