@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Col, notification, Row, Spin, Typography} from "antd";
 import useWebSocket from "react-use-websocket";
 import {ChatMessageProps} from "../components/ChatMessage";
@@ -14,6 +14,7 @@ import Machine from "../games/Machine";
 import Fade from "../games/Fade";
 import "../games/styles.css";
 import Outro from "./Outro";
+import CountDown from "../components/Countdown";
 
 const {Text, Link} = Typography;
 
@@ -21,8 +22,18 @@ export const GameContainer = () => {
   const navigate = useNavigate();
 
   const [socketUrl, setSocketUrl] = useState(process.env["REACT_APP_WS_URL"] as string);
-  const [chats, setChats] = useState<ChatMessageProps[]>([]);
+  const [chats, setChats] = useState<ChatMessageProps[]>([
+    {
+      name: 'System',
+      email: 'system',
+      avatar: '',
+      message: 'You can chat with each other here'
+
+    }
+  ]);
   const [game, setGame] = useState<Game | null>(null);
+
+
   const {sendMessage, lastMessage} = useWebSocket(socketUrl, {
     share: true,
     queryParams: {'token': localStorage.getItem('token')!!}
@@ -155,6 +166,7 @@ export const GameContainer = () => {
     console.log(type)
     console.log(messageJSON)
     console.log('------------NM---------------')
+
     if (type === Commands.CHAT) {
       setChats(chats.concat(data));
     } else if (type === Commands.GAME_START) {
@@ -199,6 +211,12 @@ export const GameContainer = () => {
     <Row style={{width: '100%', height: '100%'}}>
       <Col span={16}>
         <div>
+          {(
+            <CountDown gameId={game.gameId} timeout={game.config['timeout']} callback={() => {
+              if (game === null) return;
+              sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: game?.config['default']}))
+            }}/>
+          )}
           {game.gameId === 0 && (
             <Fade show={game.gameId === 0}>
               <Outro/>

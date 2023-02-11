@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Button, Col, Divider, Image, notification, Progress, Row, Select, Slider, Space, Typography} from "antd";
+import React, {useEffect, useState} from 'react';
+import {Button, Col, Divider, Image, Row, Select, Slider, Space, Typography} from "antd";
 import image from "../assets/TrustGame.png"
 import {LoadingOutlined} from "@ant-design/icons";
 import {getUserInfo} from "../utils";
@@ -18,24 +18,6 @@ const TrustGame = ({game, callback}: TrustGameProps) => {
   const [serverAction, setServerAction] = useState<number | null>(null)
   const [clientAction, setClientAction] = useState<number | null>(null)
   const [response, setResponse] = useState<number>(50)
-
-  const [countdown, setCountdown] = useState<number>(1);
-  const intervalRef = useRef<null | NodeJS.Timeout>(null);
-
-  const initInterval = () => {
-    intervalRef.current = setInterval(() => {
-      setCountdown(countdown + 1)
-    }, 1000);
-    return () => clearInterval(intervalRef.current as NodeJS.Timeout);
-  }
-
-  const reset = () => {
-    setServerAction(null)
-    setClientAction(null)
-    setResponse(5)
-    setCountdown(0)
-    initInterval()
-  }
 
   useEffect(() => {
     if (game.isServer) {
@@ -59,58 +41,41 @@ const TrustGame = ({game, callback}: TrustGameProps) => {
 
   }, [game.state])
 
-  useEffect(() => {
-    return initInterval()
-  });
-
-  useEffect(() => {
-    if (game.config['timeout'] - countdown < 5 && game.config['timeout'] - countdown > 0) {
-      notification.info({
-        message: `Next game starting in ${game.config['timeout'] - countdown}`,
-        key: 'timeout'
-      })
-    }
-    if (game.config['timeout'] - countdown < 0 || game.config['timeout'] - countdown > 5) {
-      notification.destroy('timeout')
-    }
-
-    if (countdown > game.config['timeout']) {
-      clearInterval(intervalRef.current as NodeJS.Timeout);
-      if ((game.isServer && serverAction == null) || (!game.isServer && clientAction == null)) {
-        callback(game.config['default'])
-      }
-      reset()
-    }
-  }, [countdown])
-
 
   return (
     <Typography>
-      <Progress showInfo={false} percent={countdown * 100 / game.config['timeout']}/>
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
         <Image width={'25em'} src={image}/>
         <div style={{padding: '10px'}}>
           {
             game.isServer && (
               <Paragraph>
-                After the whole ordeal with the police, you and the other player have stumbled upon another opportunity in the stock market (its totally legal).
-                  <ul>
-                    <li> You have 100 rupees, you can keep any proportion (including all) of it and invest the rest</li>
-                    <li> Whatever you invest will be <Text strong>tripled</Text> and given to the other player</li>
-                    <li> The other player will have an option to keep any proportion (including all) of the sum and send rest back to you</li>
-                  </ul>
+                After the whole ordeal with the police, you and the other player have stumbled upon another opportunity in
+                the stock market (its totally legal).
+                <ul>
+                  <li> You have 100 rupees, you can keep any proportion (including all) of it and invest the rest</li>
+                  <li> Whatever you invest will be <Text strong>tripled</Text> and given to the other player</li>
+                  <li> The other player will have an option to keep any proportion (including all) of the sum and send
+                    rest back to you
+                  </li>
+                </ul>
               </Paragraph>
             )
           }
           {!game.isServer && (
             <Paragraph>
-                  After the whole ordeal with the police, you and the other player have stumbled upon another opportunity in the stock market (its totally legal).
-                  <ul>
-                    <li> The other player has 100 rupees, they can keep any proportion (including all) of it and invest the rest</li>
-                    <li> Whatever they invest will be <Text strong>tripled</Text> and given to the you</li>
-                    <li> You have an option to keep any proportion (including all) of the sum and send rest back to the other player</li>
-                  </ul>
-              </Paragraph>
+              After the whole ordeal with the police, you and the other player have stumbled upon another opportunity in
+              the stock market (its totally legal).
+              <ul>
+                <li> The other player has 100 rupees, they can keep any proportion (including all) of it and invest the
+                  rest
+                </li>
+                <li> Whatever they invest will be <Text strong>tripled</Text> and given to the you</li>
+                <li> You have an option to keep any proportion (including all) of the sum and send rest back to the
+                  other player
+                </li>
+              </ul>
+            </Paragraph>
           )}
         </div>
         <Divider/>

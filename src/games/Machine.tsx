@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Button, Col, Divider, Image, notification, Progress, Row, Select, Slider, Space, Typography} from "antd";
+import React, {useState} from 'react';
+import {Button, Col, Divider, Image, Row, Select, Space, Typography} from "antd";
 import image from "../assets/Machine.png"
 import {LoadingOutlined} from "@ant-design/icons";
 import {Game} from "../api";
@@ -13,50 +13,10 @@ export interface MachineProps {
 }
 
 const Machine = ({game, callback}: MachineProps) => {
-
   const [action, setAction] = useState<string | null>(null)
-
-  const [countdown, setCountdown] = useState<number>(1);
-  const intervalRef = useRef<null | NodeJS.Timeout>(null);
-
-  const initInterval = () => {
-    intervalRef.current = setInterval(() => {
-      setCountdown(countdown + 1)
-    }, 1000);
-    return () => clearInterval(intervalRef.current as NodeJS.Timeout);
-  }
-
-  const reset = () => {
-    setAction(null)
-    setCountdown(0)
-    initInterval()
-  }
-
-  useEffect(() => {
-    return initInterval()
-  });
-
-  useEffect(() => {
-    if (game.config['timeout'] - countdown < 5 && game.config['timeout'] - countdown > 0) {
-      notification.info({
-        message: `Next game starting in ${game.config['timeout'] - countdown}`,
-        key: 'timeout'
-      })
-    }
-    if (game.config['timeout'] - countdown < 0 || game.config['timeout'] - countdown > 5) {
-      notification.destroy('timeout')
-    }
-
-    if (countdown > game.config['timeout']) {
-      clearInterval(intervalRef.current as NodeJS.Timeout);
-      callback(game.config['default'])
-      reset()
-    }
-  }, [countdown])
 
   return (
     <Typography>
-      <Progress showInfo={false} percent={countdown * 100 / game.config['timeout']}/>
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
         <Image width='25em' src={image}/>
         <Paragraph style={{padding: '10px'}}>

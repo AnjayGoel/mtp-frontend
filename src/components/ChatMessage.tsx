@@ -1,6 +1,7 @@
 import React from 'react';
 import {Avatar, Col, Row, Typography} from "antd";
 import {getUserInfo} from "../utils";
+import {RobotOutlined} from "@ant-design/icons";
 
 const {Title, Paragraph, Text, Link} = Typography;
 
@@ -14,7 +15,13 @@ export interface ChatMessageProps {
 
 const ChatMessage = ({name, email, avatar, message}: ChatMessageProps) => {
 
-  let isSelf = email === getUserInfo()["email"]
+  let userAvatar: any = avatar
+  let isSystem = email === "system"
+  let isSelf = email === getUserInfo()["email"] || isSystem
+  if (isSystem){
+    userAvatar = <RobotOutlined />
+  }
+
 
   return (
     <div style={{
@@ -26,14 +33,17 @@ const ChatMessage = ({name, email, avatar, message}: ChatMessageProps) => {
     }}>
       <Row style={{height: 'fit-content'}} gutter={12}>
         <Col span={2}>
-          <Avatar style={{marginTop: '5px', marginLeft: '5px'}} src={avatar}/>
+          <Avatar style={{marginTop: '5px', marginLeft: '5px'}} src={userAvatar}/>
         </Col>
         <Col style={{
           height: 'fit-content',
           marginLeft: '5px',
           paddingBottom: '5px'
         }} span={21}>
-          <Text style={{color: isSelf ? 'white' : 'black'}} strong>{isSelf ? "You" : "Other Person"}</Text>
+          {isSystem && (<Text style={{color: 'white'}} strong>System</Text>)}
+          {!isSystem && (
+            <Text style={{color: isSelf ? 'white' : 'black'}} strong>{isSelf ? "You" : "Other Person"}</Text>
+          )}
           <br/>
           <div style={{wordWrap: 'break-word'}}>{message}</div>
         </Col>
