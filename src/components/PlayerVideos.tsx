@@ -58,6 +58,7 @@ const PlayerVideos = ({localStream, remoteStream, remoteAvatar}: PlayerVideosPro
             height="auto"
             width="100%"
             ref={localRef}
+            poster={getUserInfo()['picture'].replace("s96-c", "s512-c")}
             playsInline autoPlay/>
         </Card>
       </div>

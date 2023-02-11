@@ -291,9 +291,11 @@ export const GameContainer = () => {
             width: '100%',
             height: '30%'
           }}>
-            <PlayerVideos localStream={localStream}
-                          remoteStream={remoteStream}
-                          remoteAvatar={game.opponent['avatar']}/>
+            {game.infoType.includes("VIDEO") &&
+                <PlayerVideos localStream={localStream}
+                              remoteStream={remoteStream}
+                              remoteAvatar={game.opponent['avatar']}/>
+            }
           </div>
           <div style={{height: '45%', width: '100%'}}>
             {
