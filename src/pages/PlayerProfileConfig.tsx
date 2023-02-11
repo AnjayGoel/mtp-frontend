@@ -95,7 +95,9 @@ const PlayerProfileConfig = ({isUpdate, closeCallback}: PlayerProfileConfigProps
         <Form.Item
           name="upi_id"
           label="UPI ID"
-          rules={[{required: true, message: ''}]}
+          help={"Used to pay participation rewards if any"}
+          rules={[{required: false, message: ''}]}
+          style={{paddingBottom:'10px'}}
         >
           <Input/>
         </Form.Item>

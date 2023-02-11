@@ -1,7 +1,5 @@
 import React from 'react';
 import {Select, Typography} from "antd";
-import rpcImage from "../assets/old/rpc.png"
-import sgImage from "../assets/old/sq.png"
 
 const {Option} = Select
 const {Title, Paragraph, Text, Link} = Typography;
@@ -37,7 +35,6 @@ const Instructions = () => {
       </Paragraph>
 
       <span style={{display:'flex', justifyContent:'center'}}>
-        <img style={{ width:'20em', height:'20em'}} src={rpcImage}/>
         <div style={{paddingLeft:'10px'}}>
         In the <Text strong>simultaneously games</Text>, both you and the other player will make a choice
         simultaneously, like a <Text strong>game of rock paper and scissors</Text>. The possible outcomes of each game
@@ -57,7 +54,6 @@ const Instructions = () => {
         their choice. The leaf (last) nodes have the payoff marked as a pair with payoff of first player coming first.
         For example the game below
         </div>
-        <img style={{ width:'25em', height:'20em'}}  src={sgImage}/>
       </div>
 
     </Typography>

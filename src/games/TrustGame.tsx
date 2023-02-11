@@ -143,24 +143,6 @@ const TrustGame = ({game, callback}: TrustGameProps) => {
           </Space>
         )}
 
-        {game.isServer && serverAction !== null && clientAction !== null && (
-          <Space>
-            <Text strong>
-              The other player sent back {clientAction} rupees.<br/>
-              Final payoffs: You: {clientAction + 100 - serverAction} & Other Player: {serverAction * 3 - clientAction}
-            </Text>
-          </Space>
-        )}
-
-        {!game.isServer && clientAction !== null && serverAction !== null && (
-          <Space>
-            <Text strong>
-              You sent {clientAction} rupees back out of {3 * serverAction}.<br/>
-              Final payoffs: You: {serverAction * 3 - clientAction} & Other Player: {clientAction + 100 - serverAction}
-            </Text>
-          </Space>
-        )}
-
         {!game.isServer && serverAction !== null && clientAction == null && (
           <div>
             <Text strong>The other player sent you {serverAction} rupees. You now have {serverAction * 3} rupees</Text>.

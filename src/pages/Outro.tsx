@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 const {Option} = Select
 const {Title, Paragraph, Text, Link} = Typography;
 
-const Instructions = () => {
+const Outro = () => {
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState<number>(1);
   const intervalRef = useRef<null | NodeJS.Timeout>(null);
@@ -42,11 +42,11 @@ const Instructions = () => {
       display: 'flex',
       flexDirection: 'column'
     }}>
-      <Title level={2}>Thanks You</Title>
+      <Title level={2}>Thank You</Title>
       <span>for taking part in the experiment</span>
-      <span>Returning To Home Page In {Math.max(5 - countdown, 0)} Seconds</span>
+      <span>Returning to the home page in {Math.max(5 - countdown, 0)} Seconds</span>
     </Typography>
   )
 };
 
-export default Instructions;
+export default Outro;

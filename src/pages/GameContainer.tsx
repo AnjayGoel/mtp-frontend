@@ -195,28 +195,25 @@ export const GameContainer = () => {
     </div>
   }
 
-  if (game.gameId === 4) {
-    return (
-      <Fade show={game.gameId === 4}>
-        <Outro/>
-      </Fade>
-    )
-  }
-
   return (
     <Row style={{width: '100%', height: '100%'}}>
       <Col span={16}>
         <div>
           {game.gameId === 0 && (
             <Fade show={game.gameId === 0}>
+              <Outro/>
+            </Fade>
+          )}
+          {game.gameId === 1 && (
+            <Fade show={game.gameId === 1}>
               <Intro game={game} callback={(event: any) => {
                 sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
               }}/>
             </Fade>
           )
           }
-          {game.gameId === 1 && (
-            <Fade show={game.gameId === 1}>
+          {game.gameId === 2 && (
+            <Fade show={game.gameId === 2}>
               <Machine
                 game={game}
                 callback={(event: any) => {
@@ -224,8 +221,8 @@ export const GameContainer = () => {
                 }}/>
             </Fade>
           )}
-          {game.gameId === 2 && (
-            <Fade show={game.gameId === 2}>
+          {game.gameId === 3 && (
+            <Fade show={game.gameId === 3}>
               <PrisonerDilemma
                 game={game}
                 callback={(event: any) => {
@@ -234,8 +231,8 @@ export const GameContainer = () => {
             </Fade>
           )}
 
-          {game.gameId === 3 && (
-            <Fade show={game.gameId === 3}>
+          {game.gameId === 4 && (
+            <Fade show={game.gameId === 4}>
               <TrustGame
                 game={game}
                 callback={(event: any) => {

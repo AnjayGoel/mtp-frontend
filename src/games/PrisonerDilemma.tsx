@@ -39,7 +39,7 @@ const PrisonerDilemma = ({game, callback}: PrisonerDilemmaProps) => {
   useEffect(() => {
     if (game.config['timeout'] - countdown < 5 && game.config['timeout'] - countdown > 0) {
       notification.info({
-        message: `Next game starting in ${game.config['timeout'] - countdown}`,
+        message: `Hurry, ending in ${game.config['timeout'] - countdown} seconds`,
         key: 'timeout'
       })
     }
