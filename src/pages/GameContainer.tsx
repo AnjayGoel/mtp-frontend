@@ -13,9 +13,9 @@ import Intro from "../games/Intro";
 import Machine from "../games/Machine";
 import Fade from "../games/Fade";
 import "../games/styles.css";
-import Thanks from "./Thanks";
 import CountDown from "../components/Countdown";
 import Outro from "../games/Outro";
+import PlayerVideos from "../components/PlayerVideos";
 
 const {Text, Link} = Typography;
 
@@ -32,6 +32,8 @@ export const GameContainer = () => {
     }
   ]);
   const [game, setGame] = useState<Game | null>(null);
+  const [localStream, setLocalStream] = useState<MediaStream | null>(null);
+  const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
 
 
   const {sendMessage, lastMessage} = useWebSocket(socketUrl, {
@@ -56,9 +58,14 @@ export const GameContainer = () => {
           audio: false,
           video: true
         };
+
+        if (localStream !== null && remoteStream !== null) {
+          return;
+        }
+
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
         stream.getTracks().forEach(track => webRTCPeer.addTrack(track, stream));
-        (document.querySelector('#localVideo') as HTMLMediaElement).srcObject = stream;
+        setLocalStream(stream)
 
         if (game.isServer) {
           const localPeerOffer = await webRTCPeer.createOffer();
@@ -99,7 +106,7 @@ export const GameContainer = () => {
 
   webRTCPeer.addEventListener('track', (event) => {
     const [stream] = event.streams;
-    (document.querySelector('#remoteVideo') as HTMLMediaElement).srcObject = stream;
+    setRemoteStream(stream)
   })
 
   const sendMediaAnswer = (peerAnswer: any, data: any) => {
@@ -284,38 +291,9 @@ export const GameContainer = () => {
             width: '100%',
             height: '30%'
           }}>
-            {game.infoType.includes("VIDEO") && (
-              <div style={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'end',
-                boxSizing: 'border-box'
-              }}>
-                <div style={{width: '60%', height: 'fit-content', padding: '2px'}}>
-                  <Card
-                    headStyle={{backgroundColor: '#1677ff', color: 'white'}}
-                    bodyStyle={{padding: '0px'}}
-                    size={"small"} title={"Other Person"}>
-                    <video
-                      height="auto"
-                      width="100%"
-                      id="remoteVideo"
-                      poster={game.opponent['avatar'].replace("s96", "s512")}
-                      playsInline autoPlay></video>
-                  </Card>
-                </div>
-                <div style={{width: '40%', height: 'fit-content', padding: '2px'}}>
-                  <Card
-                    headStyle={{backgroundColor: '#1677ff', color: 'white'}}
-                    bodyStyle={{padding: '0px'}}
-                    size={"small"} title={"You"}>
-                    <video height="auto" width="100%" id="localVideo" playsInline autoPlay></video>
-                  </Card>
-                </div>
-              </div>)
-            }
+            <PlayerVideos localStream={localStream}
+                          remoteStream={remoteStream}
+                          remoteAvatar={game.opponent['avatar']}/>
           </div>
           <div style={{height: '45%', width: '100%'}}>
             {
