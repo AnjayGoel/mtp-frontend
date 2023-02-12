@@ -17,10 +17,12 @@ import CountDown from "../components/Countdown";
 import Outro from "../games/Outro";
 import PlayerVideos from "../components/PlayerVideos";
 
-const {Text, Link} = Typography;
+const {Text} = Typography;
 
 export const GameContainer = () => {
   const navigate = useNavigate();
+
+  const intervalRef = useRef<null | NodeJS.Timeout>(null);
 
   const [socketUrl, setSocketUrl] = useState(process.env["REACT_APP_WS_URL"] as string);
   const [chats, setChats] = useState<ChatMessageProps[]>([
@@ -38,7 +40,22 @@ export const GameContainer = () => {
 
   const {sendMessage, lastMessage} = useWebSocket(socketUrl, {
     share: true,
+    onError: (event) => {
+      navigate("/")
+    },
     queryParams: {'token': localStorage.getItem('token')!!}
+  });
+
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      if (game === null) {
+        console.log("PERIODIC FRONTEND")
+        sendMessage(JSON.stringify({type: Commands.RETRY_MATCHING, data: {}}))
+      } else {
+        clearInterval(intervalRef.current as NodeJS.Timeout);
+      }
+    }, 2500);
+    return () => clearInterval(intervalRef.current as NodeJS.Timeout);
   });
 
   const [webRTCPeer, setWebRTCPeer] = useState(new RTCPeerConnection({
@@ -149,7 +166,7 @@ export const GameContainer = () => {
   }
 
 
-  const handleGameDisconnect = (message: any) => {
+  const handlePlayerDisconnect = (message: any) => {
     notification.error({message: 'The other player has left the game', duration: 5})
     setGame(null)
     setChats([])
@@ -177,7 +194,7 @@ export const GameContainer = () => {
     } else if (type === Commands.GAME_UPDATE) {
       handleGameUpdate(data)
     } else if (type === Commands.PLAYER_DISCONNECT) {
-      handleGameDisconnect(data)
+      handlePlayerDisconnect(data)
     } else if (type === Commands.WEB_RTC_MEDIA_ANSWER) {
       handleMediaAnswer(data).then(r => {
       })
