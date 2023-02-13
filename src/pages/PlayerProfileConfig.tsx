@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
-import {Button, Form, Input, notification, Select, Spin} from "antd";
+import {Button, Form, Input, notification, Select, Spin, Typography} from "antd";
 import {useMutation, useQuery} from "react-query";
 import {getPlayer, signUp} from "../api";
 import {getUseQueryOptions} from "../utils";
 import {DEPARTMENTS, HALLS} from "../constants";
 
+const {Paragraph, Text} = Typography;
 const {Option} = Select
 
 export interface PlayerProfileConfigProps {
@@ -59,6 +60,10 @@ const PlayerProfileConfig = ({isUpdate, closeCallback}: PlayerProfileConfigProps
         layout='vertical'
         style={{width: 'fit-content'}}
       >
+        <Paragraph>
+          <Text strong>Note:</Text> No personal information will be shared with anyone. And the collected data will be
+          deleted after the completion of the project
+        </Paragraph>
         <Form.Item
           name="hall"
           label="Hall Of Residence"
@@ -97,7 +102,7 @@ const PlayerProfileConfig = ({isUpdate, closeCallback}: PlayerProfileConfigProps
           label="UPI ID"
           help={"Used to pay participation rewards if any"}
           rules={[{required: false, message: ''}]}
-          style={{paddingBottom:'10px'}}
+          style={{paddingBottom: '10px'}}
         >
           <Input/>
         </Form.Item>

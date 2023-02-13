@@ -24,8 +24,19 @@ const Intro = ({game, callback}: IntroProps) => {
         paddingLeft: '30px'
       }}>
         <div>
-          Welcome. To play the game, you have been paired with someone in realtime.<br/>
+          Welcome. As a part of the experiment, you have been paired with someone in realtime.<br/>
           <ul>
+            <li>
+              You will be presented with various scenario. The outcome of which depends on the choices made by you and
+              the
+              other player
+            </li>
+            <li>Though there is no real monetary reward, Please <Text strong>assume the scenarios to be real</Text>,
+              while making the decisions
+            </li>
+            <li>
+              You will not be shown the choices made by the other person and the outcome of each scenario
+            </li>
             {game.infoType.length === 0 && (
               <li>But alas, You can't know anything about them</li>
             )}
@@ -39,6 +50,7 @@ const Intro = ({game, callback}: IntroProps) => {
             {game.infoType.includes('VIDEO') && (
               <li>You can see each other through the webcam</li>
             )}
+
           </ul>
 
 
