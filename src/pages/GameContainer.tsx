@@ -54,7 +54,7 @@ export const GameContainer = () => {
       } else {
         clearInterval(intervalRef.current as NodeJS.Timeout);
       }
-    }, 20000);
+    }, 2500);
     return () => clearInterval(intervalRef.current as NodeJS.Timeout);
   });
 
