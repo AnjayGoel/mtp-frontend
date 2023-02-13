@@ -34,7 +34,8 @@ const PlayerVideos = ({localStream, remoteStream, remoteAvatar}: PlayerVideosPro
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'end',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        overflow: 'scroll'
       }}>
       <div style={{width: '60%', height: 'fit-content', padding: '2px'}}>
         <Card
