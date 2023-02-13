@@ -21,7 +21,7 @@ const {Text} = Typography;
 
 export const GameContainer = () => {
   const navigate = useNavigate();
-
+  const [paired, setPaired] = useState(false)
   const intervalRef = useRef<null | NodeJS.Timeout>(null);
 
   const [socketUrl, setSocketUrl] = useState(process.env["REACT_APP_WS_URL"] as string);
@@ -48,13 +48,12 @@ export const GameContainer = () => {
 
   useEffect(() => {
     intervalRef.current = setInterval(() => {
-      if (game === null) {
-        console.log("PERIODIC FRONTEND")
+      if (game === null && !paired) {
         sendMessage(JSON.stringify({type: Commands.RETRY_MATCHING, data: {}}))
       } else {
         clearInterval(intervalRef.current as NodeJS.Timeout);
       }
-    }, 2500);
+    }, 3000);
     return () => clearInterval(intervalRef.current as NodeJS.Timeout);
   });
 
@@ -156,6 +155,9 @@ export const GameContainer = () => {
 
 
   const handleGameStart = (message: any) => {
+    if (!paired) {
+      setPaired(true)
+    }
     setGame({
       gameId: message["game_id"],
       infoType: message["info_type"],
