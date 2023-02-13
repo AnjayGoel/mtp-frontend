@@ -179,6 +179,8 @@ export const GameContainer = () => {
 
 
   const handleGameUpdate = (message: any) => {
+    console.log(message)
+    console.log(game)
     if (game == null) return;
     if (game.state !== null && game.state !== undefined && game.state.length > message['state'].length) return;
     setGame({...game, state: message['state']})
