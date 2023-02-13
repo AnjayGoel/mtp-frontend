@@ -43,6 +43,15 @@ export const GameContainer = () => {
     onError: (event) => {
       navigate("/")
     },
+    onClose: () => {
+      if (game?.gameId !== 0) {
+        notification.error({
+          message: "You have been disconnected",
+          duration: 3
+        })
+        navigate('/')
+      }
+    },
     queryParams: {'token': localStorage.getItem('token')!!}
   });
 
