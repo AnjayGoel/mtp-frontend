@@ -170,6 +170,7 @@ export const GameContainer = () => {
 
 
   const handlePlayerDisconnect = (message: any) => {
+    if (game?.gameId === 0) return;
     notification.error({message: 'The other player has left the game', duration: 5})
     setGame(null)
     setChats([])
@@ -179,6 +180,7 @@ export const GameContainer = () => {
 
   const handleGameUpdate = (message: any) => {
     if (game == null) return;
+    if (game.state.length > message['state'].length) return;
     setGame({...game, state: message['state']})
   }
 
