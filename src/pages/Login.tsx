@@ -1,11 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {CredentialResponse, GoogleLogin} from '@react-oauth/google';
 import {useNavigate} from "react-router-dom";
-import {Modal, notification} from "antd";
+import {Card, Modal, notification, Typography} from "antd";
 import {getPlayer} from "../api";
 import {useQuery} from "react-query";
 import {getUseQueryOptions} from "../utils";
 import PlayerProfileConfig from "./PlayerProfileConfig";
+import {UserOutlined} from "@ant-design/icons";
+
+const {Text} = Typography;
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -43,11 +47,31 @@ const Login = () => {
     notification.error({message: 'Failed to login. Please try again'})
   };
   return (
-    <div style={{display: 'flex', justifyContent: "center", alignItems: 'center'}}>
-      <GoogleLogin
-        onSuccess={onSuccess}
-        onError={onFailure}
-      />
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: "center",
+        alignItems: 'center',
+        flexDirection: 'column',
+        gap: '5px'
+      }}>
+      <Card
+        bodyStyle={{
+          display: 'flex',
+          justifyContent: "center",
+          flexDirection: 'column',
+          gap: '10px'
+        }}
+        title={'Signup or Login with Google'}
+        size='small'>
+        <GoogleLogin
+          onSuccess={onSuccess}
+          onError={onFailure}
+        />
+      </Card>
+
       <Modal
         width={'30vw'}
         title="Profile" open={showPlayerProfile}
