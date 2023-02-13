@@ -145,6 +145,7 @@ export const GameContainer = () => {
   }
 
   const sendIceCandidate = (event: any) => {
+    if (remoteStream !== null) return;
     sendMessage(JSON.stringify({
       type: Commands.WEB_RTC_ICE_CANDIDATE,
       data: {

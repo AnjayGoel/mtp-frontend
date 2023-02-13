@@ -22,7 +22,7 @@ const ChatBox = ({chats, sendMessage}: ChatBoxProps) => {
 
   const onChatInput = () => {
     let userInfo = getUserInfo()
-    if (input==="")return;
+    if (input === "") return;
     sendMessage(
       JSON.stringify({
         type: Commands.CHAT,
@@ -50,22 +50,24 @@ const ChatBox = ({chats, sendMessage}: ChatBoxProps) => {
           width: '100%',
           height: '10%',
           padding: '10px',
-          borderRadius:'10px 10px 0 0',
-          backgroundColor:'#1677ff',
-          color:'white',
-          fontWeight:'bold'
-      }}>Chat</div>
+          borderRadius: '10px 10px 0 0',
+          backgroundColor: '#1677ff',
+          color: 'white',
+          fontWeight: 'bold'
+        }}>Chat
+      </div>
       <div
         ref={chatBoxRef}
         style={{
           paddingBottom: '5px',
           overflowY: 'scroll',
           height: '80%',
-          overflowX:'clip'
+          overflowX: 'clip'
         }}>{
-        chats.map(it => {
+        chats.map((it, _) => {
           return (
             <ChatMessage
+              key={_}
               name={it.name}
               email={it.email}
               avatar={it.avatar}
