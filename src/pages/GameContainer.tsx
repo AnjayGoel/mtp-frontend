@@ -299,7 +299,7 @@ export const GameContainer = () => {
       </Col>
       <Col span={8}>
         <div style={{width: '100%', height: '100%', maxHeight: '94vh', padding: '10px'}}>
-          <div style={{width: '100%', height: '25%', boxSizing: 'border-box'}}>
+          <div style={{width: '100%', height: '15%', boxSizing: 'border-box'}}>
             {
               game.infoType.includes("INFO") && game.opponent !== null && (
                 <div style={{wordBreak: 'break-word'}}>
@@ -313,7 +313,7 @@ export const GameContainer = () => {
           </div>
           <div style={{
             width: '100%',
-            height: '30%'
+            height: '40%'
           }}>
             {game.infoType.includes("VIDEO") &&
                 <PlayerVideos localStream={localStream}
