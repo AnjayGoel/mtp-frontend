@@ -97,7 +97,7 @@ const PlayerProfileConfig = ({isUpdate, closeCallback}: PlayerProfileConfigProps
           </Select>
         </Form.Item>
 
-        <Form.Item
+        {/*<Form.Item
           name="upi_id"
           label="UPI ID"
           help={"Used to pay participation rewards if any"}
@@ -105,7 +105,7 @@ const PlayerProfileConfig = ({isUpdate, closeCallback}: PlayerProfileConfigProps
           style={{paddingBottom: '10px'}}
         >
           <Input/>
-        </Form.Item>
+        </Form.Item>*/}
         <Button
           type='primary'
           htmlType='submit'
