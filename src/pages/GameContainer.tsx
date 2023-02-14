@@ -70,6 +70,9 @@ export const GameContainer = () => {
       iceServers: [
         {
           urls: "stun:stun.stunprotocol.org"
+        },
+        {
+          urls: 'stun:stun.l.google.com:19302'
         }
       ]
     }
@@ -153,7 +156,7 @@ export const GameContainer = () => {
   }
 
   const sendIceCandidate = (event: any) => {
-    if (remoteStream !== null) return;
+    if (remoteStream !== null && localStream !== null) return;
     sendMessage(JSON.stringify({
       type: Commands.WEB_RTC_ICE_CANDIDATE,
       data: {
