@@ -46,7 +46,7 @@ const PlayerProfileConfig = ({isUpdate, closeCallback}: PlayerProfileConfigProps
     signUpQuery.mutate(values)
   }
 
-  if (isUpdate && playerProfileQuery.isLoading) {
+  if ((isUpdate && playerProfileQuery.isLoading) || signUpQuery.isLoading) {
     return (
       <Spin tip={"Loading"}/>
     )
