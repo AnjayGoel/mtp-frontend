@@ -22,7 +22,7 @@ const Machine = ({game, callback}: MachineProps) => {
         <Paragraph style={{padding: '10px'}}>
           You and the other player have encountered a faulty ATM machine.
           If you put in 100 rupees in the machine, the other player gets
-          300 rupees and vice versa. You both can either choose to put in the money, or not to.
+          300 rupees (and you lose the 100 rupee, obviously) and vice versa. You both can either choose to put in the money, or not to.
         </Paragraph>
         <Divider/>
         {action === null && (

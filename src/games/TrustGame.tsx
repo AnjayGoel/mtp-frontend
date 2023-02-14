@@ -60,7 +60,7 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
                   <li> You have 100 rupees, you can keep any proportion (including all) of it and invest the rest</li>
                   <li> Whatever you invest will be <Text strong>tripled</Text> and given to the other player</li>
                   <li> The other player will have an option to keep any proportion (including all) of the sum and send
-                    rest back to you
+                    the rest back to you
                   </li>
                 </ul>
               </Paragraph>
@@ -75,7 +75,7 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
                   rest
                 </li>
                 <li> Whatever they invest will be <Text strong>tripled</Text> and given to the you</li>
-                <li> You have an option to keep any proportion (including all) of the sum and send rest back to the
+                <li> You have an option to keep any proportion (including all) of the sum and send the rest back to the
                   other player
                 </li>
               </ul>
