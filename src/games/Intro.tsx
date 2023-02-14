@@ -24,7 +24,7 @@ const Intro = ({game, callback}: IntroProps) => {
         paddingLeft: '30px'
       }}>
         <div>
-          Welcome. As a part of the experiment, you have been <Text strong>paired with someone in realtime.</Text><br/>
+          Welcome. As a part of the experiment, you have been <Text strong>paired with someone in realtime</Text><br/>
           <ul>
             <li>
               You will be presented with various scenario. The outcome of which depends on the choices made by you and

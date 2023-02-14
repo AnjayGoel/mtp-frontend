@@ -342,5 +342,4 @@ export const GameContainer = () => {
         </div>
       </Col>
     </Row>)
-
 }
