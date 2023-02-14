@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Card, Col, notification, Row, Spin, Typography} from "antd";
+import {Col, notification, Row, Spin, Typography} from "antd";
 import useWebSocket from "react-use-websocket";
 import {ChatMessageProps} from "../components/ChatMessage";
 import {useNavigate} from "react-router-dom";
@@ -254,11 +254,12 @@ export const GameContainer = () => {
     <Row style={{width: '100%', height: '100%'}}>
       <Col span={16}>
         <div>
-          {(
+          {(<div style={{paddingLeft:'10px'}}>
             <CountDown gameId={game.gameId} timeout={game.config['timeout']} callback={() => {
               if (game === null) return;
               sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: game?.config['default']}))
             }}/>
+          </div>
           )}
           {game.gameId === 1 && (
             <Fade show={game.gameId === 1}>

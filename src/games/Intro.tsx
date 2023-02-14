@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Divider, Form, Select, Slider, Space, Typography} from "antd";
+import {Button, Divider, Select, Space, Typography} from "antd";
 import {LoadingOutlined} from "@ant-design/icons";
 import {Game} from "../api";
 
@@ -21,7 +21,7 @@ const Intro = ({game, callback}: IntroProps) => {
         justifyContent: 'center',
         flexDirection: 'column',
         paddingRight: '10px',
-        paddingLeft: '30px'
+        paddingLeft: '10px'
       }}>
         <div>
           Welcome. As a part of the experiment, you have been <Text strong>paired with someone in realtime</Text><br/>

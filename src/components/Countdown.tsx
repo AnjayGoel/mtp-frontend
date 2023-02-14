@@ -1,6 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {notification, Progress} from "antd";
+import React, {useEffect, useState} from 'react';
+import {notification, Statistic} from "antd";
 
+const {Countdown} = Statistic;
 
 export interface CountDownProps {
   timeout: number,
@@ -9,46 +10,50 @@ export interface CountDownProps {
 }
 
 const CountDown = ({timeout, callback, gameId}: CountDownProps) => {
-  const [countdown, setCountdown] = useState<number>(1);
-  const intervalRef = useRef<null | NodeJS.Timeout>(null);
+  const [current, setCurrent] = useState<number>(0);
+  const [endTime, setEndTime] = useState(Date.now() + timeout * 1000);
 
   useEffect(() => {
-    setCountdown(0)
-  }, [gameId])
+    setCurrent(0)
+    setEndTime(Date.now() + timeout * 1000)
+  }, [gameId, timeout])
 
-  const startCountdown = () => {
-    intervalRef.current = setInterval(() => {
-      setCountdown(countdown + 1)
-    }, 1000);
-    return () => clearInterval(intervalRef.current as NodeJS.Timeout);
-  }
 
   useEffect(() => {
-    return startCountdown()
-  });
-
-  useEffect(() => {
-    if (timeout - countdown < 5 && timeout - countdown > 0) {
+    if (current < 5 && current > 0) {
       notification.info({
-        message: `Next game starting in ${timeout - countdown}`,
+        message: `Next game starting in ${current}`,
         key: 'timeout'
       })
     }
-    if (timeout - countdown < 0 || timeout - countdown > 5) {
+    if (current < 0 || current > 5) {
       notification.destroy('timeout')
     }
+  }, [current])
 
-    if (countdown > timeout) {
-      clearInterval(intervalRef.current as NodeJS.Timeout);
-      callback()
-      setCountdown(0)
-      startCountdown()
-    }
-  }, [countdown])
   if (gameId === 0) {
     return <div/>
   }
-  return (<Progress showInfo={false} percent={countdown * 100 / timeout}/>)
-};
+  return (
+    <span>
+      <Countdown
+        title="Time left" value={endTime}
+        valueStyle={{color: current < 5 ? 'red' : 'black'}} format='ss'
+        onChange={(value) => {
+          if (value === undefined) return;
+          if (typeof value == "string")
+            value = Math.floor(parseInt(value) / 1000);
+          else
+            value = Math.floor(value / 1000);
+          setCurrent(value)
+        }}
+        onFinish={() => {
+          callback()
+          setCurrent(0)
+          setEndTime(Date.now())
+        }}
+      />
+    </span>)
+}
 
 export default CountDown;
