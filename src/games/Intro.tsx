@@ -24,33 +24,32 @@ const Intro = ({game, callback}: IntroProps) => {
         paddingLeft: '10px'
       }}>
         <div>
-          Welcome. As a part of the experiment, you have been <Text strong>paired with someone in realtime</Text><br/>
-          <ul>
-            <li>
-              You will be presented with various scenario. The outcome of which depends on the choices made by you and
-              the other player
-            </li>
-            <li>Though there is no real monetary reward, Please <Text strong>assume the scenarios to be real</Text>,
-              while making the decisions
-            </li>
-            <li>
-              You will not be shown the choices made by the other person and the outcome of each scenario
-            </li>
-            {game.infoType.length === 0 && (
-              <li>But alas, You can't know anything about them</li>
-            )}
-            {game.infoType.includes('INFO') && (
-              <li>You can see some information about the other player in top right</li>
-            )}
-            {game.infoType.includes('CHAT') && (
-              <li>You can chat with them in bottom right box. But please <Text strong>do not identify yourself</Text>
-              </li>
-            )}
-            {game.infoType.includes('VIDEO') && (
-              <li>You can see each other through the webcam</li>
-            )}
-          </ul>
+          <Paragraph>
+            Welcome. As a part of the experiment, you have been <Text strong>paired with someone in
+            realtime</Text>. You will be presented with various scenario. Though there is no real monetary reward,
+            please <Text strong>assume the scenarios to be real</Text>, while making the decisions. Also note that
+            <Text strong> you will not know</Text> the choices made by other person or the outcome of each
+            scenario
+          </Paragraph>
+          {game.infoType.length !== 0 && (
+            <Paragraph>
+              However you can,
+              <ul>
+                {game.infoType.includes('INFO') && (
+                  <li>See some information about the other player in top right</li>
+                )}
 
+                {game.infoType.includes('CHAT') && (
+                  <li>
+                    Chat with them in bottom right box.
+                    But please <Text strong>do not reveal your identity</Text>
+                  </li>
+                )}
+                {game.infoType.includes('VIDEO') && (
+                  <li>See each other through the webcam</li>
+                )}
+              </ul>
+            </Paragraph>)}
 
         </div>
         <Divider/>

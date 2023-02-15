@@ -55,9 +55,11 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
             game.isServer && (
               <Paragraph>
                 After the whole ordeal with the police, you and the other player have stumbled upon another opportunity in
-                the stock market (its totally legal).
+                the stock market, this time its totally legal & safe.
                 <ul>
-                  <li> You have 100 rupees, you can keep any proportion (including all) of it and invest the rest</li>
+                  <li> You have <Text strong>₹1000</Text> , you can keep any proportion (including all) of it and invest
+                    the rest
+                  </li>
                   <li> Whatever you invest will be <Text strong>tripled</Text> and given to the other player</li>
                   <li> The other player will have an option to keep any proportion (including all) of the sum and send
                     the rest back to you
@@ -69,9 +71,10 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
           {!game.isServer && (
             <Paragraph>
               After the whole ordeal with the police, you and the other player have stumbled upon another opportunity in
-              the stock market (its totally legal).
+              the stock market, this time its totally legal & safe.
               <ul>
-                <li> The other player has 100 rupees, they can keep any proportion (including all) of it and invest the
+                <li> The other player has <Text strong>₹1000</Text>, they can keep any proportion (including all) of it
+                  and invest the
                   rest
                 </li>
                 <li> Whatever they invest will be <Text strong>tripled</Text> and given to the you</li>
@@ -89,8 +92,8 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
               <Row gutter={24} style={{width: '40vw'}}>
                 <Col span={20}>
                   <Slider
-                    marks={{0: 0, 100: 100}}
-                    defaultValue={50} min={0} max={100}
+                    marks={{0: "₹0", 1000: "₹1000"}}
+                    defaultValue={500} min={0} max={1000} step={50}
                     onChange={(value: number) => {
                       setResponse(value)
                     }}/>
@@ -114,8 +117,8 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
 
         {!game.isServer && serverAction !== null && clientAction == null && (
           <div>
-            <Text strong>The other player sent you {serverAction} rupees. You now
-              have {serverAction * 3} rupees. </Text>
+            The other player sent you <Text strong>₹{serverAction}</Text>. You now
+            have <Text strong>₹{serverAction * 3} </Text>
             <Text>How much will you send back?</Text>
             <Row gutter={24} style={{width: '40vw'}}>
               <Col span={20}>

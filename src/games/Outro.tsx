@@ -60,7 +60,13 @@ const Intro = ({game, callback}: IntroProps) => {
                 name="trust"
                 rules={[{required: true, message: 'Please, answer this question first'}]}
               >
-                <Slider min={0} max={10} defaultValue={5}/>
+                <Slider
+                  min={0}
+                  max={10}
+                  style={{maxWidth:'25vw'}}
+                  defaultValue={5}
+                  marks={{0:'0',10:'10'}}
+                />
               </Form.Item>
 
               <Button type="primary" htmlType="submit">

@@ -81,9 +81,8 @@ export const GameContainer = () => {
         if (game === null || !game.infoType.includes("VIDEO")) return;
         const constraints = {
           audio: false,
-          video: true
+          video: {width: 720, height: 480}
         };
-
         if (localStream !== null && remoteStream !== null) {
           return;
         }
@@ -253,10 +252,12 @@ export const GameContainer = () => {
       <Col span={16}>
         <div>
           {(<div style={{paddingLeft: '10px'}}>
-              <CountDown gameId={game.gameId} timeout={game.config['timeout']} callback={() => {
-                if (game === null) return;
-                sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: game?.config['default']}))
-              }}/>
+              <CountDown gameId={game.gameId}
+                         timeout={game.gameId === 4 && game.isServer ? game.config['timeout'] / 2 : game.config['timeout']}
+                         callback={() => {
+                           if (game === null) return;
+                           sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: game?.config['default']}))
+                         }}/>
             </div>
           )}
           {game.gameId === 1 && (
