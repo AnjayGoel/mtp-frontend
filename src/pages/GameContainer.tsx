@@ -69,10 +69,13 @@ export const GameContainer = () => {
   const [webRTCPeer, setWebRTCPeer] = useState(new RTCPeerConnection({
       iceServers: [
         {
-          urls: "stun:stun.stunprotocol.org"
+          urls: [
+            'stun:stun.l.google.com:19302',
+            'stun1.l.google.com:19302'
+          ]
         },
         {
-          urls: 'stun:stun.l.google.com:19302'
+          urls: "stun:stun.stunprotocol.org"
         }
       ]
     }
@@ -254,12 +257,12 @@ export const GameContainer = () => {
     <Row style={{width: '100%', height: '100%'}}>
       <Col span={16}>
         <div>
-          {(<div style={{paddingLeft:'10px'}}>
-            <CountDown gameId={game.gameId} timeout={game.config['timeout']} callback={() => {
-              if (game === null) return;
-              sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: game?.config['default']}))
-            }}/>
-          </div>
+          {(<div style={{paddingLeft: '10px'}}>
+              <CountDown gameId={game.gameId} timeout={game.config['timeout']} callback={() => {
+                if (game === null) return;
+                sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: game?.config['default']}))
+              }}/>
+            </div>
           )}
           {game.gameId === 1 && (
             <Fade show={game.gameId === 1}>
