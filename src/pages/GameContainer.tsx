@@ -3,7 +3,7 @@ import {Col, notification, Row, Spin, Typography} from "antd";
 import useWebSocket from "react-use-websocket";
 import {ChatMessageProps} from "../components/ChatMessage";
 import {useNavigate} from "react-router-dom";
-import {Commands} from "../constants";
+import {C} from "../constants";
 import ChatBox from "../components/ChatBox";
 import {getSuperscript} from "../utils";
 import {Game} from "../api";
@@ -23,7 +23,7 @@ export const GameContainer = () => {
   const navigate = useNavigate();
   const [paired, setPaired] = useState(false)
   const intervalRef = useRef<null | NodeJS.Timeout>(null);
-
+  const [remoteImageURI, setRemoteImageURI] = useState<string | null>(null)
   const [socketUrl, setSocketUrl] = useState(process.env["REACT_APP_WS_URL"] as string);
   const [chats, setChats] = useState<ChatMessageProps[]>([
     {
@@ -58,7 +58,7 @@ export const GameContainer = () => {
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       if (game === null && !paired) {
-        sendMessage(JSON.stringify({type: Commands.RETRY_MATCHING, data: {}}))
+        sendMessage(JSON.stringify({type: C.RETRY_MATCHING, data: {}}))
       } else {
         clearInterval(intervalRef.current as NodeJS.Timeout);
       }
@@ -128,6 +128,10 @@ export const GameContainer = () => {
     }
   }
 
+  const handleRemoteImageURI = (data: any) => {
+    setRemoteImageURI(data)
+  }
+
   webRTCPeer.addEventListener('track', (event) => {
     const [stream] = event.streams;
     console.log('remote track')
@@ -136,7 +140,7 @@ export const GameContainer = () => {
 
   const sendMediaAnswer = (peerAnswer: any, data: any) => {
     sendMessage(JSON.stringify({
-      type: Commands.WEB_RTC_MEDIA_ANSWER,
+      type: C.WEB_RTC_MEDIA_ANSWER,
       data: {
         answer: peerAnswer
       }
@@ -145,7 +149,7 @@ export const GameContainer = () => {
 
   const sendMediaOffer = (localPeerOffer: any) => {
     sendMessage(JSON.stringify({
-      type: Commands.WEB_RTC_MEDIA_OFFER,
+      type: C.WEB_RTC_MEDIA_OFFER,
       data: {
         offer: localPeerOffer
       }
@@ -155,7 +159,7 @@ export const GameContainer = () => {
   const sendIceCandidate = (event: any) => {
     if (remoteStream !== null && localStream !== null) return;
     sendMessage(JSON.stringify({
-      type: Commands.WEB_RTC_ICE_CANDIDATE,
+      type: C.WEB_RTC_ICE_CANDIDATE,
       data: {
         candidate: event.candidate
       }
@@ -203,23 +207,25 @@ export const GameContainer = () => {
 
     console.log(messageJSON)
 
-    if (type === Commands.CHAT) {
+    if (type === C.CHAT) {
       setChats(chats.concat(data));
-    } else if (type === Commands.GAME_START) {
+    } else if (type === C.GAME_START) {
       handleGameStart(data)
-    } else if (type === Commands.GAME_UPDATE) {
+    } else if (type === C.GAME_UPDATE) {
       handleGameUpdate(data)
-    } else if (type === Commands.PLAYER_DISCONNECT) {
+    } else if (type === C.PLAYER_DISCONNECT) {
       handlePlayerDisconnect(data)
-    } else if (type === Commands.WEB_RTC_MEDIA_ANSWER) {
+    } else if (type === C.WEB_RTC_MEDIA_ANSWER) {
       handleMediaAnswer(data).then(r => {
       })
-    } else if (type === Commands.WEB_RTC_MEDIA_OFFER) {
+    } else if (type === C.WEB_RTC_MEDIA_OFFER) {
       handleMediaOffer(data).then(r => {
       })
-    } else if (type === Commands.WEB_RTC_REMOTE_PEER_ICE_CANDIDATE) {
+    } else if (type === C.WEB_RTC_REMOTE_PEER_ICE_CANDIDATE) {
       handleRemotePeerIceCandidate(data).then(r => {
       })
+    } else if (type === C.REMOTE_IMAGE_URI) {
+      handleRemoteImageURI(data)
     }
   }
 
@@ -256,14 +262,14 @@ export const GameContainer = () => {
                          timeout={game.gameId === 4 && game.isServer ? game.config['timeout'] / 2 : game.config['timeout']}
                          callback={() => {
                            if (game === null) return;
-                           sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: game?.config['default']}))
+                           sendMessage(JSON.stringify({'type': C.GAME_UPDATE, data: game?.config['default']}))
                          }}/>
             </div>
           )}
           {game.gameId === 1 && (
             <Fade show={game.gameId === 1}>
               <Intro game={game} callback={(event: any) => {
-                sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
+                sendMessage(JSON.stringify({'type': C.GAME_UPDATE, data: event}))
               }}/>
             </Fade>
           )
@@ -273,7 +279,7 @@ export const GameContainer = () => {
               <Machine
                 game={game}
                 callback={(event: any) => {
-                  sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
+                  sendMessage(JSON.stringify({'type': C.GAME_UPDATE, data: event}))
                 }}/>
             </Fade>
           )}
@@ -282,7 +288,7 @@ export const GameContainer = () => {
               <PrisonerDilemma
                 game={game}
                 callback={(event: any) => {
-                  sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
+                  sendMessage(JSON.stringify({'type': C.GAME_UPDATE, data: event}))
                 }}/>
             </Fade>
           )}
@@ -293,7 +299,7 @@ export const GameContainer = () => {
                 state={game.state}
                 game={game}
                 callback={(event: any) => {
-                  sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
+                  sendMessage(JSON.stringify({'type': C.GAME_UPDATE, data: event}))
                 }}/>
             </Fade>
           )}
@@ -303,7 +309,7 @@ export const GameContainer = () => {
               <Outro
                 game={game}
                 callback={(event: any) => {
-                  sendMessage(JSON.stringify({'type': Commands.GAME_UPDATE, data: event}))
+                  sendMessage(JSON.stringify({'type': C.GAME_UPDATE, data: event}))
                 }}/>
             </Fade>
           )}
@@ -330,7 +336,14 @@ export const GameContainer = () => {
             {game.infoType.includes("VIDEO") &&
                 <PlayerVideos localStream={localStream}
                               remoteStream={remoteStream}
-                              remoteAvatar={game.opponent['avatar']}/>
+                              remoteAvatar={remoteImageURI == null ? game.opponent['avatar'] : remoteImageURI}
+                              imageCallback={(imageUri: string) => {
+                                sendMessage(JSON.stringify({
+                                  type: C.REMOTE_IMAGE_URI,
+                                  data: imageUri
+                                }))
+                              }}
+                />
             }
           </div>
           <div style={{height: '45%', width: '100%'}}>

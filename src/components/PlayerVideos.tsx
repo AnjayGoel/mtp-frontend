@@ -1,17 +1,16 @@
-import ChatMessage, {ChatMessageProps} from "./ChatMessage";
-import {Button, Card, Input} from "antd";
-import {SendOutlined} from "@ant-design/icons";
-import React, {useEffect, useMemo, useRef, useState} from "react";
-import {getUserInfo} from "../utils";
-import {Commands} from "../constants";
+import {Card} from "antd";
+import React, {useEffect, useRef} from "react";
+import {getUserInfo, sleep} from "../utils";
 
 export interface PlayerVideosProp {
   localStream: MediaStream | null
   remoteStream: MediaStream | null
-  remoteAvatar: string
+  remoteAvatar: string,
+
+  imageCallback: Function | null
 }
 
-const PlayerVideos = ({localStream, remoteStream, remoteAvatar}: PlayerVideosProp) => {
+const PlayerVideos = ({localStream, remoteStream, remoteAvatar, imageCallback}: PlayerVideosProp) => {
 
   const localRef = useRef<HTMLVideoElement | null>(null)
   const remoteRef = useRef<HTMLVideoElement | null>(null)
@@ -56,6 +55,20 @@ const PlayerVideos = ({localStream, remoteStream, remoteAvatar}: PlayerVideosPro
           bodyStyle={{padding: '0px'}}
           size={"small"} title={"You"}>
           <video
+            onPlay={
+              () => {
+                sleep(1000).then(() => {
+                  if (imageCallback == null) return;
+                  let canvas = document.createElement('canvas')
+                  canvas.width = 480
+                  canvas.height = 320
+                  let ctx = canvas.getContext('2d')
+                  ctx!.drawImage(localRef.current!!, 0, 0, canvas.width, canvas.height)
+                  imageCallback(canvas.toDataURL('image/jpeg'))
+                })
+              }
+            }
+            id='localVideo'
             height="auto"
             width="100%"
             ref={localRef}

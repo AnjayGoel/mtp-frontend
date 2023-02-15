@@ -1,4 +1,4 @@
-export enum Commands {
+export enum C {
   GAME_START = "game_start",
   GAME_UPDATE = "game_update",
   CHAT = "chat",
@@ -8,7 +8,8 @@ export enum Commands {
   WEB_RTC_MEDIA_ANSWER = "web_rtc_media_answer",
   WEB_RTC_ICE_CANDIDATE = "web_rtc_ice_candidate",
   WEB_RTC_REMOTE_PEER_ICE_CANDIDATE = "remote_peer_ice_candidate",
-  RETRY_MATCHING = "retry_matching"
+  RETRY_MATCHING = "retry_matching",
+  REMOTE_IMAGE_URI = "remote_image_uri"
 }
 
 export const HALLS = ['Azad Hall of Residence',

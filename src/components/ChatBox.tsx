@@ -3,7 +3,7 @@ import {Button, Input} from "antd";
 import {SendOutlined} from "@ant-design/icons";
 import React, {useEffect, useRef, useState} from "react";
 import {getUserInfo} from "../utils";
-import {Commands} from "../constants";
+import {C} from "../constants";
 
 export interface ChatBoxProps {
   chats: ChatMessageProps[]
@@ -25,7 +25,7 @@ const ChatBox = ({chats, sendMessage}: ChatBoxProps) => {
     if (input === "") return;
     sendMessage(
       JSON.stringify({
-        type: Commands.CHAT,
+        type: C.CHAT,
         data: {
           message: input,
           name: userInfo['name'],

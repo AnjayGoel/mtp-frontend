@@ -49,3 +49,8 @@ export const getSuperscript = (num: string) => {
 
   }
 }
+
+export const sleep = (time:number)=>{
+  return new Promise((resolve)=>setTimeout(resolve,time)
+  )
+}
