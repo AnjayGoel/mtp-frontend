@@ -25,6 +25,18 @@ const PlayerVideos = ({localStream, remoteStream, remoteAvatar, imageCallback}: 
     remoteRef.current.srcObject = remoteStream
   }, [remoteStream])
 
+
+  const sendImage = () => {
+    if (imageCallback == null) return;
+    let canvas = document.createElement('canvas')
+    canvas.width = 480
+    canvas.height = 320
+    let ctx = canvas.getContext('2d')
+    ctx!.drawImage(localRef.current!!, 0, 0, canvas.width, canvas.height)
+    imageCallback(canvas.toDataURL('image/jpeg'))
+    sleep(5000).then(() => sendImage())
+  }
+
   return (
     <div
       style={{
@@ -58,13 +70,7 @@ const PlayerVideos = ({localStream, remoteStream, remoteAvatar, imageCallback}: 
             onPlay={
               () => {
                 sleep(1000).then(() => {
-                  if (imageCallback == null) return;
-                  let canvas = document.createElement('canvas')
-                  canvas.width = 480
-                  canvas.height = 320
-                  let ctx = canvas.getContext('2d')
-                  ctx!.drawImage(localRef.current!!, 0, 0, canvas.width, canvas.height)
-                  imageCallback(canvas.toDataURL('image/jpeg'))
+                  sendImage()
                 })
               }
             }
