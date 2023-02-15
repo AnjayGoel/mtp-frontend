@@ -69,12 +69,6 @@ export const GameContainer = () => {
   const [webRTCPeer, setWebRTCPeer] = useState(new RTCPeerConnection({
       iceServers: [
         {
-          urls: [
-            'stun:stun.l.google.com:19302',
-            'stun1.l.google.com:19302'
-          ]
-        },
-        {
           urls: "stun:stun.stunprotocol.org"
         }
       ]
@@ -137,6 +131,7 @@ export const GameContainer = () => {
 
   webRTCPeer.addEventListener('track', (event) => {
     const [stream] = event.streams;
+    console.log('remote track')
     setRemoteStream(stream)
   })
 
