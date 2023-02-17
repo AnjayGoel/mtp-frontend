@@ -6,12 +6,12 @@ import {Game} from "../api";
 const {Option} = Select
 const {Title, Paragraph, Text, Link} = Typography;
 
-export interface IntroProps {
+export interface OutroProps {
   game: Game
   callback: Function
 }
 
-const Intro = ({game, callback}: IntroProps) => {
+const Outro = ({game, callback}: OutroProps) => {
   const [action, setAction] = useState<string | null>(null)
 
   return (
@@ -30,7 +30,7 @@ const Intro = ({game, callback}: IntroProps) => {
         )}
         {action == null && (
           <div>
-            Please answer this final questions honestly.
+            Please answer these final questions honestly.
             <Form
               layout='vertical'
               initialValues={{
@@ -65,6 +65,7 @@ const Intro = ({game, callback}: IntroProps) => {
                   max={10}
                   style={{maxWidth:'25vw'}}
                   defaultValue={5}
+                  step={0.5}
                   marks={{0:'0',10:'10'}}
                 />
               </Form.Item>
@@ -81,4 +82,4 @@ const Intro = ({game, callback}: IntroProps) => {
   )
 };
 
-export default Intro;
+export default Outro;

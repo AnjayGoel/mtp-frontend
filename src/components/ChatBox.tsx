@@ -1,9 +1,10 @@
 import ChatMessage, {ChatMessageProps} from "./ChatMessage";
-import {Button, Input} from "antd";
-import {SendOutlined} from "@ant-design/icons";
+import {Button, Input, Typography} from "antd";
+import {SendOutlined, WechatFilled} from "@ant-design/icons";
 import React, {useEffect, useRef, useState} from "react";
 import {getUserInfo} from "../utils";
 import {C} from "../constants";
+const {Title, Paragraph, Text, Link} = Typography;
 
 export interface ChatBoxProps {
   chats: ChatMessageProps[]
@@ -54,7 +55,7 @@ const ChatBox = ({chats, sendMessage}: ChatBoxProps) => {
           backgroundColor: '#1677ff',
           color: 'white',
           fontWeight: 'bold'
-        }}>Chat
+        }}>Chat <WechatFilled />
       </div>
       <div
         ref={chatBoxRef}

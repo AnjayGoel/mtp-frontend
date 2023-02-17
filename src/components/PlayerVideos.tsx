@@ -1,6 +1,6 @@
 import {Card} from "antd";
 import React, {useEffect, useRef} from "react";
-import {getUserInfo, sleep} from "../utils";
+import {getUserInfo} from "../utils";
 
 export interface PlayerVideosProp {
   localStream: MediaStream | null
@@ -8,9 +8,11 @@ export interface PlayerVideosProp {
   remoteAvatar: string,
 
   imageCallback: Function | null
+
+  imageTrigger: number
 }
 
-const PlayerVideos = ({localStream, remoteStream, remoteAvatar, imageCallback}: PlayerVideosProp) => {
+const PlayerVideos = ({localStream, remoteStream, remoteAvatar, imageCallback, imageTrigger}: PlayerVideosProp) => {
 
   const localRef = useRef<HTMLVideoElement | null>(null)
   const remoteRef = useRef<HTMLVideoElement | null>(null)
@@ -27,6 +29,7 @@ const PlayerVideos = ({localStream, remoteStream, remoteAvatar, imageCallback}: 
 
 
   const sendImage = () => {
+    console.log("send image: " + Date.now() / 1000)
     if (imageCallback == null) return;
     let canvas = document.createElement('canvas')
     canvas.width = 480
@@ -34,8 +37,11 @@ const PlayerVideos = ({localStream, remoteStream, remoteAvatar, imageCallback}: 
     let ctx = canvas.getContext('2d')
     ctx!.drawImage(localRef.current!!, 0, 0, canvas.width, canvas.height)
     imageCallback(canvas.toDataURL('image/jpeg'))
-    sleep(5000).then(() => sendImage())
   }
+
+  useEffect(() => {
+    sendImage()
+  }, [imageTrigger])
 
   return (
     <div
@@ -67,13 +73,6 @@ const PlayerVideos = ({localStream, remoteStream, remoteAvatar, imageCallback}: 
           bodyStyle={{padding: '0px'}}
           size={"small"} title={"You"}>
           <video
-            onPlay={
-              () => {
-                sleep(2000).then(() => {
-                  sendImage()
-                })
-              }
-            }
             id='localVideo'
             height="auto"
             width="100%"

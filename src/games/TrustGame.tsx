@@ -38,7 +38,7 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
           if (game.state[email] === 0) {
             setClientAction(0)
           }
-          setResponse(Math.floor(game.state[email] * 3 / 2))
+          setResponse(Math.floor(game.state[email] * 300 / 2) / 100)
         }
       }
     }
@@ -57,7 +57,7 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
                 After the whole ordeal with the police, you and the other player have stumbled upon another opportunity in
                 the stock market, this time its totally legal & safe.
                 <ul>
-                  <li> You have <Text strong>₹1000</Text> , you can keep any proportion (including all) of it and invest
+                  <li> You have <Text strong>₹10</Text> , you can keep any proportion (including all) of it and invest
                     the rest
                   </li>
                   <li> Whatever you invest will be <Text strong>tripled</Text> and given to the other player</li>
@@ -73,7 +73,7 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
               After the whole ordeal with the police, you and the other player have stumbled upon another opportunity in
               the stock market, this time its totally legal & safe.
               <ul>
-                <li> The other player has <Text strong>₹1000</Text>, they can keep any proportion (including all) of it
+                <li> The other player has <Text strong>₹10</Text>, they can keep any proportion (including all) of it
                   and invest the
                   rest
                 </li>
@@ -92,8 +92,8 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
               <Row gutter={24} style={{width: '40vw'}}>
                 <Col span={20}>
                   <Slider
-                    marks={{0: "₹0", 1000: "₹1000"}}
-                    defaultValue={500} min={0} max={1000} step={50}
+                    marks={{0: "₹0", 10: "₹10"}}
+                    defaultValue={5} min={0} max={10} step={0.5}
                     onChange={(value: number) => {
                       setResponse(value)
                     }}/>
@@ -123,8 +123,10 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
             <Row gutter={24} style={{width: '40vw'}}>
               <Col span={20}>
                 <Slider
-                  marks={{0: 0, [3 * serverAction]: 3 * serverAction}}
-                  defaultValue={Math.floor(serverAction * 3 / 2)} min={0} max={3 * serverAction}
+                  marks={{0: "₹0", [3 * serverAction]: `₹${3 * serverAction}`}}
+                  defaultValue={Math.round(serverAction * 300 / 2) / 100}
+                  min={0} max={3 * serverAction}
+                  step={0.5}
                   onChange={(value: number) => {
                     setResponse(value)
                   }}/>
@@ -148,6 +150,12 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
             </Space>
           )
         }
+        {(serverAction !== null && clientAction !== null) && (
+          <Space>
+            <LoadingOutlined style={{fontSize: 24}} spin/>
+            <Text strong>Please wait...</Text>
+          </Space>
+        )}
       </div>
     </Typography>
   )

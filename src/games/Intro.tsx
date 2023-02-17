@@ -25,11 +25,11 @@ const Intro = ({game, callback}: IntroProps) => {
       }}>
         <div>
           <Paragraph>
-            Welcome. As a part of the experiment, you have been <Text strong>paired with someone in
-            realtime</Text>. You will be presented with various scenario. Though there is no real monetary reward,
-            please <Text strong>assume the scenarios to be real</Text>, while making the decisions. Also note that
-            <Text strong> you will not know</Text> the choices made by other person or the outcome of each
-            scenario
+            Welcome. As a part of the experiment, you have been <Text strong>paired with someone in realtime</Text>.
+            You will be presented with various scenario. <Text strong>The monetary payoffs/rewards of each
+            scenario is real</Text> (Given at the end of the experiments).
+            Also note that <Text strong> you will not know</Text> the choices made by other person or the outcome of
+            each scenario
           </Paragraph>
           {game.infoType.length !== 0 && (
             <Paragraph>

@@ -34,8 +34,10 @@ export const GameContainer = () => {
     }
   ]);
   const [game, setGame] = useState<Game | null>(null);
+  const [scores, setScores] = useState<number[]>([0, 0]);
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
+  const [countdown, setCountdown] = useState(0)
 
 
   const {sendMessage, lastMessage} = useWebSocket(socketUrl, {
@@ -179,6 +181,7 @@ export const GameContainer = () => {
       config: message['config'],
       state: message['state']
     })
+    setScores(message['scores'])
   }
 
 
@@ -205,7 +208,8 @@ export const GameContainer = () => {
     let data = messageJSON["data"]
     let type = messageJSON["type"]
 
-    console.log(messageJSON)
+    if (type !== C.REMOTE_IMAGE_URI)
+      console.log(messageJSON);
 
     if (type === C.CHAT) {
       setChats(chats.concat(data));
@@ -250,7 +254,7 @@ export const GameContainer = () => {
   }
 
   if (game.gameId === 0) {
-    navigate("/thanks")
+    navigate("/thanks", {state: {scores: scores}})
   }
 
   return (
@@ -260,7 +264,13 @@ export const GameContainer = () => {
           {(<div style={{paddingLeft: '10px'}}>
               <CountDown gameId={game.gameId}
                          timeout={game.gameId === 4 && game.isServer ? game.config['timeout'] / 2 : game.config['timeout']}
-                         callback={() => {
+                         changeCallback={(value: number) => {
+                           if (value % 10 === 0) {
+                             console.log(value)
+                             setCountdown(value);
+                           }
+                         }}
+                         finishCallback={() => {
                            if (game === null) return;
                            sendMessage(JSON.stringify({'type': C.GAME_UPDATE, data: game?.config['default']}))
                          }}/>
@@ -334,15 +344,17 @@ export const GameContainer = () => {
             height: '40%'
           }}>
             {game.infoType.includes("VIDEO") &&
-                <PlayerVideos localStream={localStream}
-                              remoteStream={remoteStream}
-                              remoteAvatar={remoteImageURI == null ? game.opponent['avatar'] : remoteImageURI}
-                              imageCallback={(imageUri: string) => {
-                                sendMessage(JSON.stringify({
-                                  type: C.REMOTE_IMAGE_URI,
-                                  data: imageUri
-                                }))
-                              }}
+                <PlayerVideos
+                    localStream={localStream}
+                    remoteStream={remoteStream}
+                    remoteAvatar={remoteImageURI == null ? game.opponent['avatar'] : remoteImageURI}
+                    imageTrigger={countdown}
+                    imageCallback={(imageUri: string) => {
+                      sendMessage(JSON.stringify({
+                        type: C.REMOTE_IMAGE_URI,
+                        data: imageUri
+                      }))
+                    }}
                 />
             }
           </div>

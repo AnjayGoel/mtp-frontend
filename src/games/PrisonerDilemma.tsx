@@ -24,12 +24,12 @@ const PrisonerDilemma = ({game, callback}: PrisonerDilemmaProps) => {
           The police found you and the other player exploiting the ATM machine. Both of you are held in different cells.
           The police officer offers you both the opportunity to either remain silent or blame the other.
           <ul>
-            <li>If both of you <Text strong>remain silent</Text>, both will be <Text strong>fined ₹1000</Text>
+            <li>If both of you <Text strong>remain silent</Text>, both will be <Text strong>fined ₹5</Text>
             </li>
-            <li>If both of you <Text strong>blame each other</Text>, both will be <Text strong>fined ₹3000</Text>
+            <li>If both of you <Text strong>blame each other</Text>, both will be <Text strong>fined ₹10</Text>
             </li>
             <li>If one of you blames the other and the other remains silent, the one who
-              remained silent be <Text strong>fined ₹5000</Text>, while <Text strong>the other would
+              remained silent be <Text strong>fined ₹20</Text>, while <Text strong>the other would
                 be set free</Text>.
             </li>
           </ul>
@@ -41,15 +41,15 @@ const PrisonerDilemma = ({game, callback}: PrisonerDilemmaProps) => {
             <Row gutter={24} style={{minWidth: '40vw'}}>
               <Col span={12}>
                 <Button type='primary' block onClick={() => {
-                  callback('c')
-                  setAction('c')
+                  callback('confess')
+                  setAction('confess')
                 }
-                }>Blame Other</Button>
+                }>Blame The Other Person</Button>
               </Col>
               <Col span={12}>
                 <Button type='primary' block onClick={() => {
-                  setAction('d')
-                  callback('d')
+                  setAction('deny')
+                  callback('deny')
                 }}>Remain Silent</Button>
               </Col>
             </Row>

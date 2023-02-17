@@ -21,8 +21,8 @@ const Machine = ({game, callback}: MachineProps) => {
         <Image width='25em' src={image}/>
         <Paragraph style={{padding: '10px'}}>
           You and the other player have encountered a faulty ATM machine.
-          If you put in <Text strong>₹1000</Text> in the machine, the other player gets
-          <Text strong> ₹3000</Text> (and you lose the ₹1000, obviously) and vice versa. You both can either choose to
+          If you put in <Text strong>₹5</Text> in the machine, the other player gets
+          <Text strong> ₹15</Text> (and you lose the ₹5, obviously) and vice versa. You both can either choose to
           put in the money, or not to.
         </Paragraph>
         <Divider/>
@@ -32,15 +32,15 @@ const Machine = ({game, callback}: MachineProps) => {
             <Row gutter={24} style={{minWidth: '40vw'}}>
               <Col span={12}>
                 <Button type='primary' block onClick={() => {
-                  setAction('c')
-                  callback('c')
-                }}>Put ₹1000</Button>
+                  setAction('put')
+                  callback('put')
+                }}>Put ₹5 In The Machine</Button>
               </Col>
               <Col span={12}>
                 <Button type='primary' block onClick={() => {
-                  callback('d')
-                  setAction('d')
-                }}>Don't Put ₹1000</Button>
+                  callback('dont')
+                  setAction('dont')
+                }}>Don't Put ₹5 In The Machine</Button>
               </Col>
             </Row>
           </div>

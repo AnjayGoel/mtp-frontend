@@ -5,11 +5,12 @@ const {Countdown} = Statistic;
 
 export interface CountDownProps {
   timeout: number,
-  callback: Function,
+  changeCallback: Function,
+  finishCallback: Function,
   gameId: number
 }
 
-const CountDown = ({timeout, callback, gameId}: CountDownProps) => {
+const CountDown = ({timeout, changeCallback, finishCallback, gameId}: CountDownProps) => {
   const [current, setCurrent] = useState<number>(0);
   const [endTime, setEndTime] = useState(Date.now() + timeout * 1000);
 
@@ -46,9 +47,12 @@ const CountDown = ({timeout, callback, gameId}: CountDownProps) => {
           else
             value = Math.floor(value / 1000);
           setCurrent(value)
+          if (changeCallback) {
+            changeCallback(value)
+          }
         }}
         onFinish={() => {
-          callback()
+          finishCallback()
           setCurrent(0)
           setEndTime(Date.now())
         }}
