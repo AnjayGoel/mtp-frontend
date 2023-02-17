@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {CredentialResponse, GoogleLogin} from '@react-oauth/google';
 import {useNavigate} from "react-router-dom";
-import {Card, Modal, notification, Typography} from "antd";
+import {Card, Modal, notification, Spin, Typography} from "antd";
 import {getPlayer} from "../api";
 import {useQuery} from "react-query";
 import {getUseQueryOptions} from "../utils";
@@ -57,20 +57,25 @@ const Login = () => {
         flexDirection: 'column',
         gap: '5px'
       }}>
-      <Card
-        bodyStyle={{
-          display: 'flex',
-          justifyContent: "center",
-          flexDirection: 'column',
-          gap: '10px'
-        }}
-        title={'Signup or Login with Google'}
-        size='small'>
-        <GoogleLogin
-          onSuccess={onSuccess}
-          onError={onFailure}
-        />
-      </Card>
+      {playerProfileQuery.isLoading && (
+        <Spin/>
+      )}
+      {!playerProfileQuery.isLoading && (
+        <Card
+          bodyStyle={{
+            display: 'flex',
+            justifyContent: "center",
+            flexDirection: 'column',
+            gap: '10px'
+          }}
+          title={'Signup or Login with Google'}
+          size='small'>
+          <GoogleLogin
+            onSuccess={onSuccess}
+            onError={onFailure}
+          />
+        </Card>
+      )}
 
       <Modal
         width={'30vw'}
