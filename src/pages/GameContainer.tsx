@@ -38,6 +38,7 @@ export const GameContainer = () => {
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const [countdown, setCountdown] = useState(0)
+  const [offerSent, setOfferSent] = useState(false)
 
 
   const {sendMessage, lastMessage} = useWebSocket(socketUrl, {
@@ -85,15 +86,16 @@ export const GameContainer = () => {
           audio: false,
           video: {width: 720, height: 480}
         };
-        if (localStream !== null && remoteStream !== null) {
-          return;
+
+        if (localStream === null) {
+          const stream = await navigator.mediaDevices.getUserMedia(constraints);
+          stream.getTracks().forEach(track => webRTCPeer.addTrack(track, stream));
+          setLocalStream(stream)
         }
 
-        const stream = await navigator.mediaDevices.getUserMedia(constraints);
-        stream.getTracks().forEach(track => webRTCPeer.addTrack(track, stream));
-        setLocalStream(stream)
 
-        if (game.isServer) {
+        if (game.isServer && !offerSent) {
+          setOfferSent(true)
           const localPeerOffer = await webRTCPeer.createOffer();
           await webRTCPeer.setLocalDescription(new RTCSessionDescription(localPeerOffer));
           sendMediaOffer(localPeerOffer);

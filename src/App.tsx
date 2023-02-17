@@ -59,6 +59,7 @@ const App = () => {
             display: 'flex'
           }}>
             <Button
+              hidden
               style={{marginRight: '10px'}}
               onClick={() => setShowInstructions(true)}
               icon={<QuestionCircleOutlined/>}>
