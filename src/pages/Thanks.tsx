@@ -47,10 +47,10 @@ const Thanks = () => {
       <div style={{margin: '30px'}}>
       <span>
         <Text strong>You {state.scores[0] > 0 ? 'won' : 'lost'} ₹{Math.abs(state.scores[0])}</Text>,
-        while the other person {state.scores[1] > 0 ? 'won' : 'lost'}  ₹{Math.abs(state.scores[1])}
+        while the other person {state.scores[1] > 0 ? 'won' : 'lost'}  ₹{Math.abs(state.scores[1])}.
       </span>
         {state.scores[0] < 0 && (
-          <span>Don't worry, we wont make you pay us</span>
+          <span> Don't worry, we wont make you pay us</span>
         )}
       </div>
       <span>Returning to the home page in {Math.max(time - countdown, 0)} Seconds</span>

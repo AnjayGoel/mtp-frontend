@@ -29,7 +29,6 @@ const PlayerVideos = ({localStream, remoteStream, remoteAvatar, imageCallback, i
 
 
   const sendImage = () => {
-    console.log("send image: " + Date.now() / 1000)
     if (imageCallback == null) return;
     let canvas = document.createElement('canvas')
     canvas.width = 480

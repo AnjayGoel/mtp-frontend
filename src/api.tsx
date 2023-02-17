@@ -63,15 +63,28 @@ export interface PlayerProfile {
   department: string
 }
 
-export interface getPlayerResponse {
+export interface GetPlayerResponse {
   exists: boolean,
   profile?: PlayerProfile
 }
 
 export const getPlayer = async () => {
-  const data: getPlayerResponse = await APIClient.request(
+  const data: GetPlayerResponse = await APIClient.request(
     {
       url: '/player/check',
+      method: 'GET'
+    }
+  )
+  return data
+}
+
+export interface Eligible{
+  eligible: boolean
+}
+export const isEligible = async () => {
+  const data: Eligible = await APIClient.request(
+    {
+      url: '/player/eligible',
       method: 'GET'
     }
   )

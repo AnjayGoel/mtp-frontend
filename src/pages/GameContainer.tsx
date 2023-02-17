@@ -266,7 +266,6 @@ export const GameContainer = () => {
                          timeout={game.gameId === 4 && game.isServer ? game.config['timeout'] / 2 : game.config['timeout']}
                          changeCallback={(value: number) => {
                            if (value % 10 === 0) {
-                             console.log(value)
                              setCountdown(value);
                            }
                          }}
