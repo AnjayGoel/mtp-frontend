@@ -6,7 +6,6 @@ import {getPlayer} from "../api";
 import {useQuery} from "react-query";
 import {getUseQueryOptions} from "../utils";
 import PlayerProfileConfig from "./PlayerProfileConfig";
-import {UserOutlined} from "@ant-design/icons";
 
 const {Text} = Typography;
 

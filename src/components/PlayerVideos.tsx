@@ -69,7 +69,7 @@ const PlayerVideos = ({localStream, remoteStream, remoteAvatar, imageCallback}: 
           <video
             onPlay={
               () => {
-                sleep(1000).then(() => {
+                sleep(2000).then(() => {
                   sendImage()
                 })
               }
