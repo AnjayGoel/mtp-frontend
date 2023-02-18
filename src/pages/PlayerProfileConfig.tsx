@@ -48,7 +48,10 @@ const PlayerProfileConfig = ({isUpdate, closeCallback}: PlayerProfileConfigProps
 
   if ((isUpdate && playerProfileQuery.isLoading) || signUpQuery.isLoading) {
     return (
-      <Spin tip={"Loading"}/>
+      <div className='div-center'>
+        <Spin tip={"Loading"}/>
+      </div>
+
     )
   }
 
@@ -97,15 +100,15 @@ const PlayerProfileConfig = ({isUpdate, closeCallback}: PlayerProfileConfigProps
           </Select>
         </Form.Item>
 
-        {/*<Form.Item
+        <Form.Item
           name="upi_id"
           label="UPI ID"
-          help={"Used to pay participation rewards if any"}
+          help={"Only used to pay the experiment's rewards, if any"}
           rules={[{required: false, message: ''}]}
           style={{paddingBottom: '10px'}}
         >
           <Input/>
-        </Form.Item>*/}
+        </Form.Item>
         <Button
           type='primary'
           htmlType='submit'

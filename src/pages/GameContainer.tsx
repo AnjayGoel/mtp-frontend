@@ -244,15 +244,7 @@ export const GameContainer = () => {
 
 
   if (game === null) {
-    return <div
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}><Spin tip="Looking for players"/>
-    </div>
+    return <div className='div-center'><Spin tip="Looking for players"/></div>
   }
 
   if (game.gameId === 0) {
