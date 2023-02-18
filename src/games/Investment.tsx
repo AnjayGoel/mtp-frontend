@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Col, Divider, Image, Row, Select, Slider, Space, Typography} from "antd";
-import image from "../assets/TrustGame.png"
+import image from "../assets/Investment.png"
 import {LoadingOutlined} from "@ant-design/icons";
 import {getUserInfo} from "../utils";
 import {Game} from "../api";
@@ -8,13 +8,12 @@ import {Game} from "../api";
 const {Option} = Select
 const {Title, Paragraph, Text, Link} = Typography;
 
-export interface TrustGameProps {
+export interface InvestmentProps {
   game: Game
   callback: Function
-  state: any
 }
 
-const TrustGame = ({game, callback, state}: TrustGameProps) => {
+const Investment = ({game, callback}: InvestmentProps) => {
 
   const [serverAction, setServerAction] = useState<number | null>(null)
   const [clientAction, setClientAction] = useState<number | null>(null)
@@ -162,4 +161,4 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
   )
 };
 
-export default TrustGame;
+export default Investment;

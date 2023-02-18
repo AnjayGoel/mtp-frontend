@@ -7,15 +7,16 @@ import {C} from "../constants";
 import ChatBox from "../components/ChatBox";
 import {getSuperscript} from "../utils";
 import {Game} from "../api";
-import PrisonerDilemma from "../games/PrisonerDilemma";
-import TrustGame from "../games/TrustGame";
+import Police from "../games/Police";
+import Investment from "../games/Investment";
 import Intro from "../games/Intro";
-import Machine from "../games/Machine";
+import ATM from "../games/ATM";
 import Fade from "../games/Fade";
 import "../games/styles.css";
 import CountDown from "../components/Countdown";
 import Outro from "../games/Outro";
 import PlayerVideos from "../components/PlayerVideos";
+import Restaurant from "../games/Restaurant";
 
 const {Text} = Typography;
 
@@ -138,7 +139,6 @@ export const GameContainer = () => {
 
   webRTCPeer.addEventListener('track', (event) => {
     const [stream] = event.streams;
-    console.log('remote track')
     setRemoteStream(stream)
   })
 
@@ -197,8 +197,6 @@ export const GameContainer = () => {
 
 
   const handleGameUpdate = (message: any) => {
-    console.log(message)
-    console.log(game)
     if (game == null) return;
     if (game.state !== null && game.state !== undefined && game.state.length > message['state'].length) return;
     setGame({...game, state: message['state']})
@@ -275,31 +273,26 @@ export const GameContainer = () => {
                 sendMessage(JSON.stringify({'type': C.GAME_UPDATE, data: event}))
               }}/>
             </Fade>
-          )
-          }
+          )}
           {game.gameId === 2 && (
             <Fade show={game.gameId === 2}>
-              <Machine
-                game={game}
-                callback={(event: any) => {
-                  sendMessage(JSON.stringify({'type': C.GAME_UPDATE, data: event}))
-                }}/>
+              <Restaurant game={game} callback={(event: any) => {
+                sendMessage(JSON.stringify({'type': C.GAME_UPDATE, data: event}))
+              }}/>
             </Fade>
           )}
           {game.gameId === 3 && (
             <Fade show={game.gameId === 3}>
-              <PrisonerDilemma
+              <ATM
                 game={game}
                 callback={(event: any) => {
                   sendMessage(JSON.stringify({'type': C.GAME_UPDATE, data: event}))
                 }}/>
             </Fade>
           )}
-
           {game.gameId === 4 && (
             <Fade show={game.gameId === 4}>
-              <TrustGame
-                state={game.state}
+              <Police
                 game={game}
                 callback={(event: any) => {
                   sendMessage(JSON.stringify({'type': C.GAME_UPDATE, data: event}))
@@ -309,6 +302,16 @@ export const GameContainer = () => {
 
           {game.gameId === 5 && (
             <Fade show={game.gameId === 5}>
+              <Investment
+                game={game}
+                callback={(event: any) => {
+                  sendMessage(JSON.stringify({'type': C.GAME_UPDATE, data: event}))
+                }}/>
+            </Fade>
+          )}
+
+          {game.gameId === 6 && (
+            <Fade show={game.gameId === 6}>
               <Outro
                 game={game}
                 callback={(event: any) => {

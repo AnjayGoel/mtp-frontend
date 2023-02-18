@@ -67,17 +67,19 @@ const App = () => {
             </Button>
             {userInfo === null && <Avatar icon={<UserOutlined/>}><UserOutlined/></Avatar>}
             {userInfo !== null && (
-              <Popover content={
-                <Space>
-                  <Button onClick={() => {
-                    setShowPlayerProfile(true)
-                  }}>Profile</Button>
-                  <Button type={'primary'} danger onClick={() => {
-                    logout()
-                  }}>Logout</Button>
-                </Space>
+              <Popover
+                placement="bottomRight"
+                content={
+                  <Space>
+                    <Button onClick={() => {
+                      setShowPlayerProfile(true)
+                    }}>Profile</Button>
+                    <Button type={'primary'} danger onClick={() => {
+                      logout()
+                    }}>Logout</Button>
+                  </Space>
 
-              } title={userInfo.name}>
+                } title={userInfo.name}>
                 <Avatar src={userInfo.picture}/>
               </Popover>
             )}

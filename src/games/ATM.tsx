@@ -1,38 +1,29 @@
 import React, {useState} from 'react';
 import {Button, Col, Divider, Image, Row, Select, Space, Typography} from "antd";
-import image from "../assets/PrisonersDilemma.png"
+import image from "../assets/ATM.png"
 import {LoadingOutlined} from "@ant-design/icons";
 import {Game} from "../api";
 
 const {Option} = Select
 const {Title, Paragraph, Text, Link} = Typography;
 
-export interface PrisonerDilemmaProps {
+export interface ATMMachineProps {
   game: Game
   callback: Function
 }
 
-const PrisonerDilemma = ({game, callback}: PrisonerDilemmaProps) => {
-
+const ATM = ({game, callback}: ATMMachineProps) => {
   const [action, setAction] = useState<string | null>(null)
 
   return (
     <Typography>
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-        <Image width={'25em'} src={image}/>
+        <Image width='25em' src={image}/>
         <Paragraph style={{padding: '10px'}}>
-          The police found you and the other player exploiting the ATM machine. Both of you are held in different cells.
-          The police officer offers you both the opportunity to either remain silent or blame the other.
-          <ul>
-            <li>If both of you <Text strong>remain silent</Text>, both will be <Text strong>fined ₹5</Text>
-            </li>
-            <li>If both of you <Text strong>blame each other</Text>, both will be <Text strong>fined ₹10</Text>
-            </li>
-            <li>If one of you blames the other and the other remains silent, the one who
-              remained silent be <Text strong>fined ₹20</Text>, while <Text strong>the other would
-                be set free</Text>.
-            </li>
-          </ul>
+          At the end of the month, you and the other player go to a bank to deposit your earnings and encounter a faulty
+          ATM machine. If you put in <Text strong>₹5</Text> in the machine, the other player gets
+          <Text strong> ₹15</Text> (and you lose the ₹5, obviously) and vice versa. You both can either choose to
+          put in the money, or not to.
         </Paragraph>
         <Divider/>
         {action === null && (
@@ -41,20 +32,20 @@ const PrisonerDilemma = ({game, callback}: PrisonerDilemmaProps) => {
             <Row gutter={24} style={{minWidth: '40vw'}}>
               <Col span={12}>
                 <Button type='primary' block onClick={() => {
-                  callback('confess')
-                  setAction('confess')
-                }
-                }>Blame The Other Person</Button>
+                  setAction('put')
+                  callback('put')
+                }}>Put ₹5 In The ATM</Button>
               </Col>
               <Col span={12}>
                 <Button type='primary' block onClick={() => {
-                  setAction('deny')
-                  callback('deny')
-                }}>Remain Silent</Button>
+                  callback('dont')
+                  setAction('dont')
+                }}>Don't Put ₹5 In The ATM</Button>
               </Col>
             </Row>
           </div>
         )}
+
         {action !== null && (
           <Space><LoadingOutlined style={{fontSize: 24}} spin/>
             <Text strong>Please wait for other player to respond</Text>
@@ -65,4 +56,4 @@ const PrisonerDilemma = ({game, callback}: PrisonerDilemmaProps) => {
   )
 };
 
-export default PrisonerDilemma;
+export default ATM;
