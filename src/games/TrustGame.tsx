@@ -37,9 +37,9 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
           setServerAction(game.state[email])
           if (game.state[email] === 0) {
             setClientAction(0)
+            callback(0)
           }
           setResponse(Math.floor(game.state[email] * 300 / 2) / 100)
-          callback(0)
         }
       }
     }
@@ -58,7 +58,7 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
                 After the whole ordeal with the police, you and the other player have stumbled upon another opportunity in
                 the stock market, this time its totally legal & safe.
                 <ul>
-                  <li> You have <Text strong>₹10</Text> , you can keep any proportion (including all) of it and invest
+                  <li> You have <Text strong>₹5</Text> , you can keep any proportion (including all) of it and invest
                     the rest
                   </li>
                   <li> Whatever you invest will be <Text strong>tripled</Text> and given to the other player</li>
@@ -74,7 +74,7 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
               After the whole ordeal with the police, you and the other player have stumbled upon another opportunity in
               the stock market, this time its totally legal & safe.
               <ul>
-                <li> The other player has <Text strong>₹10</Text>, they can keep any proportion (including all) of it
+                <li> The other player has <Text strong>₹5</Text>, they can keep any proportion (including all) of it
                   and invest the
                   rest
                 </li>
@@ -93,8 +93,8 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
               <Row gutter={24} style={{width: '40vw'}}>
                 <Col span={20}>
                   <Slider
-                    marks={{0: "₹0", 10: "₹10"}}
-                    defaultValue={5} min={0} max={10} step={0.5}
+                    marks={{0: "₹0", 5: "₹5"}}
+                    defaultValue={2.5} min={0} max={5} step={0.25}
                     onChange={(value: number) => {
                       setResponse(value)
                     }}/>
@@ -127,7 +127,7 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
                   marks={{0: "₹0", [3 * serverAction]: `₹${3 * serverAction}`}}
                   defaultValue={Math.round(serverAction * 300 / 2) / 100}
                   min={0} max={3 * serverAction}
-                  step={0.5}
+                  step={0.25}
                   onChange={(value: number) => {
                     setResponse(value)
                   }}/>
