@@ -50,7 +50,11 @@ export const getSuperscript = (num: string) => {
   }
 }
 
-export const sleep = (time:number)=>{
-  return new Promise((resolve)=>setTimeout(resolve,time)
+export const sleep = (time: number) => {
+  return new Promise((resolve) => setTimeout(resolve, time)
   )
+}
+
+if (process.env["REACT_APP_ENV"] === "prod") {
+  globalThis.console.log = () => null
 }
