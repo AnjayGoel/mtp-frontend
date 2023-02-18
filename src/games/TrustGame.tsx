@@ -18,7 +18,7 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
 
   const [serverAction, setServerAction] = useState<number | null>(null)
   const [clientAction, setClientAction] = useState<number | null>(null)
-  const [response, setResponse] = useState<number>(5)
+  const [response, setResponse] = useState<number>(2.5)
 
   useEffect(() => {
     if (game.isServer) {
