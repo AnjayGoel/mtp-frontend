@@ -39,6 +39,7 @@ const TrustGame = ({game, callback, state}: TrustGameProps) => {
             setClientAction(0)
           }
           setResponse(Math.floor(game.state[email] * 300 / 2) / 100)
+          callback(0)
         }
       }
     }
