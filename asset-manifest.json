@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/mtp_frontend/static/css/main.916bd610.css",
-    "main.js": "/mtp_frontend/static/js/main.0b4dbc80.js",
+    "main.js": "/mtp_frontend/static/js/main.901aa108.js",
     "static/js/787.747d6915.chunk.js": "/mtp_frontend/static/js/787.747d6915.chunk.js",
     "static/media/Machine.png": "/mtp_frontend/static/media/Machine.9c32cc140021f85d2d78.png",
     "static/media/TrustGame.png": "/mtp_frontend/static/media/TrustGame.d36593889edb36b22645.png",
     "static/media/PrisonersDilemma.png": "/mtp_frontend/static/media/PrisonersDilemma.d6a42794de480e4724b3.png",
     "index.html": "/mtp_frontend/index.html",
     "main.916bd610.css.map": "/mtp_frontend/static/css/main.916bd610.css.map",
-    "main.0b4dbc80.js.map": "/mtp_frontend/static/js/main.0b4dbc80.js.map",
+    "main.901aa108.js.map": "/mtp_frontend/static/js/main.901aa108.js.map",
     "787.747d6915.chunk.js.map": "/mtp_frontend/static/js/787.747d6915.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.916bd610.css",
-    "static/js/main.0b4dbc80.js"
+    "static/js/main.901aa108.js"
   ]
 }
