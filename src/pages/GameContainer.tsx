@@ -351,7 +351,7 @@ export const GameContainer = () => {
         <div ref={playAreaRef}>
           {game.gameId === 1 && (
             <Fade show={game.gameId === 1}>
-              <Intro game={game} callback={(event: any) => {
+              <Intro game={game} tourOpen={tourOpen} callback={(event: any) => {
                 sendMessage(JSON.stringify({'type': C.GAME_UPDATE, data: event}))
               }}/>
             </Fade>
