@@ -1,11 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Col, notification, Row, Spin, Typography} from "antd";
 import useWebSocket from "react-use-websocket";
 import {ChatMessageProps} from "../components/ChatMessage";
 import {useNavigate} from "react-router-dom";
 import {C} from "../constants";
 import ChatBox from "../components/ChatBox";
-import {getSuperscript} from "../utils";
+import {getSuperscript, Queue} from "../utils";
 import {Game} from "../api";
 import Police from "../games/Police";
 import Investment from "../games/Investment";
@@ -40,6 +40,9 @@ export const GameContainer = () => {
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const [countdown, setCountdown] = useState(0)
   const [offerSent, setOfferSent] = useState(false)
+  const iceCans = useMemo(() => {
+    return new Queue([])
+  }, [])
 
 
   const {sendMessage, lastMessage} = useWebSocket(socketUrl, {
@@ -70,14 +73,32 @@ export const GameContainer = () => {
     return () => clearInterval(intervalRef.current as NodeJS.Timeout);
   });
 
-  const [webRTCPeer, setWebRTCPeer] = useState(new RTCPeerConnection({
+  const webRTCPeer = useMemo(()=>{
+    return new RTCPeerConnection({
       iceServers: [
         {
           urls: "stun:stun.stunprotocol.org"
         }
       ]
+    })
+  },[])
+
+
+  webRTCPeer.onicecandidate = (event) => {
+    if (game === null) {
+      iceCans.enqueue(event)
+    } else {
+      while (iceCans.getItems().length > 0) {
+        sendIceCandidate(iceCans.dequeue())
+      }
+      sendIceCandidate(event)
     }
-  ))
+  }
+
+  webRTCPeer.addEventListener('track', (event) => {
+    const [stream] = event.streams;
+    setRemoteStream(stream)
+  })
 
   useEffect(() => {
     (
@@ -101,6 +122,10 @@ export const GameContainer = () => {
           await webRTCPeer.setLocalDescription(new RTCSessionDescription(localPeerOffer));
           sendMediaOffer(localPeerOffer);
         }
+
+        while (iceCans.getItems().length > 0) {
+          sendIceCandidate(iceCans.dequeue())
+        }
       }
     )();
 
@@ -121,9 +146,6 @@ export const GameContainer = () => {
     await webRTCPeer.setRemoteDescription(new RTCSessionDescription(data.answer));
   };
 
-  webRTCPeer.onicecandidate = (event) => {
-    sendIceCandidate(event);
-  }
 
   const handleRemotePeerIceCandidate = async (data: any) => {
     try {
@@ -137,10 +159,6 @@ export const GameContainer = () => {
     setRemoteImageURI(data)
   }
 
-  webRTCPeer.addEventListener('track', (event) => {
-    const [stream] = event.streams;
-    setRemoteStream(stream)
-  })
 
   const sendMediaAnswer = (peerAnswer: any, data: any) => {
     sendMessage(JSON.stringify({
