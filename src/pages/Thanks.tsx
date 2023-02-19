@@ -46,8 +46,8 @@ const Thanks = () => {
       <span>for taking part in the experiment</span>
       <div style={{margin: '30px'}}>
       <span>
-        <Text strong>You {state.scores[0] >= 0 ? 'won' : 'lost'} ₹{Math.abs(state.scores[0])}</Text>,
-        while the other person {state.scores[1] >= 0 ? 'won' : 'lost'}  ₹{Math.abs(state.scores[1])}.
+        <Text strong>You {state.scores[0] >= 0 ? 'won' : 'lost'} ₹{Math.abs(state.scores[0]).toFixed(2)}</Text>,
+        while the other person {state.scores[1] >= 0 ? 'won' : 'lost'}  ₹{Math.abs(state.scores[1]).toFixed(2)}.
       </span>
         {state.scores[0] < 0 && (
           <span> Don't worry, we wont make you pay us</span>
