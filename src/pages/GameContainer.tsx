@@ -43,6 +43,15 @@ export const GameContainer = () => {
   const iceCans = useMemo(() => {
     return new Queue([])
   }, [])
+  const webRTCPeer = useMemo(() => {
+    return new RTCPeerConnection({
+      iceServers: [
+        {
+          urls: "stun:stun.stunprotocol.org"
+        }
+      ]
+    })
+  }, [])
 
 
   const {sendMessage, lastMessage} = useWebSocket(socketUrl, {
@@ -73,16 +82,6 @@ export const GameContainer = () => {
     return () => clearInterval(intervalRef.current as NodeJS.Timeout);
   });
 
-  const webRTCPeer = useMemo(()=>{
-    return new RTCPeerConnection({
-      iceServers: [
-        {
-          urls: "stun:stun.stunprotocol.org"
-        }
-      ]
-    })
-  },[])
-
 
   webRTCPeer.onicecandidate = (event) => {
     if (game === null) {
@@ -104,6 +103,11 @@ export const GameContainer = () => {
     (
       async () => {
         if (game === null || !game.infoType.includes("VIDEO")) return;
+
+        while (iceCans.getItems().length > 0) {
+          sendIceCandidate(iceCans.dequeue())
+        }
+
         const constraints = {
           audio: false,
           video: {width: 720, height: 480}
@@ -115,16 +119,11 @@ export const GameContainer = () => {
           setLocalStream(stream)
         }
 
-
         if (game.isServer && !offerSent) {
           setOfferSent(true)
           const localPeerOffer = await webRTCPeer.createOffer();
           await webRTCPeer.setLocalDescription(new RTCSessionDescription(localPeerOffer));
           sendMediaOffer(localPeerOffer);
-        }
-
-        while (iceCans.getItems().length > 0) {
-          sendIceCandidate(iceCans.dequeue())
         }
       }
     )();
@@ -179,7 +178,6 @@ export const GameContainer = () => {
   }
 
   const sendIceCandidate = (event: any) => {
-    if (remoteStream !== null && localStream !== null) return;
     sendMessage(JSON.stringify({
       type: C.WEB_RTC_ICE_CANDIDATE,
       data: {
