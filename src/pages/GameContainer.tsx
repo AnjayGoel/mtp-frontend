@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {Col, notification, Row, Spin, Typography} from "antd";
+import {Col, notification, Row, Spin, Typography, Tour} from "antd";
 import useWebSocket from "react-use-websocket";
 import {ChatMessageProps} from "../components/ChatMessage";
 import {useNavigate} from "react-router-dom";
@@ -11,6 +11,7 @@ import Police from "../games/Police";
 import Investment from "../games/Investment";
 import Intro from "../games/Intro";
 import ATM from "../games/ATM";
+import type {TourProps} from 'antd';
 import Fade from "../games/Fade";
 import "../games/styles.css";
 import CountDown from "../components/Countdown";
@@ -18,7 +19,7 @@ import Outro from "../games/Outro";
 import PlayerVideos from "../components/PlayerVideos";
 import Restaurant from "../games/Restaurant";
 
-const {Text} = Typography;
+const {Text, Paragraph} = Typography;
 
 export const GameContainer = () => {
   const navigate = useNavigate();
@@ -40,6 +41,14 @@ export const GameContainer = () => {
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const [countdown, setCountdown] = useState(0)
   const [offerSent, setOfferSent] = useState(false)
+  const [tourOpen, setTourOpen] = useState(false)
+
+  const timerRef = useRef(null);
+  const playAreaRef = useRef(null);
+  const chatBoxRef = useRef(null);
+  const infoRef = useRef(null);
+  const videoRef = useRef(null);
+
   const iceCans = useMemo(() => {
     return new Queue([])
   }, [])
@@ -191,6 +200,9 @@ export const GameContainer = () => {
     if (!paired) {
       setPaired(true)
     }
+    if (message["game_id"] === 1) {
+      setTourOpen(true)
+    }
     setGame({
       gameId: message["game_id"],
       infoType: message["info_type"],
@@ -249,6 +261,58 @@ export const GameContainer = () => {
     }
   }
 
+  const getTourSteps = () => {
+    const steps: TourProps['steps'] = [
+      {
+        title: 'Welcome',
+        description: <Paragraph>
+          Welcome. This experiment is part of my MTP thesis. As a part of the experiment, you have been <Text strong>
+          paired with someone in realtime</Text>.
+          You will be presented with various scenario where you have to make some choices.
+          <Text strong>The monetary payoffs/rewards of each scenario is real </Text>
+          (Paid at the end of the experiments via UPI).
+        </Paragraph>,
+        target: () => null,
+      },
+      {
+        title: 'Play Area',
+        description: 'This area will present you various scenarios, along with some choices to respond with.',
+        target: () => playAreaRef.current,
+      },
+      {
+        title: 'Timer',
+        description: 'Each scenario has a time limit. Keep an eye on the timer',
+        target: () => timerRef.current,
+      }
+    ];
+    if (game?.infoType.includes("INFO")) {
+      steps.push({
+        title: 'Other Player\'s Info',
+        description: 'This box shows some basic information about the other player',
+        target: () => infoRef.current,
+      })
+    }
+    if (game?.infoType.includes("VIDEO")) {
+      steps.push({
+        title: 'Webcam',
+        description: 'Both of you can see each other through the webcam',
+        target: () => videoRef.current,
+      })
+    }
+    if (game?.infoType.includes("CHAT")) {
+      steps.push({
+        title: 'Chat',
+        description: <div>
+          You can use this chat-box to chat with the other player and make plans for the scenario.
+          <Text strong> Do not reveal your identity</Text> (it will disqualify you from the experiment).
+          Keep an eye out for new messages</div>,
+        target: () => chatBoxRef.current,
+      })
+    }
+
+    return steps
+  }
+
 
   useEffect(() => {
     if (lastMessage !== null) {
@@ -268,21 +332,23 @@ export const GameContainer = () => {
   return (
     <Row style={{width: '100%', height: '100%'}}>
       <Col span={16}>
-        <div>
-          {(<div style={{paddingLeft: '10px'}}>
-              <CountDown gameId={game.gameId}
-                         timeout={game.gameId === 5 && game.isServer ? game.config['timeout'] / 2 : game.config['timeout']}
-                         changeCallback={(value: number) => {
-                           if (value % 5 === 0) {
-                             setCountdown(value);
-                           }
-                         }}
-                         finishCallback={() => {
-                           if (game === null) return;
-                           sendMessage(JSON.stringify({'type': C.GAME_UPDATE, data: game?.config['default']}))
-                         }}/>
-            </div>
-          )}
+        {(<div
+            ref={timerRef}
+            style={{paddingLeft: '10px',width:'fit-content'}}>
+            <CountDown gameId={game.gameId}
+                       timeout={game.gameId === 5 && game.isServer ? game.config['timeout'] / 2 : game.config['timeout']}
+                       changeCallback={(value: number) => {
+                         if (value % 5 === 0) {
+                           setCountdown(value);
+                         }
+                       }}
+                       finishCallback={() => {
+                         if (game === null) return;
+                         sendMessage(JSON.stringify({'type': C.GAME_UPDATE, data: game?.config['default']}))
+                       }}/>
+          </div>
+        )}
+        <div ref={playAreaRef}>
           {game.gameId === 1 && (
             <Fade show={game.gameId === 1}>
               <Intro game={game} callback={(event: any) => {
@@ -339,7 +405,9 @@ export const GameContainer = () => {
       </Col>
       <Col span={8}>
         <div style={{width: '100%', height: '100%', maxHeight: '94vh', padding: '10px'}}>
-          <div style={{width: '100%', height: '15%', boxSizing: 'border-box'}}>
+          <div
+            ref={infoRef}
+            style={{width: '100%', height: '15%', boxSizing: 'border-box'}}>
             {
               game.infoType.includes("INFO") && game.opponent !== null && (
                 <div style={{wordBreak: 'break-word'}}>
@@ -351,10 +419,12 @@ export const GameContainer = () => {
             }
 
           </div>
-          <div style={{
-            width: '100%',
-            height: '40%'
-          }}>
+          <div
+            ref={videoRef}
+            style={{
+              width: '100%',
+              height: '40%'
+            }}>
             {game.infoType.includes("VIDEO") &&
                 <PlayerVideos
                     localStream={localStream}
@@ -370,7 +440,9 @@ export const GameContainer = () => {
                 />
             }
           </div>
-          <div style={{height: '45%', width: '100%'}}>
+          <div
+            ref={chatBoxRef}
+            style={{height: '45%', width: '100%'}}>
             {
               game.infoType.includes("CHAT") &&
                 <ChatBox chats={chats} sendMessage={sendMessage}/>
@@ -378,5 +450,7 @@ export const GameContainer = () => {
           </div>
         </div>
       </Col>
-    </Row>)
+      <Tour open={tourOpen} onClose={() => setTourOpen(false)} steps={getTourSteps()}/>
+    </Row>
+  )
 }
