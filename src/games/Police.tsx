@@ -44,7 +44,7 @@ const Police = ({game, callback}: PoliceProps) => {
                   callback('confess')
                   setAction('confess')
                 }
-                }>Blame The Other Person</Button>
+                }>Blame The Other Player</Button>
               </Col>
               <Col span={12}>
                 <Button type='primary' block onClick={() => {

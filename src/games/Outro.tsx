@@ -44,7 +44,7 @@ const Outro = ({game, callback}: OutroProps) => {
             >
 
               <Form.Item
-                label="Do you, by any chance, personally know the other person?"
+                label="Do you, by any chance, personally know the other player?"
                 name="know"
                 rules={[{required: true, message: 'Please, answer this question first'}]}
               >
@@ -56,7 +56,7 @@ const Outro = ({game, callback}: OutroProps) => {
               </Form.Item>
 
               <Form.Item
-                label="How trustworthy was the other person during the game?"
+                label="How trustworthy was the other player during the experiment?"
                 name="trust"
                 rules={[{required: true, message: 'Please, answer this question first'}]}
               >

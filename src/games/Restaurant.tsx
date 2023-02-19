@@ -21,12 +21,12 @@ const Restaurant = ({game, callback}: RestaurantProps) => {
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
         <Image width={'25em'} src={image}/>
         <Paragraph style={{padding: '10px'}}>
-          You and the other person own different restaurants on the opposite side of the same street.
+          You and the other player own different restaurants on the opposite side of the same street.
           Both of you have two potential pricing strategies, <Text strong>low & high</Text>
           <ul>
             <li>If both of you keep the prices <Text strong>high</Text> each will earn <Text strong>₹5</Text></li>
             <li>If both of you keep the prices <Text strong>low</Text>, each will earn <Text strong>₹2.5</Text></li>
-            <li>However, If you <Text strong>lower</Text> the price, while the other person keeps it <Text
+            <li>However, If you <Text strong>lower</Text> the price, while the other player keeps it <Text
               strong>high</Text>, you will earn <Text strong>₹10</Text>, while the other would earn nothing (₹0). And
               vice versa.
             </li>

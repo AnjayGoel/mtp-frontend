@@ -28,7 +28,7 @@ const Intro = ({game, callback}: IntroProps) => {
             Welcome. This experiment is part of my MTP thesis. As a part of the experiment, you have been <Text strong>paired with someone in realtime</Text>.
             You will be presented with various scenario. <Text strong>The monetary payoffs/rewards of each
             scenario is real</Text> (Paid at the end of the experiments via UPI).
-            Also note that <Text strong> you will not know</Text> the choices made by other person or the outcome of
+            Also note that <Text strong> you will not know</Text> the choices made by other player or the outcome of
             each scenario
           </Paragraph>
           {game.infoType.length !== 0 && (
