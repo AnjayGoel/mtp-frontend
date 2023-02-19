@@ -25,7 +25,8 @@ const Intro = ({game, callback}: IntroProps) => {
       }}>
         <div>
           <Paragraph>
-            Welcome. This experiment is part of my MTP thesis. As a part of the experiment, you have been <Text strong>paired with someone in realtime</Text>.
+            Welcome. This experiment is part of my MTP thesis. As a part of the experiment, you have been <Text strong>paired
+            with someone in realtime</Text>.
             You will be presented with various scenario. <Text strong>The monetary payoffs/rewards of each
             scenario is real</Text> (Paid at the end of the experiments via UPI).
             Also note that <Text strong> you will not know</Text> the choices made by other player or the outcome of
@@ -33,20 +34,20 @@ const Intro = ({game, callback}: IntroProps) => {
           </Paragraph>
           {game.infoType.length !== 0 && (
             <Paragraph>
-              However you can,
+              However both of you can,
               <ul>
                 {game.infoType.includes('INFO') && (
-                  <li>See some information about the other player in top right</li>
+                  <li>See some information about the other player in <Text strong> top right</Text></li>
                 )}
 
                 {game.infoType.includes('CHAT') && (
                   <li>
-                    Chat with them in bottom right box.
+                    <Text strong>Chat</Text> with each other in bottom right box to make strategies.
                     But please <Text strong>do not reveal your identity</Text>
                   </li>
                 )}
                 {game.infoType.includes('VIDEO') && (
-                  <li>See each other through the webcam</li>
+                  <li>See each other through the <Text strong> webcam</Text></li>
                 )}
               </ul>
             </Paragraph>)}
@@ -61,7 +62,7 @@ const Intro = ({game, callback}: IntroProps) => {
         {action == null && (
           <div>
             <p>
-              Take a minute to look around the screen and press ready when you are done.
+              Take a minute to look around the screen and press start when you are ready to begin.
             </p>
             <Button
               type="primary"
@@ -70,7 +71,7 @@ const Intro = ({game, callback}: IntroProps) => {
                 callback('')
               }}
             >
-              Ready
+              Start
             </Button>
           </div>
         )}
