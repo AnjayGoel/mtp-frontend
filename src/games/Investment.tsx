@@ -57,7 +57,7 @@ const Investment = ({game, callback}: InvestmentProps) => {
                 After the whole ordeal with the police, you and the other player have stumbled upon another opportunity in
                 the stock market, this time its totally legal & safe.
                 <ul>
-                  <li> You have <Text strong>₹5</Text> , you can keep any proportion (including all) of it and invest
+                  <li> You have <Text strong>₹5</Text>, you can keep any proportion (including all) of it and invest
                     the rest
                   </li>
                   <li> Whatever you invest will be <Text strong>tripled</Text> and given to the other player</li>
