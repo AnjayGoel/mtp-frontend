@@ -300,7 +300,7 @@ export const GameContainer = () => {
     if (game?.infoType.includes("VIDEO")) {
       steps.push({
         title: 'Webcam',
-        description: 'Both of you can see each other through the webcam. (It may lag in sometimes)',
+        description: 'Both of you can see each other through the webcam. (It may lag sometime)',
         target: () => videoRef.current,
       })
     }
