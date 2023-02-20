@@ -123,9 +123,14 @@ export const GameContainer = () => {
         };
 
         if (localStream === null) {
-          const stream = await navigator.mediaDevices.getUserMedia(constraints);
-          stream.getTracks().forEach(track => webRTCPeer.addTrack(track, stream));
-          setLocalStream(stream)
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            stream.getTracks().forEach(track => webRTCPeer.addTrack(track, stream));
+            setLocalStream(stream)
+          } catch (err: any) {
+            notification.info({message: 'Failed to access webcam, Redirecting to home page', duration: 3})
+            navigate('/')
+          }
         }
 
         if (game.isServer && !offerSent) {
@@ -334,7 +339,7 @@ export const GameContainer = () => {
       <Col span={16}>
         {(<div
             ref={timerRef}
-            style={{paddingLeft: '10px',width:'fit-content'}}>
+            style={{paddingLeft: '10px', width: 'fit-content'}}>
             <CountDown gameId={game.gameId}
                        timeout={game.gameId === 5 && game.isServer ? game.config['timeout'] / 2 : game.config['timeout']}
                        changeCallback={(value: number) => {
