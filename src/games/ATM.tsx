@@ -22,7 +22,7 @@ const ATM = ({game, callback}: ATMMachineProps) => {
         <Paragraph style={{padding: '10px'}}>
           At the end of the month, you and the other player go to a bank to deposit your earnings and encounter a faulty
           ATM machine. If you put in <Text strong>₹5</Text> in the machine, the other player gets
-          <Text strong> ₹15</Text> (and you lose the ₹5, obviously) and vice versa. You both can either choose to
+          <Text strong> ₹10</Text> (and you lose the ₹5, obviously) and vice versa. You both can either choose to
           put in the money, or not to.
         </Paragraph>
         <Divider/>
