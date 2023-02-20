@@ -1,7 +1,7 @@
 {
   "name": "mtp_frontend",
   "version": "0.1.0",
-  "homepage": "https://anjaygoel.github.io/mtp_frontend",
+  "homepage": "https://anjaygoel.github.io/mtp-frontend/",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.0.0",
