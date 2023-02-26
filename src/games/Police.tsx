@@ -21,7 +21,7 @@ const Police = ({game, callback}: PoliceProps) => {
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
         <Image width={'25em'} src={image}/>
         <Paragraph style={{padding: '10px'}}>
-          The police found you and the other player exploiting the ATM machine. Both of you are held in different cells.
+          The police found you and the other person exploiting the ATM machine. Both of you are held in different cells.
           The police officer offers you both the opportunity to either remain silent or blame the other.
           <ul>
             <li>If both of you <Text strong>remain silent</Text>, both will be <Text strong>fined ₹2.5</Text>
@@ -29,7 +29,7 @@ const Police = ({game, callback}: PoliceProps) => {
             <li>If both of you <Text strong>blame each other</Text>, both will be <Text strong>fined ₹5</Text>
             </li>
             <li>If one of you blames the other and the other remains silent, the one who
-              remained silent be <Text strong>fined ₹10</Text>, while <Text strong>the other would
+              remained silent be <Text strong>fined ₹7.5</Text>, while <Text strong>the other would
                 be set free</Text>.
             </li>
           </ul>
@@ -44,7 +44,7 @@ const Police = ({game, callback}: PoliceProps) => {
                   callback('confess')
                   setAction('confess')
                 }
-                }>Blame The Other Player</Button>
+                }>Blame The Other person</Button>
               </Col>
               <Col span={12}>
                 <Button type='primary' block onClick={() => {
@@ -57,7 +57,7 @@ const Police = ({game, callback}: PoliceProps) => {
         )}
         {action !== null && (
           <Space><LoadingOutlined style={{fontSize: 24}} spin/>
-            <Text strong>Please wait for other player to respond</Text>
+            <Text strong>Please wait for other person to respond</Text>
           </Space>
         )}
       </div>

@@ -25,7 +25,7 @@ const Outro = ({game, callback}: OutroProps) => {
       }}>
         {action !== null && (
           <Space><LoadingOutlined style={{fontSize: 24}} spin/>
-            <Text strong>Please wait for other player to respond</Text>
+            <Text strong>Please wait for other person to respond</Text>
           </Space>
         )}
         {action == null && (
@@ -44,7 +44,7 @@ const Outro = ({game, callback}: OutroProps) => {
             >
 
               <Form.Item
-                label="Do you, by any chance, personally know the other player?"
+                label="Do you, by any chance, personally know the other person?"
                 name="know"
                 rules={[{required: true, message: 'Please, answer this question first'}]}
               >
@@ -56,7 +56,7 @@ const Outro = ({game, callback}: OutroProps) => {
               </Form.Item>
 
               <Form.Item
-                label="How trustworthy was the other player during the experiment?"
+                label="How trustworthy was the other person during the experiment?"
                 name="trust"
                 rules={[{required: true, message: 'Please, answer this question first'}]}
               >

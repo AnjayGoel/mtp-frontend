@@ -20,9 +20,9 @@ const ATM = ({game, callback}: ATMMachineProps) => {
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
         <Image width='25em' src={image}/>
         <Paragraph style={{padding: '10px'}}>
-          At the end of the month, you and the other player go to a bank to deposit your earnings and encounter a faulty
-          ATM machine. If you put in <Text strong>₹5</Text> in the machine, the other player gets
-          <Text strong> ₹10</Text> (and you lose the ₹5, obviously) and vice versa. You both can either choose to
+          You and the other person go to a bank to deposit your restaurant's earnings and encounter a faulty
+          ATM machine. If you put in <Text strong>₹3</Text> in the machine, the other person gets
+          <Text strong> ₹10</Text> (and you lose the ₹3, obviously) and vice versa. You both can either choose to
           put in the money, or not to.
         </Paragraph>
         <Divider/>
@@ -34,13 +34,13 @@ const ATM = ({game, callback}: ATMMachineProps) => {
                 <Button type='primary' block onClick={() => {
                   setAction('put')
                   callback('put')
-                }}>Put ₹5 In The ATM</Button>
+                }}>Put ₹3 In The ATM</Button>
               </Col>
               <Col span={12}>
                 <Button type='primary' block onClick={() => {
                   callback('dont')
                   setAction('dont')
-                }}>Don't Put ₹5 In The ATM</Button>
+                }}>Don't Put ₹3 In The ATM</Button>
               </Col>
             </Row>
           </div>
@@ -48,7 +48,7 @@ const ATM = ({game, callback}: ATMMachineProps) => {
 
         {action !== null && (
           <Space><LoadingOutlined style={{fontSize: 24}} spin/>
-            <Text strong>Please wait for other player to respond</Text>
+            <Text strong>Please wait for other person to respond</Text>
           </Space>
         )}
       </div>

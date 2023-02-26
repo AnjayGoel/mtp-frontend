@@ -64,7 +64,7 @@ const Intro = ({game, callback, tourOpen}: IntroProps) => {
               Both of you can,
               <ul>
                 {game.infoType.includes('INFO') && (
-                  <li>See some information about the other player in <Text strong> top right</Text></li>
+                  <li>See some information about the other person in <Text strong> top right</Text></li>
                 )}
 
                 {game.infoType.includes('CHAT') && (
@@ -83,7 +83,7 @@ const Intro = ({game, callback, tourOpen}: IntroProps) => {
         <Divider/>
         {action !== null && (
           <Space><LoadingOutlined style={{fontSize: 24}} spin/>
-            <Text strong>Please wait for other player to respond</Text>
+            <Text strong>Please wait for other person to respond</Text>
           </Space>
         )}
         {action == null && (

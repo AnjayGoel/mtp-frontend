@@ -32,7 +32,7 @@ export const GameContainer = () => {
       name: 'System',
       email: 'system',
       avatar: '',
-      message: 'Chat with the other player here'
+      message: 'Chat with the other person here'
     }
   ]);
   const [game, setGame] = useState<Game | null>(null);
@@ -222,7 +222,7 @@ export const GameContainer = () => {
 
   const handlePlayerDisconnect = (message: any) => {
     if (game?.gameId === 0) return;
-    notification.error({message: 'The other player has left the game', duration: 5})
+    notification.error({message: 'The other person has left the experiment', duration: 5})
     setGame(null)
     setChats([])
     navigate('/')
@@ -292,8 +292,8 @@ export const GameContainer = () => {
     ];
     if (game?.infoType.includes("INFO")) {
       steps.push({
-        title: 'Other Player\'s Info',
-        description: 'This box shows some basic information about the other player',
+        title: 'Other person\'s Info',
+        description: 'This box shows some basic information about the other person',
         target: () => infoRef.current,
       })
     }
@@ -308,7 +308,7 @@ export const GameContainer = () => {
       steps.push({
         title: 'Chat',
         description: <div>
-          You can use this chat-box to chat with the other player and make plans for the scenario.
+          You can use this chat-box to chat with the other person and make plans for the scenario.
           <Text strong> Do not reveal your identity</Text> (it will disqualify you from the experiment).
           Keep an eye out for new messages</div>,
         target: () => chatBoxRef.current,
@@ -327,7 +327,7 @@ export const GameContainer = () => {
 
 
   if (game === null) {
-    return <div className='div-center'><Spin tip="Looking for players"/></div>
+    return <div className='div-center'><Spin tip="Looking for a match"/></div>
   }
 
   if (game.gameId === 0) {

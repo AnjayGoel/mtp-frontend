@@ -17,7 +17,7 @@ const Instructions = () => {
         <ul>
           <li>A laptop with <Text strong>stable internet connection</Text> and a <Text strong>working webcam</Text></li>
           <li>Ensure that your webcam is working. And allow access if requested</li>
-          <li><Text strong>Do not refresh </Text> the page during the game. This will disconnect you from the
+          <li><Text strong>Do not refresh </Text> the page during the experiment. This will disconnect you from the
             experiment session.
           </li>
         </ul>

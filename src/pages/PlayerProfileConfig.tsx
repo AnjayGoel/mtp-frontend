@@ -61,6 +61,7 @@ const PlayerProfileConfig = ({isUpdate, closeCallback}: PlayerProfileConfigProps
         form={form}
         onFinish={onFinish}
         layout='vertical'
+        initialValues={{upi_id:'no.thanks@upi'}}
         style={{width: 'fit-content'}}
       >
         <Paragraph>
@@ -107,7 +108,7 @@ const PlayerProfileConfig = ({isUpdate, closeCallback}: PlayerProfileConfigProps
           rules={[{required: false, message: ''}]}
           style={{paddingBottom: '10px'}}
         >
-          <Input/>
+          <Input defaultValue="no.thanks@upi"/>
         </Form.Item>
         <Button
           type='primary'

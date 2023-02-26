@@ -38,7 +38,7 @@ const Investment = ({game, callback}: InvestmentProps) => {
             setClientAction(0)
             callback(0)
           }
-          setResponse(Math.floor(game.state[email] * 300 / 2) / 100)
+          setResponse(Math.floor(game.state[email] * 400 / 2) / 100)
         }
       }
     }
@@ -54,14 +54,14 @@ const Investment = ({game, callback}: InvestmentProps) => {
           {
             game.isServer && (
               <Paragraph>
-                After the whole ordeal with the police, you and the other player have stumbled upon another opportunity in
+                After the whole ordeal with the police, you and the other person have stumbled upon another opportunity in
                 the stock market, this time its totally legal & safe.
                 <ul>
                   <li> You have <Text strong>₹5</Text>, you can keep any proportion (including all) of it and invest
                     the rest
                   </li>
-                  <li> Whatever you invest will be <Text strong>tripled</Text> and given to the other player</li>
-                  <li> The other player will have an option to keep any proportion (including all) of the sum and send
+                  <li> Whatever you invest will be <Text strong>quadrupled (4x)</Text> and given to the other person</li>
+                  <li> The other person will have an option to keep any proportion (including all) of the sum and send
                     the rest back to you
                   </li>
                 </ul>
@@ -70,16 +70,16 @@ const Investment = ({game, callback}: InvestmentProps) => {
           }
           {!game.isServer && (
             <Paragraph>
-              After the whole ordeal with the police, you and the other player have stumbled upon another opportunity in
+              After the whole ordeal with the police, you and the other person have stumbled upon another opportunity in
               the stock market, this time its totally legal & safe.
               <ul>
-                <li> The other player has <Text strong>₹5</Text>, they can keep any proportion (including all) of it
+                <li> The other person has <Text strong>₹5</Text>, they can keep any proportion (including all) of it
                   and invest the
                   rest
                 </li>
-                <li> Whatever they invest will be <Text strong>tripled</Text> and given to the you</li>
+                <li> Whatever they invest will be <Text strong>quadrupled (4x)</Text> and given to the you</li>
                 <li> You have an option to keep any proportion (including all) of the sum and send the rest back to the
-                  other player
+                  other person
                 </li>
               </ul>
             </Paragraph>
@@ -111,21 +111,21 @@ const Investment = ({game, callback}: InvestmentProps) => {
         {game.isServer && serverAction !== null && clientAction === null && (
           <Space>
             <LoadingOutlined style={{fontSize: 24}} spin/>
-            <Text strong>Please wait for other player to respond</Text>
+            <Text strong>Please wait for other person to respond</Text>
           </Space>
         )}
 
         {!game.isServer && serverAction !== null && clientAction == null && (
           <div>
-            The other player sent you <Text strong>₹{serverAction}</Text>. You now
-            have <Text strong>₹{serverAction * 3} </Text>
+            The other person sent you <Text strong>₹{serverAction}</Text>. You now
+            have <Text strong>₹{serverAction * 4} </Text>
             <Text>How much will you send back?</Text>
             <Row gutter={24} style={{width: '40vw'}}>
               <Col span={20}>
                 <Slider
-                  marks={{0: "₹0", [3 * serverAction]: `₹${3 * serverAction}`}}
-                  defaultValue={Math.round(serverAction * 300 / 2) / 100}
-                  min={0} max={3 * serverAction}
+                  marks={{0: "₹0", [4 * serverAction]: `₹${4 * serverAction}`}}
+                  defaultValue={Math.round(serverAction * 400 / 2) / 100}
+                  min={0} max={4 * serverAction}
                   step={0.25}
                   onChange={(value: number) => {
                     setResponse(value)
@@ -146,7 +146,7 @@ const Investment = ({game, callback}: InvestmentProps) => {
           (
             <Space>
               <LoadingOutlined style={{fontSize: 24}} spin/>
-              <Text strong>Please wait for other player to respond</Text>
+              <Text strong>Please wait for other person to respond</Text>
             </Space>
           )
         }
