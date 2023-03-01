@@ -30,7 +30,7 @@ const Outro = ({game, callback}: OutroProps) => {
         )}
         {action == null && (
           <div>
-            Please answer these final questions honestly.
+            Please answer these questions honestly.
             <Form
               layout='vertical'
               initialValues={{
@@ -56,7 +56,7 @@ const Outro = ({game, callback}: OutroProps) => {
               </Form.Item>
 
               <Form.Item
-                label="How trustworthy was the other person during the experiment?"
+                label="How much did you trust the other person during the experiment?"
                 name="trust"
                 rules={[{required: true, message: 'Please, answer this question first'}]}
               >

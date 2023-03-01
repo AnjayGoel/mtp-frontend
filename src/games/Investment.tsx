@@ -57,11 +57,9 @@ const Investment = ({game, callback}: InvestmentProps) => {
                 After the whole ordeal with the police, you and the other person have stumbled upon another opportunity in
                 the stock market, this time its totally legal & safe.
                 <ul>
-                  <li> You have <Text strong>₹5</Text>, you can keep any proportion (including all) of it and invest
-                    the rest
-                  </li>
+                  <li> You have <Text strong>₹5</Text>, you can keep some (or all) of it and invest the rest </li>
                   <li> Whatever you invest will be <Text strong>quadrupled (4x)</Text> and given to the other person</li>
-                  <li> The other person will have an option to keep any proportion (including all) of the sum and send
+                  <li> The other person will have an option to keep some (or all) of the final amount and send
                     the rest back to you
                   </li>
                 </ul>
@@ -73,12 +71,11 @@ const Investment = ({game, callback}: InvestmentProps) => {
               After the whole ordeal with the police, you and the other person have stumbled upon another opportunity in
               the stock market, this time its totally legal & safe.
               <ul>
-                <li> The other person has <Text strong>₹5</Text>, they can keep any proportion (including all) of it
-                  and invest the
+                <li> The other person has <Text strong>₹5</Text>, they can keep some (or all) of it and invest the
                   rest
                 </li>
-                <li> Whatever they invest will be <Text strong>quadrupled (4x)</Text> and given to the you</li>
-                <li> You have an option to keep any proportion (including all) of the sum and send the rest back to the
+                <li> Whatever they invest will be <Text strong>quadrupled (4x)</Text> and given to you</li>
+                <li> You have an option to keep some (or all) of the final amount and send the rest back to the
                   other person
                 </li>
               </ul>
