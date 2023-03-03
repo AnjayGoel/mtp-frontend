@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/mtp-frontend/static/css/main.6eae27a4.css",
-    "main.js": "/mtp-frontend/static/js/main.45f4affa.js",
+    "main.js": "/mtp-frontend/static/js/main.4fb07142.js",
     "static/js/787.747d6915.chunk.js": "/mtp-frontend/static/js/787.747d6915.chunk.js",
     "static/media/Restaurant.png": "/mtp-frontend/static/media/Restaurant.758fbf3e1d8867ca8217.png",
     "static/media/ATM.png": "/mtp-frontend/static/media/ATM.d6c9a0f842e94b8281ad.png",
@@ -9,11 +9,11 @@
     "static/media/PrisonersDilemma.png": "/mtp-frontend/static/media/PrisonersDilemma.f743ad393bc6fcde6799.png",
     "index.html": "/mtp-frontend/index.html",
     "main.6eae27a4.css.map": "/mtp-frontend/static/css/main.6eae27a4.css.map",
-    "main.45f4affa.js.map": "/mtp-frontend/static/js/main.45f4affa.js.map",
+    "main.4fb07142.js.map": "/mtp-frontend/static/js/main.4fb07142.js.map",
     "787.747d6915.chunk.js.map": "/mtp-frontend/static/js/787.747d6915.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.6eae27a4.css",
-    "static/js/main.45f4affa.js"
+    "static/js/main.4fb07142.js"
   ]
 }
