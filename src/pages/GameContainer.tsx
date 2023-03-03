@@ -274,7 +274,7 @@ export const GameContainer = () => {
           Welcome. This experiment is part of my MTP thesis. As a part of the experiment, you have been <Text strong>
           paired with someone in realtime</Text>.
           You will be presented with various scenario where you have to make some choices.
-          <Text strong>The monetary payoffs/rewards of each scenario is real </Text>
+          <Text strong> The monetary payoffs/rewards of each scenario is real </Text>
           (Paid at the end of the experiments via UPI).
         </Paragraph>,
         target: () => null,
@@ -292,8 +292,8 @@ export const GameContainer = () => {
     ];
     if (game?.infoType.includes("INFO")) {
       steps.push({
-        title: 'Other person\'s Info',
-        description: 'This box shows some basic information about the other person',
+        title: 'Other person\'s info',
+        description: 'This box shows some information about the other person. The same information about you is shown to the other person',
         target: () => infoRef.current,
       })
     }
