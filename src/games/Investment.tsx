@@ -62,6 +62,7 @@ const Investment = ({game, callback}: InvestmentProps) => {
                   <li> The other person will have an option to keep some (or all) of the final amount and send
                     the rest back to you
                   </li>
+                  <li>Clearly, You earn the amount you keep + the amount other person sends back</li>
                 </ul>
               </Paragraph>
             )
@@ -78,6 +79,7 @@ const Investment = ({game, callback}: InvestmentProps) => {
                 <li> You have an option to keep some (or all) of the final amount and send the rest back to the
                   other person
                 </li>
+                <li>Clearly, You earn the amount you keep</li>
               </ul>
             </Paragraph>
           )}
