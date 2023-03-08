@@ -38,7 +38,7 @@ const Investment = ({game, callback}: InvestmentProps) => {
             setClientAction(0)
             callback(0)
           }
-          setResponse(Math.floor(game.state[email] * 400 / 2) / 100)
+          setResponse(Math.floor(game.state[email] * 300 / 2) / 100)
         }
       }
     }
@@ -58,7 +58,7 @@ const Investment = ({game, callback}: InvestmentProps) => {
                 the stock market, this time its totally legal & safe.
                 <ul>
                   <li> You have <Text strong>₹5</Text>, you can keep some (or all) of it and invest the rest </li>
-                  <li> Whatever you invest will be <Text strong>quadrupled (4x)</Text> and given to the other person</li>
+                  <li> Whatever you invest will be <Text strong>tripled (3x)</Text> and given to the other person</li>
                   <li> The other person will have an option to keep some (or all) of the final amount and send
                     the rest back to you
                   </li>
@@ -75,7 +75,7 @@ const Investment = ({game, callback}: InvestmentProps) => {
                 <li> The other person has <Text strong>₹5</Text>, they can keep some (or all) of it and invest the
                   rest
                 </li>
-                <li> Whatever they invest will be <Text strong>quadrupled (4x)</Text> and given to you</li>
+                <li> Whatever they invest will be <Text strong>tripled (3x)</Text> and given to you</li>
                 <li> You have an option to keep some (or all) of the final amount and send the rest back to the
                   other person
                 </li>
@@ -117,14 +117,14 @@ const Investment = ({game, callback}: InvestmentProps) => {
         {!game.isServer && serverAction !== null && clientAction == null && (
           <div>
             The other person sent you <Text strong>₹{serverAction}</Text>. You now
-            have <Text strong>₹{serverAction * 4} </Text>
+            have <Text strong>₹{serverAction * 3} </Text>
             <Text>How much will you send back?</Text>
             <Row gutter={24} style={{width: '40vw'}}>
               <Col span={20}>
                 <Slider
-                  marks={{0: "₹0", [4 * serverAction]: `₹${4 * serverAction}`}}
-                  defaultValue={Math.round(serverAction * 400 / 2) / 100}
-                  min={0} max={4 * serverAction}
+                  marks={{0: "₹0", [3 * serverAction]: `₹${3 * serverAction}`}}
+                  defaultValue={Math.round(serverAction * 300 / 2) / 100}
+                  min={0} max={3 * serverAction}
                   step={0.25}
                   onChange={(value: number) => {
                     setResponse(value)
