@@ -1,7 +1,7 @@
 import React from 'react';
 import {Avatar, Col, Row, Typography} from "antd";
 import {getUserInfo} from "../utils";
-import {RobotOutlined} from "@ant-design/icons";
+import {RobotOutlined, UserOutlined} from "@ant-design/icons";
 
 const {Title, Paragraph, Text, Link} = Typography;
 
@@ -18,10 +18,12 @@ const ChatMessage = ({name, email, avatar, message}: ChatMessageProps) => {
   let userAvatar: any = avatar
   let isSystem = email === "system"
   let isSelf = email === getUserInfo()["email"] || isSystem
-  if (isSystem){
-    userAvatar = <RobotOutlined />
+  if (isSystem) {
+    userAvatar = <RobotOutlined/>
   }
-
+  if (!isSelf) {
+    userAvatar = <UserOutlined/>
+  }
 
   return (
     <div style={{

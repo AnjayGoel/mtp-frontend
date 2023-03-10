@@ -269,7 +269,7 @@ export const GameContainer = () => {
   const getTourSteps = () => {
     const steps: TourProps['steps'] = [
       {
-        title: 'Welcome',
+        title: 'Tutorial',
         description: <Paragraph>
           Welcome. This experiment is part of my MTP thesis. As a part of the experiment, you have been <Text strong>
           paired with someone in realtime</Text>.
