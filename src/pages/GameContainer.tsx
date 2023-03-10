@@ -221,7 +221,7 @@ export const GameContainer = () => {
 
 
   const handlePlayerDisconnect = (message: any) => {
-    if (game?.gameId === 0) return;
+    if (game?.gameId === 0 || game?.gameId === 6) return;
     notification.error({message: 'The other person has left the experiment', duration: 5})
     setGame(null)
     setChats([])
