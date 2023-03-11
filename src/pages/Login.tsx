@@ -67,7 +67,7 @@ const Login = () => {
             flexDirection: 'column',
             gap: '10px'
           }}
-          title={'Signup or Login with Google'}
+          title={'Login with Google'}
           size='small'>
           <GoogleLogin
             onSuccess={onSuccess}

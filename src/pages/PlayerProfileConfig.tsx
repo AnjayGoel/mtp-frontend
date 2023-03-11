@@ -61,7 +61,7 @@ const PlayerProfileConfig = ({isUpdate, closeCallback}: PlayerProfileConfigProps
         form={form}
         onFinish={onFinish}
         layout='vertical'
-        initialValues={{upi_id:'no.thanks@upi'}}
+        initialValues={{upi_id: 'no.thanks@upi', gender: 'M'}}
         style={{width: 'fit-content'}}
       >
         <Paragraph>
@@ -102,14 +102,26 @@ const PlayerProfileConfig = ({isUpdate, closeCallback}: PlayerProfileConfigProps
         </Form.Item>
 
         <Form.Item
+          name="gender"
+          label="Gender"
+          rules={[{required: true, message: ''}]}
+        >
+          <Select>
+            <Option value="M" key={0}>Male</Option>
+            <Option value="F" key={1}>Female</Option>
+          </Select>
+        </Form.Item>
+
+        <Form.Item
           name="upi_id"
           label="UPI ID"
-          help={"Only used to pay the experiment's rewards, if any"}
+          help={"Used to pay the experiment's rewards"}
           rules={[{required: false, message: ''}]}
           style={{paddingBottom: '10px'}}
         >
           <Input defaultValue="no.thanks@upi"/>
         </Form.Item>
+
         <Button
           type='primary'
           htmlType='submit'
