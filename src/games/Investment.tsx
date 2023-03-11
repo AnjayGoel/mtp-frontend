@@ -59,7 +59,7 @@ const Investment = ({game, callback}: InvestmentProps) => {
                 <ul>
                   <li> You have <Text strong>₹5</Text>, you can keep any proportion of it and invest the rest </li>
                   <li> Whatever you invest will be <Text strong>tripled (3x)</Text> and given to the other person</li>
-                  <li> The other person will have an option to keep any proportion of the final amount and send
+                  <li> The other person will have an option to keep any proportion of the tripled amount and send
                     the rest back to you
                   </li>
                   <li>Clearly, You earn the amount you keep + the amount other person sends back</li>
@@ -76,7 +76,7 @@ const Investment = ({game, callback}: InvestmentProps) => {
                   rest
                 </li>
                 <li> Whatever they invest will be <Text strong>tripled (3x)</Text> and given to you</li>
-                <li> You have an option to keep any proportion of the final amount and send the rest back to the
+                <li> You have an option to keep any proportion of the tripled amount and send the rest back to the
                   other person
                 </li>
                 <li>Clearly, You earn the amount you keep</li>
@@ -87,7 +87,7 @@ const Investment = ({game, callback}: InvestmentProps) => {
         <Divider/>
         {game.isServer && serverAction === null &&
           (<div>
-              <Text strong>What much will you invest?</Text>
+              <Text strong>How much will you invest?</Text>
               <Row gutter={24} style={{width: '40vw'}}>
                 <Col span={20}>
                   <Slider

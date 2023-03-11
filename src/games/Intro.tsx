@@ -56,9 +56,9 @@ const Intro = ({game, callback, tourOpen}: IntroProps) => {
           <Paragraph>
             Welcome. This experiment is part of my MTP thesis. As a part of the experiment, you have been <Text strong>
             paired with someone in realtime</Text>.
-            You will be presented with various scenario where you have to make some choices. <Text strong>The monetary
-            payoffs/rewards of each
-            scenario is real</Text> (Paid at the end of the experiments via UPI).
+            You will be presented with various scenario where you have to make some choices.
+            <Text strong> The monetary payoffs of each scenario is real </Text>
+            The total amount you win will be paid at the end of the experiments via UPI.
           </Paragraph>
           {game.infoType.length !== 0 && (
             <Paragraph>
