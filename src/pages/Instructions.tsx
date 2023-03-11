@@ -27,8 +27,8 @@ const Instructions = () => {
         <ul>
           <li>You will be <Text strong>paired with someone in realtime</Text></li>
           <li>You might be presented some varying levels of information about the other person</li>
-          <li>You will be presented with various scenario. <Text strong>The monetary payoffs/rewards of each
-            scenario is real</Text> (Given at the end of the experiments).
+          <li> The monetary payoffs of each scenario is real. That is,
+            <Text strong> whatever you win will actually be paid at the end of the experiments via UPI.</Text>
           </li>
         </ul>
       </Paragraph>

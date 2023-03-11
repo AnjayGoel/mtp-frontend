@@ -271,11 +271,11 @@ export const GameContainer = () => {
       {
         title: 'Tutorial',
         description: <Paragraph>
-          Welcome. This experiment is part of my MTP thesis. As a part of the experiment, you have been <Text strong>
-          paired with someone in realtime</Text>.
+          Welcome. This is a real-time 2-person experiment (a part of my MTP thesis).
+          As a part of the experiment, you have been <Text strong> paired with someone in realtime</Text>.
           You will be presented with various scenario where you have to make some choices.
-          <Text strong> The monetary payoffs of each scenario is real </Text>
-          The total amount you win will be paid at the end of the experiments via UPI.
+          The monetary payoffs of each scenario is real. That is,
+          <Text strong> whatever you win will actually be paid at the end of the experiments via UPI.</Text>
         </Paragraph>,
         target: () => null,
       },
