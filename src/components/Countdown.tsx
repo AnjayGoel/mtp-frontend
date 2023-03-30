@@ -23,7 +23,7 @@ const CountDown = ({timeout, changeCallback, finishCallback, gameId}: CountDownP
   useEffect(() => {
     if (current < 5 && current > 0) {
       notification.info({
-        message: `Next game starting in ${current}`,
+        message: `Next scenario starting in ${current}`,
         key: 'timeout'
       })
     }
@@ -38,7 +38,7 @@ const CountDown = ({timeout, changeCallback, finishCallback, gameId}: CountDownP
   return (
     <span>
       <Countdown
-        title="Time left" value={endTime}
+        title="Time left (This Scenario)" value={endTime}
         valueStyle={{color: current < 5 ? 'red' : 'black'}} format='ss'
         onChange={(value) => {
           if (value === undefined) return;
