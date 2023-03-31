@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Button, Form, Input, notification, Select, Spin, Typography} from "antd";
+import {Button, Col, Form, Input, notification, Row, Select, Spin, Typography} from "antd";
 import {useMutation, useQuery} from "react-query";
 import {getPlayer, signUp} from "../api";
 import {getUseQueryOptions} from "../utils";
@@ -68,54 +68,72 @@ const PlayerProfileConfig = ({isUpdate, closeCallback}: PlayerProfileConfigProps
           <Text strong>Note:</Text> No personal information will be shared with anyone. And the collected data will be
           deleted after the completion of the project
         </Paragraph>
+        <Row gutter={12}>
+          <Col span={12}>
+            <Form.Item
+              name="hall"
+              label="Hall Of Residence"
+              rules={[{required: true}]}
+            >
+              <Select showSearch options={HALLS.map(it => {
+                return {value: it, label: it}
+              })}/>
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              name="department"
+              label="Department"
+              rules={[{required: true}]}
+            >
+              <Select showSearch options={DEPARTMENTS.map(it => {
+                return {value: it, label: it}
+              })}/>
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row gutter={12}>
+          <Col span={12}>
+            <Form.Item
+              name="year"
+              label="Year of study"
+              rules={[{required: true, message: ''}]}
+            >
+              <Select>
+                <Option value="1" key={0}>1</Option>
+                <Option value="2" key={1}>2</Option>
+                <Option value="3" key={2}>3</Option>
+                <Option value="4" key={3}>4</Option>
+                <Option value="5" key={4}>5</Option>
+              </Select>
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              name="gender"
+              label="Gender"
+              rules={[{required: true, message: ''}]}
+            >
+              <Select>
+                <Option value="M" key={0}>Male</Option>
+                <Option value="F" key={1}>Female</Option>
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
         <Form.Item
-          name="hall"
-          label="Hall Of Residence"
-          rules={[{required: true}]}
-        >
-          <Select showSearch options={HALLS.map(it => {
-            return {value: it, label: it}
-          })}/>
-        </Form.Item>
-        <Form.Item
-          name="department"
-          label="Department"
-          rules={[{required: true}]}
-        >
-          <Select showSearch options={DEPARTMENTS.map(it => {
-            return {value: it, label: it}
-          })}/>
-        </Form.Item>
-
-        <Form.Item
-          name="year"
-          label="Year of study"
+          name="roll_no"
+          label="Roll No"
           rules={[{required: true, message: ''}]}
+          style={{paddingBottom: '10px'}}
         >
-          <Select>
-            <Option value="1" key={0}>1</Option>
-            <Option value="2" key={1}>2</Option>
-            <Option value="3" key={2}>3</Option>
-            <Option value="4" key={3}>4</Option>
-            <Option value="5" key={4}>5</Option>
-          </Select>
-        </Form.Item>
-
-        <Form.Item
-          name="gender"
-          label="Gender"
-          rules={[{required: true, message: ''}]}
-        >
-          <Select>
-            <Option value="M" key={0}>Male</Option>
-            <Option value="F" key={1}>Female</Option>
-          </Select>
+          <Input defaultValue=""/>
         </Form.Item>
 
         <Form.Item
           name="upi_id"
           label="UPI ID"
-          help={"Used to pay the experiment's rewards"}
+          help={"Used to pay the experiment's rewards, not compulsory"}
           rules={[{required: false, message: ''}]}
           style={{paddingBottom: '10px'}}
         >

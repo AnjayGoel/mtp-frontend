@@ -77,7 +77,7 @@ const Login = () => {
       )}
 
       <Modal
-        width={'30vw'}
+        width={'40vw'}
         title="Profile" open={showPlayerProfile}
         onOk={() => {
           setShowPlayerProfile(false)
