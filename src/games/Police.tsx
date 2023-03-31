@@ -24,10 +24,10 @@ const Police = ({game, callback}: PoliceProps) => {
           The police found you and the other person exploiting the ATM machine. Both of you are held in different cells.
           The police officer offers you both the opportunity to either remain silent or blame the other person.
           <ul>
-            <li>If both of you <Text strong>remain silent</Text>, both will be <Text strong>fined ₹2.5</Text>
+            <li>If both of you <Text strong>remain silent</Text>, both will be <Text strong>fined ₹3</Text>
             </li>
             <li>If one of you blames the other and the other remains silent, the one who
-              remained silent be <Text strong>fined ₹7.5</Text>, while <Text strong>the other would be set free</Text>.
+              remained silent be <Text strong>fined ₹7</Text>, while <Text strong>the other would be set free</Text>.
             </li>
             <li>If both of you <Text strong>blame each other</Text>, both will be <Text strong>fined ₹5</Text>
             </li>

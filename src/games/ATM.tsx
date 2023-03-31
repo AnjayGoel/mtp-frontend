@@ -21,9 +21,9 @@ const ATM = ({game, callback}: ATMMachineProps) => {
         <Image width='25em' src={image}/>
         <Paragraph style={{padding: '10px'}}>
           You and the other person go to a bank to deposit your restaurant's earnings and encounter a faulty
-          ATM machine. If you put in <Text strong>₹3</Text> in the machine, the other person gets
-          <Text strong> ₹10</Text> (and you lose the ₹3, obviously) and vice versa.
-          You both have an option to either to put in ₹3, or not to.
+          ATM machine. If you put in <Text strong>₹2</Text> in the machine, the other person gets
+          <Text strong> ₹6</Text> (and you lose the ₹2, obviously) and vice versa.
+          You both have an option to either to put in ₹2, or not to.
         </Paragraph>
         <Divider/>
         {action === null && (
@@ -34,13 +34,13 @@ const ATM = ({game, callback}: ATMMachineProps) => {
                 <Button type='primary' block onClick={() => {
                   setAction('put')
                   callback('put')
-                }}>Put ₹3 In The ATM</Button>
+                }}>Put ₹2 In The ATM</Button>
               </Col>
               <Col span={12}>
                 <Button type='primary' block onClick={() => {
                   callback('dont')
                   setAction('dont')
-                }}>Don't Put ₹3 In The ATM</Button>
+                }}>Don't Put ₹2 In The ATM</Button>
               </Col>
             </Row>
           </div>
