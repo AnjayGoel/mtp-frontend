@@ -98,7 +98,9 @@ const Investment = ({game, callback}: InvestmentProps) => {
                     }}/>
                 </Col>
                 <Col span={4}>
-                  <Button block onClick={() => {
+                  <Button
+                    type='primary'
+                    block onClick={() => {
                     setServerAction(response)
                     callback(response)
                   }}>
@@ -116,9 +118,9 @@ const Investment = ({game, callback}: InvestmentProps) => {
 
         {!game.isServer && serverAction !== null && clientAction == null && (
           <div>
-            The other person sent you <Text strong>₹{serverAction}</Text>. You now
-            have <Text strong>₹{serverAction * 3} </Text>
-            <Text>How much will you send back?</Text>
+            The other person sent you <Text strong>₹{serverAction}</Text> out of ₹5 they had. You now
+            have <Text strong>₹{serverAction * 3}</Text>.
+            <Text> How much will you send back?</Text>
             <Row gutter={24} style={{width: '40vw'}}>
               <Col span={20}>
                 <Slider
@@ -131,7 +133,9 @@ const Investment = ({game, callback}: InvestmentProps) => {
                   }}/>
               </Col>
               <Col span={4}>
-                <Button block onClick={() => {
+                <Button
+                  type='primary'
+                  block onClick={() => {
                   setClientAction(response)
                   callback(response)
                 }}>
