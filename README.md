@@ -1,1 +1,1 @@
-# Frontend for my mtp thesis on behavioral game theory
+# Frontend for my MTP thesis on behavioral game theory
