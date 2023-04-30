@@ -24,9 +24,9 @@ const Restaurant = ({game, callback}: RestaurantProps) => {
           You and the other person own different restaurants on the opposite side of the same street.
           Both of you have two potential pricing strategies, <Text strong>low & high</Text>
           <ul>
-            <li>If both of you keep the prices <Text strong>high</Text> both will earn <Text strong>₹4</Text></li>
+            <li>If both of you keep the prices <Text strong>high</Text> both will earn <Text strong>₹5</Text></li>
             <li>If you <Text strong>lower</Text> the price, while the other person keeps it <Text
-              strong>high</Text>, you will earn <Text strong>₹7</Text>, and the other would lose ₹3. And
+              strong>high</Text>, you will earn <Text strong>₹7.5</Text>, and the other would lose ₹2.5. And
               vice versa.
             </li>
             <li>However, If both of you <Text strong>lower</Text> the price, both will earn nothing (₹0).</li>
